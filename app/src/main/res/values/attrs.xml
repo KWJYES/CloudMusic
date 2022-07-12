@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MediaPlayerView">
+        <attr name="ic_songPng" format="reference"/>
+        <attr name="tv_songName" format="string"/>
+        <attr name="isPlaying" format="boolean"/>
+        <attr name="bgColor" >
+            <enum name="bg1" value="1"/>
+            <enum name="bg2" value="2"/>
+            <enum name="bg3" value="3"/>
+            <enum name="bg4" value="4"/>
+            <enum name="bg5" value="5"/>
+            <enum name="bg6" value="6"/>
+            <enum name="bg7" value="7"/>
+        </attr>
+    </declare-styleable>
+</resources>

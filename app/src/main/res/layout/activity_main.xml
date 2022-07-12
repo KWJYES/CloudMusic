@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.MainActivity">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/mainViewPager2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+        <com.example.cloudmusic.views.MediaPlayerView
+            app:bgColor="@{svm.mediaPlayerViewBg}"
+            app:btn_musicListOnClickListener="@{event.musicListOnClickCallback}"
+            app:btn_startOrPauseOnClickListener="@{event.startOrPauseOnClickCallback}"
+            app:ic_songPng="@{svm.songPng}"
+            app:tv_songName="@{svm.songName}"
+            android:layout_width="0dp"
+            android:layout_height="72dp"
+            android:layout_marginBottom="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
+            app:layout_constraintEnd_toStartOf="@+id/guideline5"
+            app:layout_constraintStart_toStartOf="@+id/guideline4" />
+
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/white"
+        app:itemIconTint="@drawable/main_bottom_navigation"
+        app:itemTextColor="@drawable/main_bottom_navigation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/bottom_navigation" />
+        <!--            app:itemBackground="@null"-->
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.02" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.98" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+    <data>
+
+        <variable
+            name="svm"
+            type="com.example.cloudmusic.state.StateMainViewModel" />
+        <variable
+            name="event"
+            type="com.example.cloudmusic.activities.MainActivity.EventHandler" />
+
+    </data>
+</layout>

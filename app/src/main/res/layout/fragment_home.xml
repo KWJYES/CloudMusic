@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_media4"
+        tools:context=".fragment.Main.HomeFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.example.cloudmusic.views.StatusBarHightView
+                android:background="@null"
+                android:id="@+id/StatusBarHightView"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.tabs.TabLayout
+
+                app:tabMaxWidth="100dp"
+                app:tabMinWidth="90dp"
+                app:tabPaddingStart="20dp"
+                app:tabPaddingEnd="20dp"
+
+                app:tabBackground="@android:color/transparent"
+                app:tabRippleColor="@android:color/transparent"
+                android:id="@+id/home_tablelayout"
+                android:layout_width="300dp"
+                android:layout_height="30dp"
+                android:background="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/StatusBarHightView"
+                app:tabIndicatorColor="#ED2B2B"
+                app:tabSelectedTextColor="#ED2B2B"
+                app:tabTextColor="@color/black">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_marginHorizontal="50dp"
+                    android:id="@+id/recommend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="推荐" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/rankingList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="排行榜" />
+            </com.google.android.material.tabs.TabLayout>
+<com.example.cloudmusic.views.NestedScrollableHost
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/home_tablelayout">
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/home_viewPager2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</com.example.cloudmusic.views.NestedScrollableHost>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </FrameLayout>
+</layout>
