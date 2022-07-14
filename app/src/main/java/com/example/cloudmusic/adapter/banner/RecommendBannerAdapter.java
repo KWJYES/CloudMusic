@@ -1,50 +1,84 @@
 package com.example.cloudmusic.adapter.banner;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.cloudmusic.entity.BannerData;
+import com.example.cloudmusic.R;
+
+import com.example.cloudmusic.callback.BannerClickCallback;
+import com.example.cloudmusic.databinding.RecommendBannerLayoutBinding;
+import com.example.cloudmusic.entity.Banner;
 import com.youth.banner.adapter.BannerAdapter;
 
 import java.util.List;
 
-public class RecommendBannerAdapter extends BannerAdapter<BannerData, RecommendBannerAdapter.BannerViewHolder> {
+public class RecommendBannerAdapter extends BannerAdapter<Banner, RecommendBannerAdapter.BannerViewHolder> {
 
     private ViewGroup parent;
+    private BannerClickCallback clickCallback;
+    private List<Banner> dataList;
 
-    public RecommendBannerAdapter(List<BannerData> datas) {
+    public RecommendBannerAdapter(List<Banner> datas) {
         super(datas);
+        dataList = datas;
+    }
+
+    public void setClickCallback(BannerClickCallback clickCallback) {
+        this.clickCallback = clickCallback;
     }
 
     //创建ViewHolder，可以用viewType这个字段来区分不同的ViewHolder
     @Override
     public BannerViewHolder onCreateHolder(ViewGroup parent, int viewType) {
         this.parent = parent;
-        ImageView imageView = new ImageView(parent.getContext());
-        //注意，必须设置为match_parent，这个是viewpager2强制要求的
-        imageView.setLayoutParams(new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        return new BannerViewHolder(imageView);
+        RecommendBannerLayoutBinding itemBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(parent.getContext()),
+                R.layout.recommend_banner_layout,
+                parent,
+                false);
+        BannerViewHolder holder = new BannerViewHolder(itemBinding);
+        itemBinding.setClick(new BannerClickClass(holder));
+        return holder;
     }
 
     @Override
-    public void onBindView(BannerViewHolder holder, BannerData data, int position, int size) {
-        Glide.with(parent.getContext()).load(data.getUrl()).centerCrop().into(holder.imageView);
+    public void onBindView(BannerViewHolder holder, Banner data, int position, int size) {
+        if (data.getPic().equals("isLoading"))
+            Glide.with(parent.getContext()).load(R.drawable.bg_loading).centerCrop().into(holder.itemBinding.bannerImageView);
+        else if(data.getPic().equals("isFail"))
+            Glide.with(parent.getContext()).load(R.drawable.bg_loading_fail).centerCrop().into(holder.itemBinding.bannerImageView);
+        else
+            Glide.with(parent.getContext()).load(data.getPic()).centerCrop().into(holder.itemBinding.bannerImageView);
+        holder.itemBinding.bannerTittle.setText(data.getTypeTitle());
     }
 
     public static class BannerViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
+        RecommendBannerLayoutBinding itemBinding;
 
-        public BannerViewHolder(@NonNull ImageView itemView) {
-            super(itemView);
-            this.imageView = itemView;
+        public BannerViewHolder(@NonNull RecommendBannerLayoutBinding itemBinding) {
+            super(itemBinding.getRoot());
+            this.itemBinding = itemBinding;
+        }
+    }
+
+    public class BannerClickClass {
+        BannerViewHolder holder;
+
+        public BannerClickClass(BannerViewHolder holder) {
+            this.holder = holder;
+        }
+
+        public void onBannerClick(View view) {
+            int position = holder.getAdapterPosition();
+            if (position == -1) return;//视图刷新时点击，position为-1
+            Banner data = dataList.get(position);
+            //clickCallback.onClick(data);
         }
     }
 }

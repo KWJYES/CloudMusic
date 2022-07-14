@@ -63,7 +63,7 @@ public class HomeFragment extends Fragment {
         List<Fragment> fragmentList=new ArrayList<>();
         List<String> titles=new ArrayList<>();
         titles.add("推荐");
-        titles.add("排行榜");
+        titles.add("音乐馆");
         fragmentList.add(new RecommendFragment());
         fragmentList.add(new RankingListFragment());
         HomeViewPager2Adapter adapter=new HomeViewPager2Adapter(Objects.requireNonNull(getActivity()),fragmentList);

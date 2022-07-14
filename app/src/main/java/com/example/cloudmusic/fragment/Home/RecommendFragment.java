@@ -2,9 +2,9 @@ package com.example.cloudmusic.fragment.Home;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,50 +12,82 @@ import android.view.ViewGroup;
 
 import com.example.cloudmusic.R;
 import com.example.cloudmusic.adapter.banner.RecommendBannerAdapter;
+import com.example.cloudmusic.base.BaseFragment;
 import com.example.cloudmusic.databinding.FragmentRecommendBinding;
-import com.example.cloudmusic.entity.BannerData;
+import com.example.cloudmusic.entity.Banner;
+import com.example.cloudmusic.request.RequestRecommendFragmentViewModel;
+import com.example.cloudmusic.state.StateRecommendFragmentViewModel;
+import com.example.cloudmusic.utils.BaseConfig;
 import com.youth.banner.indicator.CircleIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
-public class RecommendFragment extends Fragment {
+public class RecommendFragment extends BaseFragment {
 
     FragmentRecommendBinding binding;
-
-    public RecommendFragment() {
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    StateRecommendFragmentViewModel svm;
+    RequestRecommendFragmentViewModel rvm;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    protected View initFragment(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding= DataBindingUtil.inflate(inflater,R.layout.fragment_recommend,container, false);
-        initBanner();
+        svm=new ViewModelProvider(Objects.requireNonNull(getActivity()),new ViewModelProvider.NewInstanceFactory()).get(StateRecommendFragmentViewModel.class);
+        rvm=new ViewModelProvider(Objects.requireNonNull(getActivity()),new ViewModelProvider.NewInstanceFactory()).get(RequestRecommendFragmentViewModel.class);
+        getData();
+        observerDataStateUpdateAction();
         return binding.getRoot();
+    }
+
+    /**
+     * 监测数据变化
+     */
+    private void observerDataStateUpdateAction() {
+        rvm.bannerRequestState.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                binding.bannerLoading.hide();
+                if(s.equals(BaseConfig.FAILURE)){
+                    Banner banner=new Banner();
+                    banner.setPic("isFail");
+                    banner.setTypeTitle("加载失败");
+                    List<Banner> bannerList = new ArrayList<>();
+                    bannerList.add(banner);
+                    setBanner(bannerList);
+                }
+            }
+        });
+        rvm.bannerRequestResult.observe(this, new Observer<List<Banner>>() {
+            @Override
+            public void onChanged(List<Banner> bannerData) {
+                setBanner(bannerData);
+            }
+        });
+    }
+
+    /**
+     * 播放加载动画与背景
+     * 获取网络数据
+     */
+    private void getData() {
+        binding.bannerLoading.show();
+        Banner banner=new Banner();
+        banner.setPic("isLoading");
+        banner.setTypeTitle("加载中...");
+        List<Banner> bannerList = new ArrayList<>();
+        bannerList.add(banner);
+        setBanner(bannerList);
+        rvm.requestBannerData();
     }
 
     /**
      * 加载banner
      */
-    private void initBanner() {
-        List<BannerData> bannerDataList=new ArrayList<>();
-        BannerData bannerData=new BannerData();
-        bannerData.setUrl("https://img2.baidu.com/it/u=1792249350,650626052&fm=253&fmt=auto&app=120&f=JPEG?w=1200&h=675");
-        bannerDataList.add(bannerData);
-        BannerData bannerData2=new BannerData();
-        bannerData2.setUrl("https://img0.baidu.com/it/u=1546227440,2897989905&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500");
-        bannerDataList.add(bannerData2);
-        BannerData bannerData3=new BannerData();
-        bannerData3.setUrl("https://img0.baidu.com/it/u=985192759,2265250910&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=333");
-        bannerDataList.add(bannerData3);
-        binding.recommendBanner.addBannerLifecycleObserver(getActivity())
-                .setAdapter(new RecommendBannerAdapter(bannerDataList))
+    private void setBanner(List<Banner> bannerData) {
+        List<Banner> bannerList = new ArrayList<>(bannerData);
+        binding.recommendBanner.addBannerLifecycleObserver(getActivity()).setAdapter(new RecommendBannerAdapter(bannerList))
                 .setIndicator(new CircleIndicator(getActivity()));
 
     }

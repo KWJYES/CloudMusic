@@ -72,13 +72,13 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
             int position=holder.getAdapterPosition();
             if(position==-1) return;//视图刷新时点击，position为-1
             Song song= songList.get(position);
-            Toast.makeText(parent.getContext(), song.name, Toast.LENGTH_SHORT).show();
+            Toast.makeText(parent.getContext(), song.getName(), Toast.LENGTH_SHORT).show();
         }
         public void removeSong(View view){
             int position=holder.getAdapterPosition();
             if(position==-1) return;//视图刷新时点击，position为-1
             Song song= songList.get(position);
-            String name=song.name;
+            String name=song.getName();
             songList.remove(position);
             notifyItemRemoved(position);
             notifyItemRangeChanged(position,getItemCount());

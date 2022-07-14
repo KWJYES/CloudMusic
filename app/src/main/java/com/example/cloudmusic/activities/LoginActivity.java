@@ -10,20 +10,20 @@ import android.view.View;
 import com.example.cloudmusic.R;
 import com.example.cloudmusic.base.BaseActivity;
 import com.example.cloudmusic.databinding.ActivityLoginBinding;
-import com.example.cloudmusic.request.RequestInternetViewModel;
+import com.example.cloudmusic.request.RequestLoginViewModel;
 import com.example.cloudmusic.state.StateLoginViewModel;
 
 public class LoginActivity extends BaseActivity {
 
     private ActivityLoginBinding binding;
     private StateLoginViewModel stateLoginViewModel;
-    private RequestInternetViewModel requestInternetViewModel;
+    private RequestLoginViewModel requestLoginViewModel;
 
     @Override
     protected void initActivity() {
         setTransparentStatusBar(false);
         stateLoginViewModel=new ViewModelProvider(this,new ViewModelProvider.NewInstanceFactory()).get(StateLoginViewModel.class);
-        requestInternetViewModel =new ViewModelProvider(this,new ViewModelProvider.NewInstanceFactory()).get(RequestInternetViewModel.class);
+        requestLoginViewModel =new ViewModelProvider(this,new ViewModelProvider.NewInstanceFactory()).get(RequestLoginViewModel.class);
         binding= DataBindingUtil.setContentView(this,R.layout.activity_login);
         binding.setClick(new ClickClass());
         binding.setSvm(stateLoginViewModel);

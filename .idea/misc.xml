@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudioProgects/CloudMusic/app/src/main/res/drawable/banner_tittle_shape.xml" value="0.2734375" />
         <entry key="..\:/AndroidStudioProgects/CloudMusic/app/src/main/res/drawable/btn_play.xml" value="0.2734375" />
         <entry key="..\:/AndroidStudioProgects/CloudMusic/app/src/main/res/drawable/btn_playpause.xml" value="0.2734375" />
         <entry key="..\:/AndroidStudioProgects/CloudMusic/app/src/main/res/drawable/dialog_musiclist_view.xml" value="0.2734375" />
@@ -24,6 +25,7 @@
         <entry key="..\:/AndroidStudioProgects/CloudMusic/app/src/main/res/drawable/ic_music_list2.xml" value="0.2734375" />
         <entry key="..\:/AndroidStudioProgects/CloudMusic/app/src/main/res/drawable/ic_pause.xml" value="0.2734375" />
         <entry key="..\:/AndroidStudioProgects/CloudMusic/app/src/main/res/drawable/ic_remote.xml" value="0.2734375" />
+        <entry key="..\:/AndroidStudioProgects/CloudMusic/app/src/main/res/drawable/ic_select.xml" value="0.2734375" />
         <entry key="..\:/AndroidStudioProgects/CloudMusic/app/src/main/res/drawable/ic_start.xml" value="0.2734375" />
         <entry key="..\:/AndroidStudioProgects/CloudMusic/app/src/main/res/drawable/linelayout_1.xml" value="0.24074074074074073" />
         <entry key="..\:/AndroidStudioProgects/CloudMusic/app/src/main/res/drawable/login_btn.xml" value="0.24074074074074073" />
@@ -31,6 +33,7 @@
         <entry key="..\:/AndroidStudioProgects/CloudMusic/app/src/main/res/drawable/main_bottom_navigation.xml" value="0.2734375" />
         <entry key="..\:/AndroidStudioProgects/CloudMusic/app/src/main/res/drawable/music_list.xml" value="0.2734375" />
         <entry key="..\:/AndroidStudioProgects/CloudMusic/app/src/main/res/drawable/ripple1.xml" value="0.2734375" />
+        <entry key="..\:/AndroidStudioProgects/CloudMusic/app/src/main/res/drawable/select_et_shape.xml" value="0.2734375" />
         <entry key="..\:/AndroidStudioProgects/CloudMusic/app/src/main/res/drawable/signup_tv.xml" value="0.2734375" />
         <entry key="..\:/AndroidStudioProgects/CloudMusic/app/src/main/res/drawable/view_bg.xml" value="0.2734375" />
         <entry key="..\:/AndroidStudioProgects/CloudMusic/app/src/main/res/layout/activity_login.xml" value="0.27330779054916987" />
@@ -43,6 +46,7 @@
         <entry key="..\:/AndroidStudioProgects/CloudMusic/app/src/main/res/layout/fragment_recommend.xml" value="0.21739130434782608" />
         <entry key="..\:/AndroidStudioProgects/CloudMusic/app/src/main/res/layout/item_music_recyclerview.xml" value="0.24094202898550723" />
         <entry key="..\:/AndroidStudioProgects/CloudMusic/app/src/main/res/layout/media_player_view.xml" value="0.22327898550724637" />
+        <entry key="..\:/AndroidStudioProgects/CloudMusic/app/src/main/res/layout/recommend_banner_layout.xml" value="0.23731884057971014" />
         <entry key="..\:/AndroidStudioProgects/CloudMusic/app/src/main/res/menu/bottom_navigation.xml" value="0.1" />
       </map>
     </option>

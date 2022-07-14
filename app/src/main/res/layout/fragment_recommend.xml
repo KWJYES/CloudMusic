@@ -16,16 +16,31 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/bannerLoading"
+                style="@style/AVLoadingIndicatorView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:indicatorColor="#B3FF0000"
+                app:indicatorName="LineSpinFadeLoaderIndicator"
+                app:layout_constraintBottom_toBottomOf="@+id/recommendBanner"
+                app:layout_constraintEnd_toEndOf="@+id/recommendBanner"
+                app:layout_constraintStart_toStartOf="@+id/recommendBanner"
+                app:layout_constraintTop_toTopOf="@+id/recommendBanner" />
+
             <com.youth.banner.Banner
                 android:id="@+id/recommendBanner"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_margin="15dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="15dp"
                 android:clickable="true"
                 app:banner_indicator_selected_color="#95F2EC"
                 app:banner_radius="20dp"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="15dp" />
+                app:layout_constraintDimensionRatio="W,392:1006"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
