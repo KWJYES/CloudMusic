@@ -1,27 +1,23 @@
-package com.example.cloudmusic.fragment.Main;
+package com.example.cloudmusic.fragment.main;
 
-import android.annotation.SuppressLint;
-import android.graphics.PointF;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.cloudmusic.R;
-import com.example.cloudmusic.adapter.viewpager2.HomeViewPager2Adapter;
+import com.example.cloudmusic.adapter.viewpager2.ViewPager2Adapter;
 import com.example.cloudmusic.databinding.FragmentHomeBinding;
-import com.example.cloudmusic.fragment.Home.RankingListFragment;
-import com.example.cloudmusic.fragment.Home.RecommendFragment;
+import com.example.cloudmusic.fragment.home.RankingListFragment;
+import com.example.cloudmusic.fragment.home.RecommendFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -66,7 +62,7 @@ public class HomeFragment extends Fragment {
         titles.add("音乐馆");
         fragmentList.add(new RecommendFragment());
         fragmentList.add(new RankingListFragment());
-        HomeViewPager2Adapter adapter=new HomeViewPager2Adapter(Objects.requireNonNull(getActivity()),fragmentList);
+        ViewPager2Adapter adapter=new ViewPager2Adapter(Objects.requireNonNull(getActivity()),fragmentList);
         binding.homeViewPager2.setAdapter(adapter);
         //去除尽头阴影
         View childAt = binding.homeViewPager2.getChildAt(0);

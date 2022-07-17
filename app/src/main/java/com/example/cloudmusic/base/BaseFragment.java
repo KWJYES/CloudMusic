@@ -13,8 +13,25 @@ abstract public class BaseFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return initFragment(inflater,container, savedInstanceState);
+        View view=initFragment(inflater,container, savedInstanceState);
+        initView();
+        observerDataStateUpdateAction();
+        return view;
     }
 
     protected abstract View initFragment(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
+
+    /**
+     * 为视图设置初值
+     */
+    protected void initView(){
+
+    }
+
+    /**
+     * 监测数据变化
+     */
+    protected void observerDataStateUpdateAction(){
+
+    }
 }

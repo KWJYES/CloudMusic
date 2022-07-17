@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="click"
+            type="com.example.cloudmusic.fragment.play.SongFragment.ClickClass" />
+        <variable
+            name="svm"
+            type="com.example.cloudmusic.state.StateSongFragmentViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.play.SongFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/songFragmentBg0"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_fragment_song">
+
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="20dp"
+                android:background="@color/white"
+                android:layout_margin="25dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline6"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_gravity="center"
+                    android:id="@+id/imageView"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:src="@drawable/ic_cd_default"
+                    app:layout_constraintBottom_toTopOf="@+id/guideline6"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/statusBarHightView2" />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="7dp"
+                android:gravity="center"
+                android:text="@{svm.time}"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/seekBar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/seekBar" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="7dp"
+                android:gravity="center"
+                android:text="@{svm.currentTime}"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/seekBar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/seekBar" />
+
+            <SeekBar
+                android:id="@+id/seekBar"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_marginBottom="30dp"
+                android:max="100"
+                android:maxHeight="2dp"
+                android:minHeight="2dp"
+                android:progressDrawable="@drawable/sb_progress_drawable"
+                android:secondaryProgress="30"
+                android:thumb="@drawable/sb_thumb"
+                app:layout_constraintBottom_toTopOf="@+id/play"
+                app:layout_constraintEnd_toStartOf="@+id/textView3"
+                app:layout_constraintStart_toEndOf="@+id/textView4" />
+
+            <Button
+                android:id="@+id/play"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/btn_play_selector"
+                android:onClick="@{click::play}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/lastSong"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/btn_last_song"
+                android:onClick="@{click::lastSong}"
+                app:layout_constraintBottom_toBottomOf="@+id/play"
+                app:layout_constraintEnd_toStartOf="@+id/play"
+                app:layout_constraintTop_toTopOf="@+id/play" />
+
+            <Button
+                android:id="@+id/playModel"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ic_loop2"
+                android:onClick="@{click::playModel}"
+                app:layout_constraintBottom_toBottomOf="@+id/play"
+                app:layout_constraintEnd_toStartOf="@+id/lastSong"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/play" />
+
+            <Button
+                android:id="@+id/nextSong"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/btn_next_song"
+                android:onClick="@{click::nextSong}"
+                app:layout_constraintBottom_toBottomOf="@+id/play"
+                app:layout_constraintStart_toEndOf="@+id/play"
+                app:layout_constraintTop_toTopOf="@+id/play" />
+
+            <Button
+                android:id="@+id/musicList"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/btn_selector_music_list"
+                android:onClick="@{click::list}"
+                app:layout_constraintBottom_toBottomOf="@+id/play"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/nextSong"
+                app:layout_constraintTop_toTopOf="@+id/play" />
+
+
+            <TextView
+                android:layout_marginHorizontal="10dp"
+                android:id="@+id/songTittle"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="@{svm.songName}"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@+id/songAr"
+                app:layout_constraintEnd_toStartOf="@+id/textView3"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/textView4"
+                app:layout_constraintTop_toTopOf="@+id/guideline6"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:layout_marginBottom="10dp"
+                android:id="@+id/songAr"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="@{svm.songAr}"
+                android:textColor="#CB000000"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@+id/songLyr"
+                app:layout_constraintEnd_toEndOf="@+id/songTittle"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/songTittle"
+                app:layout_constraintTop_toBottomOf="@+id/songTittle" />
+
+            <TextView
+                android:maxLines="2"
+                android:id="@+id/songLyr"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:text="@{svm.songLyc}"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/textView4"
+                app:layout_constraintEnd_toEndOf="@+id/songAr"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/songAr"
+                app:layout_constraintTop_toBottomOf="@+id/songAr" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.5" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+</layout>

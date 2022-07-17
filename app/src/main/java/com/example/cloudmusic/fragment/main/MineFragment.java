@@ -1,4 +1,4 @@
-package com.example.cloudmusic.fragment.Main;
+package com.example.cloudmusic.fragment.main;
 
 import android.os.Bundle;
 

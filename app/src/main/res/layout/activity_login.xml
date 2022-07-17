@@ -4,19 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="click"
             type="com.example.cloudmusic.activities.LoginActivity.ClickClass" />
+
         <variable
             name="svm"
             type="com.example.cloudmusic.state.StateLoginViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/loginViewGroup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_login"
         tools:context=".activities.LoginActivity">
+
+        <ImageView
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_login2"
+            android:id="@+id/loginBg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="云听音乐"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/circleImageView" />
+
 
         <com.example.cloudmusic.views.StatusBarHightView
             android:id="@+id/statusBarHightView"
@@ -25,10 +47,10 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
             android:onClick="@{click::going}"
             android:text="立即体验"
             android:textColor="@drawable/going_tv"
@@ -52,7 +74,7 @@
             android:id="@+id/cardView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="75dp"
             app:cardBackgroundColor="#33FFFFFF"
             app:cardCornerRadius="25dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
@@ -83,17 +105,17 @@
                         android:src="@drawable/ic_login_account" />
 
                     <EditText
-                        android:maxLength="11"
-                        android:textSize="16sp"
-                        android:inputType="number"
-                        android:textCursorDrawable="@drawable/login_et_cursor"
-                        android:hint="手机号"
-                        android:text="@={svm.account}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="25dp"
+                        android:layout_marginEnd="20dp"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/login_input" />
+                        android:backgroundTint="@color/login_input"
+                        android:hint="手机号"
+                        android:inputType="number"
+                        android:maxLength="11"
+                        android:text="@={svm.account}"
+                        android:textCursorDrawable="@drawable/login_et_cursor"
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -106,7 +128,6 @@
                     android:background="@drawable/linelayout_1"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
                     tools:layout_editor_absoluteX="4dp">
 
@@ -118,16 +139,58 @@
                         android:src="@drawable/ic_login_password" />
 
                     <EditText
-                        android:inputType="textPassword"
-                        android:textSize="16sp"
-                        android:textCursorDrawable="@drawable/login_et_cursor"
-                        android:hint="密码"
-                        android:text="@={svm.password}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="25dp"
+                        android:layout_marginEnd="20dp"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/login_input" />
+                        android:backgroundTint="@color/login_input"
+                        android:hint="密码"
+                        android:inputType="textPassword"
+                        android:text="@={svm.password}"
+                        android:textCursorDrawable="@drawable/login_et_cursor"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/linelayout_1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                    tools:layout_editor_absoluteX="4dp">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="5dp"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_verification_code" />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/login_input"
+                        android:hint="验证码"
+                        android:inputType="number"
+                        android:text="@={svm.password}"
+                        android:textCursorDrawable="@drawable/login_et_cursor"
+                        android:textSize="16sp" />
+                    <TextView
+                        android:textSize="11sp"
+                        android:onClick="@{click::getVerificationCode}"
+                        android:textColor="@drawable/get_logincode_tv"
+                        android:layout_marginEnd="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="点击获取验证码"/>
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -136,12 +199,12 @@
 
 
         <Button
-            android:onClick="@{click::login}"
             android:id="@+id/button"
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/login_btn"
+            android:onClick="@{click::login}"
             android:text="登   陆"
             android:textColor="@color/white"
             android:textSize="25sp"
@@ -150,12 +213,12 @@
             app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
         <TextView
-            android:onClick="@{click::signup}"
-            android:textColor="@drawable/signup_tv"
-            android:layout_marginTop="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:onClick="@{click::signup}"
             android:text="立即注册"
+            android:textColor="@drawable/signup_tv"
             android:textSize="15sp"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintStart_toStartOf="@+id/guideline2"

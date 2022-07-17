@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel;
 
 public class StateMainViewModel extends ViewModel {
     public MutableLiveData<String> songName=new MutableLiveData<>();
-    public MutableLiveData<String> songPng=new MutableLiveData<>();
+    public MutableLiveData<String> songPic =new MutableLiveData<>();
     public MutableLiveData<Boolean> playing= new MutableLiveData<>();
     public MutableLiveData<Integer> mediaPlayerViewBg= new MutableLiveData<>();
 }

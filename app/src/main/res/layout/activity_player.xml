@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="click"
+            type="com.example.cloudmusic.activities.PlayerActivity.ClickClass" />
+
+        <variable
+            name="svm"
+            type="com.example.cloudmusic.state.StatePlayerViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@color/default_color"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.PlayerActivity">
+
+        <com.example.cloudmusic.views.StatusBarHightView
+            android:id="@+id/statusBarHightView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_marginVertical="8dp"
+            android:id="@+id/textView5"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/play_tablelayout"
+            app:layout_constraintEnd_toEndOf="@+id/play_tablelayout"
+            app:layout_constraintStart_toStartOf="@+id/play_tablelayout"
+            app:layout_constraintTop_toTopOf="@+id/play_tablelayout" />
+
+        <Button
+            android:onClick="@{click::back}"
+            android:padding="3dp"
+            android:id="@+id/back"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_selector_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/statusBarHightView2" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/play_tablelayout"
+            android:layout_width="180dp"
+            android:layout_height="30dp"
+            android:background="@null"
+            android:maxWidth="100dp"
+            android:minWidth="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/back"
+            app:tabBackground="@android:color/transparent"
+            app:tabGravity="center"
+            app:tabIndicatorColor="@null"
+            app:tabPaddingEnd="20dp"
+            app:tabPaddingStart="25dp"
+            app:tabRippleColor="@android:color/transparent"
+            app:tabSelectedTextColor="@color/main_color"
+            app:tabTextAppearance="@style/TableLayoutStyle"
+            app:tabTextColor="#656565">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/songTab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="歌曲" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/songLyrTab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="歌词" />
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:layout_marginTop="10dp"
+            android:id="@+id/playViewPager2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/back" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

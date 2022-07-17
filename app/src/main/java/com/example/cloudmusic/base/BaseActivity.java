@@ -15,10 +15,30 @@ import androidx.databinding.ViewDataBinding;
 
 abstract public class BaseActivity extends AppCompatActivity {
 
+    /**
+     * 初始化DataBinding与ViewModel
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initActivity();
+        initView();
+        observerDataStateUpdateAction();
+    }
+
+    /**
+     * 为视图设置初值
+     */
+    protected void initView(){
+
+    }
+
+    /**
+     * 监测数据变化
+     */
+    protected void observerDataStateUpdateAction(){
+
     }
 
 

@@ -18,4 +18,6 @@
     <color name="bg_media5">#C0565A</color>
     <color name="bg_media6">#678ED6</color>
     <color name="bg_media7">#C17795</color>
+    <color name="main_color">#ED2B2B</color>
+    <color name="default_color">#CDFFFFFF</color>
 </resources>

@@ -1,5 +1,5 @@
 package com.example.cloudmusic.callback;
 
-public interface StartOrPauseOnClickCallback {
+public interface playOnClickCallback {
     void onClick(boolean isPlaying);
 }

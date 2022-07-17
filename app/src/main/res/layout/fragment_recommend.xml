@@ -10,7 +10,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragment.Home.RecommendFragment">
+        tools:context=".fragment.home.RecommendFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -30,6 +30,7 @@
                 app:layout_constraintTop_toTopOf="@+id/recommendBanner" />
 
             <com.youth.banner.Banner
+                android:background="@null"
                 android:id="@+id/recommendBanner"
                 android:layout_width="0dp"
                 android:layout_height="0dp"

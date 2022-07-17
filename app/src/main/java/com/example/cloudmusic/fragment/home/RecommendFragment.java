@@ -1,4 +1,4 @@
-package com.example.cloudmusic.fragment.Home;
+package com.example.cloudmusic.fragment.home;
 
 import android.os.Bundle;
 
@@ -17,7 +17,7 @@ import com.example.cloudmusic.databinding.FragmentRecommendBinding;
 import com.example.cloudmusic.entity.Banner;
 import com.example.cloudmusic.request.RequestRecommendFragmentViewModel;
 import com.example.cloudmusic.state.StateRecommendFragmentViewModel;
-import com.example.cloudmusic.utils.BaseConfig;
+import com.example.cloudmusic.utils.MyConfig;
 import com.youth.banner.indicator.CircleIndicator;
 
 import java.util.ArrayList;
@@ -36,20 +36,20 @@ public class RecommendFragment extends BaseFragment {
         binding= DataBindingUtil.inflate(inflater,R.layout.fragment_recommend,container, false);
         svm=new ViewModelProvider(Objects.requireNonNull(getActivity()),new ViewModelProvider.NewInstanceFactory()).get(StateRecommendFragmentViewModel.class);
         rvm=new ViewModelProvider(Objects.requireNonNull(getActivity()),new ViewModelProvider.NewInstanceFactory()).get(RequestRecommendFragmentViewModel.class);
-        getData();
-        observerDataStateUpdateAction();
+        getBannerData();
         return binding.getRoot();
     }
 
     /**
      * 监测数据变化
      */
-    private void observerDataStateUpdateAction() {
+    @Override
+    protected void observerDataStateUpdateAction() {
         rvm.bannerRequestState.observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 binding.bannerLoading.hide();
-                if(s.equals(BaseConfig.FAILURE)){
+                if(s.equals(MyConfig.FAILURE)){
                     Banner banner=new Banner();
                     banner.setPic("isFail");
                     banner.setTypeTitle("加载失败");
@@ -69,9 +69,9 @@ public class RecommendFragment extends BaseFragment {
 
     /**
      * 播放加载动画与背景
-     * 获取网络数据
+     * 获取banner数据
      */
-    private void getData() {
+    private void getBannerData() {
         binding.bannerLoading.show();
         Banner banner=new Banner();
         banner.setPic("isLoading");

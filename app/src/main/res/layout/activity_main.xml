@@ -20,9 +20,10 @@
 
         <com.example.cloudmusic.views.MediaPlayerView
             app:bgColor="@{svm.mediaPlayerViewBg}"
+            app:mediaPlayerViewOnClickListener="@{event.mediaPlayerViewOnClickCallback}"
             app:btn_musicListOnClickListener="@{event.musicListOnClickCallback}"
-            app:btn_startOrPauseOnClickListener="@{event.startOrPauseOnClickCallback}"
-            app:ic_songPng="@{svm.songPng}"
+            app:btn_startOrPauseOnClickListener="@{event.playOnClickCallback}"
+            app:ic_songPng="@{svm.songPic}"
             app:tv_songName="@{svm.songName}"
             android:layout_width="0dp"
             android:layout_height="72dp"

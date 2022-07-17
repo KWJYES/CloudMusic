@@ -10,7 +10,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragment.Main.HomeFragment">
+        tools:context=".fragment.main.HomeFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -23,6 +23,7 @@
                 android:layout_height="wrap_content"/>
 
             <com.google.android.material.tabs.TabLayout
+                app:tabGravity="center"
                 android:layout_marginStart="20dp"
                 android:maxWidth="100dp"
                 android:minWidth="50dp"
@@ -36,7 +37,8 @@
                 android:background="@null"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/StatusBarHightView"
-                app:tabIndicatorColor="#ED2B2B"
+                app:tabIndicator="@drawable/tab_indicator"
+                app:tabIndicatorColor="@color/main_color"
                 app:tabSelectedTextColor="@color/black"
                 app:tabTextColor="#656565"
                 app:tabTextAppearance="@style/TableLayoutStyle">
@@ -67,7 +69,7 @@
                 <EditText
                     android:singleLine="true"
                     android:paddingEnd="20dp"
-                    android:hint="default"
+                    android:hint="你从未离去"
                     android:paddingStart="6dp"
                     android:drawableStart="@drawable/ic_select"
                     android:textSize="15sp"
@@ -75,16 +77,10 @@
                     android:textCursorDrawable="@drawable/login_et_cursor"
                     android:layout_marginEnd="10dp"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="35dp"
                     android:layout_weight="1"
                     android:layout_gravity="center_vertical"
                     tools:ignore="RtlSymmetry" />
-                <Button
-                    android:layout_gravity="center_vertical"
-                    android:text="搜索"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:gravity="center"/>
 
             </LinearLayout>
 

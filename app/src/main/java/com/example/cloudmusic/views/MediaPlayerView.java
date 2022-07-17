@@ -3,9 +3,7 @@ package com.example.cloudmusic.views;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,15 +12,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.BindingAdapter;
 
 import com.bumptech.glide.Glide;
 import com.example.cloudmusic.R;
+import com.example.cloudmusic.callback.MediaPlayerViewOnClickCallback;
 import com.example.cloudmusic.callback.MusicListOnClickCallback;
-import com.example.cloudmusic.callback.StartOrPauseOnClickCallback;
+import com.example.cloudmusic.callback.playOnClickCallback;
 
 public class MediaPlayerView extends RelativeLayout {
 
@@ -70,7 +68,7 @@ public class MediaPlayerView extends RelativeLayout {
         Glide.with(getContext()).load(ic_resId).into(ic_songPng);
         tv_songName.setText(songName);
         if (isPlaying) btn_startOrPause.setBackgroundResource(R.drawable.ic_pause);
-        else btn_startOrPause.setBackgroundResource(R.drawable.ic_start);
+        else btn_startOrPause.setBackgroundResource(R.drawable.ic_play);
         setBgColor(this, bgColor);
     }
 
@@ -152,7 +150,7 @@ public class MediaPlayerView extends RelativeLayout {
      * @param callback
      */
     @BindingAdapter("btn_startOrPauseOnClickListener")
-    public static void setBtn_startOrPauseOnClickListener(MediaPlayerView mediaPlayerView, StartOrPauseOnClickCallback callback) {
+    public static void setBtn_startOrPauseOnClickListener(MediaPlayerView mediaPlayerView, playOnClickCallback callback) {
         if (callback == null)
             return;
 
@@ -161,10 +159,10 @@ public class MediaPlayerView extends RelativeLayout {
             public void onClick(View view) {
                 if (isPlaying) {
                     isPlaying = false;
-                    btn_startOrPause.setBackgroundResource(R.drawable.ic_start);
+                    btn_startOrPause.setBackgroundResource(R.drawable.btn_play_selector);
                 } else {
                     isPlaying = true;
-                    btn_startOrPause.setBackgroundResource(R.drawable.ic_pause);
+                    btn_startOrPause.setBackgroundResource(R.drawable.btn_puase_selector);
                 }
                 callback.onClick(isPlaying);
             }
@@ -190,11 +188,23 @@ public class MediaPlayerView extends RelativeLayout {
 
     /**
      * 设置跳转音乐播放页面的事件
-     *
-     * @param listener
+     * @param mediaPlayerView
+     * @param clickCallback
      */
-    public void setMediaPlayerViewOnClickListener(View.OnClickListener listener) {
-        ic_songPng.setOnClickListener(listener);
-        tv_songName.setOnClickListener(listener);
+    @BindingAdapter("mediaPlayerViewOnClickListener")
+    public static void setMediaPlayerViewOnClickListener(MediaPlayerView mediaPlayerView, MediaPlayerViewOnClickCallback clickCallback) {
+        if (clickCallback == null) return;
+        ic_songPng.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickCallback.onClick();
+            }
+        });
+        tv_songName.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickCallback.onClick();
+            }
+        });
     }
 }
