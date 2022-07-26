@@ -30,7 +30,7 @@
             android:layout_marginStart="10dp"
             android:background="@null"
             android:text="@{String.valueOf(position)}"
-            android:textColor="#757575"
+            android:textColor="@color/song_list_position"
             android:textSize="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@drawable/view_bg"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

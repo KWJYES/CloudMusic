@@ -11,13 +11,14 @@
     <color name="login_btn">#B3FF0000</color>
     <color name="login_btn_ripple">#6B7C1111</color>
     <color name="login_et_cursor">#FF0000</color>
-    <color name="bg_media1">#5D616C</color>
-    <color name="bg_media2">#A4945B</color>
-    <color name="bg_media3">#527059</color>
-    <color name="bg_media4">#F3E6F0</color>
-    <color name="bg_media5">#C0565A</color>
-    <color name="bg_media6">#678ED6</color>
-    <color name="bg_media7">#C17795</color>
+    <color name="bg_media1">#E65D616C</color>
+    <color name="bg_media2">#E6A4945B</color>
+    <color name="bg_media3">#E6527059</color>
+    <color name="bg_media4">#E6F1B6E3</color>
+    <color name="bg_media5">#E6C0565A</color>
+    <color name="bg_media6">#E6678ED6</color>
+    <color name="bg_media7">#E6C17795</color>
     <color name="main_color">#ED2B2B</color>
     <color name="default_color">#CDFFFFFF</color>
+    <color name="song_list_position">#757575</color>
 </resources>

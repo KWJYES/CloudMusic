@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.cloudmusic.entity.Banner;
 import com.example.cloudmusic.entity.Song;
 import com.example.cloudmusic.response.retrofit_api.IRecommendService;
-import com.example.cloudmusic.utils.MyConfig;
+import com.example.cloudmusic.utils.CloudMusic;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,7 +48,7 @@ public class HttpRequestManager implements INetworkRequest{
      */
     @Override
     public void getBannerData(MutableLiveData<List<Banner>> bannerRequestResult, MutableLiveData<String> bannerRequestState) {
-        Retrofit retrofit=new Retrofit.Builder().baseUrl(MyConfig.baseUrl).build();
+        Retrofit retrofit=new Retrofit.Builder().baseUrl(CloudMusic.baseUrl).build();
         IRecommendService recommendService=retrofit.create(IRecommendService.class);
         recommendService.getBanners(1).enqueue(new Callback<ResponseBody>() {
             @Override
@@ -57,7 +57,7 @@ public class HttpRequestManager implements INetworkRequest{
                     Log.d("TAG","banner数据请求成功");
                     try {
                         List<Banner> bannerList=new ArrayList<>();
-                        bannerRequestState.setValue(MyConfig.SUCCEED);
+                        bannerRequestState.setValue(CloudMusic.SUCCEED);
                         String jsonData=response.body().string();
                         JSONObject jsonObject=new JSONObject(jsonData);
                         JSONArray banners= jsonObject.getJSONArray("banners");
@@ -112,8 +112,13 @@ public class HttpRequestManager implements INetworkRequest{
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.d("TAG","banner数据请求失败");
-                bannerRequestState.setValue(MyConfig.FAILURE);
+                bannerRequestState.setValue(CloudMusic.FAILURE);
             }
         });
+    }
+
+    @Override
+    public void getLoginState(MutableLiveData<Boolean> loginState) {
+
     }
 }

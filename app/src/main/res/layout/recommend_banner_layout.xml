@@ -21,13 +21,13 @@
         <TextView
             android:onClick="@{click::onBannerClick}"
             android:id="@+id/bannerTittle"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
+            android:layout_width="80dp"
+            android:layout_height="24dp"
             android:background="@drawable/banner_tittle_shape"
             android:gravity="center"
             android:text="标题标题"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

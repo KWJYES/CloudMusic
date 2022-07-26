@@ -15,6 +15,15 @@ public class Song extends LitePalSupport {
     private String album;//专辑
     private String albumId;//专辑ID
 
+
+    public Song() {
+    }
+
+    public Song(String name, String artist) {
+        this.name = name;
+        this.artist = artist;
+    }
+
     public int getId() {
         return id;
     }

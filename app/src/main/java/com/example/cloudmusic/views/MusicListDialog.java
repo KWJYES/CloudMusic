@@ -10,12 +10,16 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.cloudmusic.R;
 import com.example.cloudmusic.adapter.recyclerview.MusicAdapter;
+import com.example.cloudmusic.callback.SongListItemOnClickCallback;
+import com.example.cloudmusic.callback.SongListItemRemoveCallback;
 import com.example.cloudmusic.databinding.DialogMusiclistBinding;
 import com.example.cloudmusic.entity.Song;
+import com.example.cloudmusic.response.media.MediaManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +27,14 @@ import java.util.List;
 public class MusicListDialog extends Dialog {
 
     DialogMusiclistBinding binding;
+    private SongListItemOnClickCallback clickCallback;
+    private SongListItemRemoveCallback removeCallback;
 
-    public MusicListDialog(@NonNull Context context, int themeResId) {
+    public MusicListDialog(@NonNull Context context, int themeResId,SongListItemOnClickCallback clickCallback,SongListItemRemoveCallback removeCallback) {
         super(context, themeResId);
+        this.clickCallback=clickCallback;
+        this.removeCallback=removeCallback;
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,25 +51,13 @@ public class MusicListDialog extends Dialog {
      */
     private void initList() {
         //显示音乐列表 test
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        List<Song> songList = new ArrayList<>();
-        Song song = new Song();
-        song.setName("海阔天空");
-        song.setArtist("Beyond");
-        songList.add(song);
-        Song song2 = new Song();
-        song2.setName("灰色轨迹");
-        song2.setArtist("Beyond");
-        songList.add(song2);
-        Song song3 = new Song();
-        song3.setName("光辉岁月");
-        song3.setArtist("Beyond");
-        songList.add(song3);
-        Song song4 = new Song();
-        song4.setName("不再犹豫");
-        song4.setArtist("Beyond");
-        songList.add(song4);
-        binding.recyclerView.setAdapter(new MusicAdapter(songList));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        binding.recyclerView.setLayoutManager(layoutManager);
+        List<Song> songList = new ArrayList<>(MediaManager.getInstance().getSongList());
+        MusicAdapter adapter = new MusicAdapter(songList,layoutManager);
+        adapter.setClickCallback(clickCallback);
+        adapter.setRemoveCallback(removeCallback);
+        binding.recyclerView.setAdapter(adapter);
     }
 
     /**

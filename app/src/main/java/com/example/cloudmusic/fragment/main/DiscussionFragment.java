@@ -2,6 +2,7 @@ package com.example.cloudmusic.fragment.main;
 
 import android.os.Bundle;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -10,28 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.cloudmusic.R;
+import com.example.cloudmusic.base.BaseFragment;
+import com.example.cloudmusic.databinding.FragmentDiscussionBinding;
 
 
-public class DiscussionFragment extends Fragment {
+public class DiscussionFragment extends BaseFragment {
 
-    public DiscussionFragment() {
-        // Required empty public constructor
-    }
-
-
+    FragmentDiscussionBinding binding;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d("TAG","DiscussionFragment onCreate...");
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        Log.d("TAG","DiscussionFragment onCreateView...");
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_discussion, container, false);
+    protected View initFragment(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding= DataBindingUtil.inflate(inflater,R.layout.fragment_discussion,container, false);
+        return binding.getRoot();
     }
 }

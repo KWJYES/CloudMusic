@@ -1,7 +1,5 @@
 package com.example.cloudmusic.base;
 
-import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -10,8 +8,6 @@ import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
 
 abstract public class BaseActivity extends AppCompatActivity {
 
@@ -25,6 +21,14 @@ abstract public class BaseActivity extends AppCompatActivity {
         initActivity();
         initView();
         observerDataStateUpdateAction();
+        initSomeData();
+    }
+
+    /**
+     * 初始化数据，初始化其它操作
+     */
+    protected void initSomeData(){
+
     }
 
     /**

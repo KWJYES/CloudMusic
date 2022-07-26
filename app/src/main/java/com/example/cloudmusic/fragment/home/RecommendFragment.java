@@ -2,6 +2,7 @@ package com.example.cloudmusic.fragment.home;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,7 +18,10 @@ import com.example.cloudmusic.databinding.FragmentRecommendBinding;
 import com.example.cloudmusic.entity.Banner;
 import com.example.cloudmusic.request.RequestRecommendFragmentViewModel;
 import com.example.cloudmusic.state.StateRecommendFragmentViewModel;
-import com.example.cloudmusic.utils.MyConfig;
+import com.example.cloudmusic.utils.CloudMusic;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 import com.youth.banner.indicator.CircleIndicator;
 
 import java.util.ArrayList;
@@ -36,8 +40,20 @@ public class RecommendFragment extends BaseFragment {
         binding= DataBindingUtil.inflate(inflater,R.layout.fragment_recommend,container, false);
         svm=new ViewModelProvider(Objects.requireNonNull(getActivity()),new ViewModelProvider.NewInstanceFactory()).get(StateRecommendFragmentViewModel.class);
         rvm=new ViewModelProvider(Objects.requireNonNull(getActivity()),new ViewModelProvider.NewInstanceFactory()).get(RequestRecommendFragmentViewModel.class);
-        getBannerData();
         return binding.getRoot();
+    }
+
+    @Override
+    protected void initView() {
+        //下拉刷新
+        binding.smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            getBannerData();
+
+        });
+        //上拉加载
+        binding.smartRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
+            binding.smartRefreshLayout.finishLoadMore(1500);
+        });
     }
 
     /**
@@ -45,26 +61,25 @@ public class RecommendFragment extends BaseFragment {
      */
     @Override
     protected void observerDataStateUpdateAction() {
-        rvm.bannerRequestState.observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                binding.bannerLoading.hide();
-                if(s.equals(MyConfig.FAILURE)){
-                    Banner banner=new Banner();
-                    banner.setPic("isFail");
-                    banner.setTypeTitle("加载失败");
-                    List<Banner> bannerList = new ArrayList<>();
-                    bannerList.add(banner);
-                    setBanner(bannerList);
-                }
+        rvm.bannerRequestState.observe(this, s -> {
+            binding.bannerLoading.hide();
+            if(s.equals(CloudMusic.FAILURE)){
+                Banner banner=new Banner();
+                banner.setPic("isFail");
+                banner.setTypeTitle("加载失败");
+                List<Banner> bannerList = new ArrayList<>();
+                bannerList.add(banner);
+                setBanner(bannerList);
+
             }
+            binding.smartRefreshLayout.finishRefresh();
         });
-        rvm.bannerRequestResult.observe(this, new Observer<List<Banner>>() {
-            @Override
-            public void onChanged(List<Banner> bannerData) {
-                setBanner(bannerData);
-            }
-        });
+        rvm.bannerRequestResult.observe(this, this::setBanner);
+    }
+
+    @Override
+    protected void initSomeData() {
+        getBannerData();
     }
 
     /**

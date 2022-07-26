@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,7 +21,7 @@ import com.bumptech.glide.Glide;
 import com.example.cloudmusic.R;
 import com.example.cloudmusic.callback.MediaPlayerViewOnClickCallback;
 import com.example.cloudmusic.callback.MusicListOnClickCallback;
-import com.example.cloudmusic.callback.playOnClickCallback;
+import com.example.cloudmusic.callback.PlayOnClickCallback;
 
 public class MediaPlayerView extends RelativeLayout {
 
@@ -144,26 +145,26 @@ public class MediaPlayerView extends RelativeLayout {
             tv_songName.setText(tvsongName);
     }
 
+    @BindingAdapter("is_playing")
+    public static void setPlayingState(MediaPlayerView mediaPlayerView,boolean playing){
+        isPlaying=playing;
+        if (isPlaying) btn_startOrPause.setBackgroundResource(R.drawable.ic_pause);
+        else btn_startOrPause.setBackgroundResource(R.drawable.ic_play);
+    }
+
+
     /**
      * 为播放按键设置点击事件
      *
      * @param callback
      */
     @BindingAdapter("btn_startOrPauseOnClickListener")
-    public static void setBtn_startOrPauseOnClickListener(MediaPlayerView mediaPlayerView, playOnClickCallback callback) {
+    public static void setBtn_startOrPauseOnClickListener(MediaPlayerView mediaPlayerView, PlayOnClickCallback callback) {
         if (callback == null)
             return;
-
         btn_startOrPause.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isPlaying) {
-                    isPlaying = false;
-                    btn_startOrPause.setBackgroundResource(R.drawable.btn_play_selector);
-                } else {
-                    isPlaying = true;
-                    btn_startOrPause.setBackgroundResource(R.drawable.btn_puase_selector);
-                }
                 callback.onClick(isPlaying);
             }
         });

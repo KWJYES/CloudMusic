@@ -16,7 +16,15 @@ abstract public class BaseFragment extends Fragment {
         View view=initFragment(inflater,container, savedInstanceState);
         initView();
         observerDataStateUpdateAction();
+        initSomeData();
         return view;
+    }
+
+    /**
+     * 初始化数据，初始化其它操作
+     */
+    protected void initSomeData(){
+
     }
 
     protected abstract View initFragment(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);

@@ -12,8 +12,6 @@ import com.example.cloudmusic.R;
 import com.example.cloudmusic.adapter.viewpager2.ViewPager2Adapter;
 import com.example.cloudmusic.base.BaseActivity;
 import com.example.cloudmusic.databinding.ActivityPlayerBinding;
-import com.example.cloudmusic.fragment.home.RankingListFragment;
-import com.example.cloudmusic.fragment.home.RecommendFragment;
 import com.example.cloudmusic.fragment.play.LyricFragment;
 import com.example.cloudmusic.fragment.play.SongFragment;
 import com.example.cloudmusic.request.RequestPlayViewModel;
@@ -61,12 +59,7 @@ public class PlayerActivity extends BaseActivity {
             childAt.setOverScrollMode(View.OVER_SCROLL_NEVER);
         }
         //TableLayout对接
-        new TabLayoutMediator(binding.playTablelayout, binding.playViewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
-            @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                tab.setText(titles.get(position));
-            }
-        }).attach();
+        new TabLayoutMediator(binding.playTablelayout, binding.playViewPager2, (tab, position) -> tab.setText(titles.get(position))).attach();
     }
 
     public class ClickClass {

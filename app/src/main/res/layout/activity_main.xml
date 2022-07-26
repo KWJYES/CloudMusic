@@ -19,6 +19,8 @@
 
 
         <com.example.cloudmusic.views.MediaPlayerView
+            android:id="@+id/playerView"
+            app:is_playing="@{svm.playing}"
             app:bgColor="@{svm.mediaPlayerViewBg}"
             app:mediaPlayerViewOnClickListener="@{event.mediaPlayerViewOnClickCallback}"
             app:btn_musicListOnClickListener="@{event.musicListOnClickCallback}"

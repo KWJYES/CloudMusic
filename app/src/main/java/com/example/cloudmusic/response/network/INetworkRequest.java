@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface INetworkRequest {
     void getBannerData(MutableLiveData<List<Banner>> bannerRequestResult, MutableLiveData<String> bannerRequestState);
+    void getLoginState(MutableLiveData<Boolean> loginState);
 }

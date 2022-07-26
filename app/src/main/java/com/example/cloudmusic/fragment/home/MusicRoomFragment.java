@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import com.example.cloudmusic.R;
 
 
-public class RankingListFragment extends Fragment {
+public class MusicRoomFragment extends Fragment {
 
-    public RankingListFragment() {
+    public MusicRoomFragment() {
     }
 
 

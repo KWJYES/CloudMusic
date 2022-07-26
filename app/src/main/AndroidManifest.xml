@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.cloudmusic">
 
+    <!--网络 -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!--通知 -->
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <!--SD卡读写-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!--前台服务-->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
 
     <application
+        android:requestLegacyExternalStorage="true"
         android:name="org.litepal.LitePalApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_cloudmusic_logo"
@@ -13,10 +25,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CloudMusic"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".activities.LoginActivity"
+            android:exported="false" />
+
         <service
             android:name=".sevices.PlayerService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <activity
             android:name=".activities.PlayerActivity"
@@ -25,7 +41,7 @@
             android:name=".activities.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".activities.StartActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
