@@ -1,5 +1,5 @@
 package com.example.cloudmusic.callback;
 
-public interface MusicListOnClickCallback {
+public interface PlayerViewMusicListOnClickCallback {
     void onClick();
 }

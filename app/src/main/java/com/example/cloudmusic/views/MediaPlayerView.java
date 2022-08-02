@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,7 +19,7 @@ import androidx.databinding.BindingAdapter;
 import com.bumptech.glide.Glide;
 import com.example.cloudmusic.R;
 import com.example.cloudmusic.callback.MediaPlayerViewOnClickCallback;
-import com.example.cloudmusic.callback.MusicListOnClickCallback;
+import com.example.cloudmusic.callback.PlayerViewMusicListOnClickCallback;
 import com.example.cloudmusic.callback.PlayOnClickCallback;
 
 public class MediaPlayerView extends RelativeLayout {
@@ -177,7 +176,7 @@ public class MediaPlayerView extends RelativeLayout {
      * @param callback
      */
     @BindingAdapter("btn_musicListOnClickListener")
-    public static void setBtn_musicListOnClickListener(MediaPlayerView mediaPlayerView, MusicListOnClickCallback callback) {
+    public static void setBtn_musicListOnClickListener(MediaPlayerView mediaPlayerView, PlayerViewMusicListOnClickCallback callback) {
         if (callback == null) return;
         btn_musicList.setOnClickListener(new OnClickListener() {
             @Override

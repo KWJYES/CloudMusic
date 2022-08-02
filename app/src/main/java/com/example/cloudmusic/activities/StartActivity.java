@@ -26,7 +26,7 @@ public class StartActivity extends BaseActivity {
         setTransparentStatusBar(false);
         rvm = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(RequestStartViewModel.class);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_start);
-
+        binding.setLifecycleOwner(this);
     }
 
     @Override

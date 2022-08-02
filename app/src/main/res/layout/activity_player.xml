@@ -63,6 +63,7 @@
             app:tabIndicatorColor="@null"
             app:tabPaddingEnd="20dp"
             app:tabPaddingStart="25dp"
+            app:tabIndicator="@color/default_color"
             app:tabRippleColor="@android:color/transparent"
             app:tabSelectedTextColor="@color/main_color"
             app:tabTextAppearance="@style/TableLayoutStyle"

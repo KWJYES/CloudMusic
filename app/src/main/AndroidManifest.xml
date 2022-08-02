@@ -2,29 +2,34 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.cloudmusic">
-
-    <!--网络 -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!--通知 -->
-    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
-    <!--SD卡读写-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <!-- 网络 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 通知 -->
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" /> <!-- SD卡读写 -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!--前台服务-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 前台服务 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
-
     <application
-        android:requestLegacyExternalStorage="true"
         android:name="org.litepal.LitePalApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_cloudmusic_logo"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@drawable/ic_cloudmusic_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.CloudMusic"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".activities.MusicListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.AgentWebActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.SearchActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.LoginActivity"
             android:exported="false" />

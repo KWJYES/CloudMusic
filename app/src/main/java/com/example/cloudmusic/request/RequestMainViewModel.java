@@ -87,7 +87,7 @@ public class RequestMainViewModel extends ViewModel {
      * 查找本地音乐
      */
     public void getLocalMusic(Context context) {
-        MediaManager.getInstance().getLocalMusicData(context,songListLD);
+        MediaManager.getInstance().getLocalMusicData(context,null);
     }
 
 

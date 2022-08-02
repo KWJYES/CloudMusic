@@ -8,6 +8,7 @@
     </data>
 
     <FrameLayout
+        android:id="@+id/RecommendFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".fragment.home.RecommendFragment">
@@ -19,45 +20,73 @@
 
             <com.scwang.smart.refresh.header.MaterialHeader
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.core.widget.NestedScrollView
+                android:fillViewport="true"
+                android:id="@+id/scrollView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:scrollbars="none">
 
-                <com.wang.avi.AVLoadingIndicatorView
-                    android:id="@+id/bannerLoading"
-                    style="@style/AVLoadingIndicatorView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="visible"
-                    app:indicatorColor="#B3FF0000"
-                    app:indicatorName="LineSpinFadeLoaderIndicator"
-                    app:layout_constraintBottom_toBottomOf="@+id/recommendBanner"
-                    app:layout_constraintEnd_toEndOf="@+id/recommendBanner"
-                    app:layout_constraintStart_toStartOf="@+id/recommendBanner"
-                    app:layout_constraintTop_toTopOf="@+id/recommendBanner" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <com.youth.banner.Banner
-                    android:id="@+id/recommendBanner"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginHorizontal="15dp"
-                    android:background="@null"
-                    android:clickable="true"
-                    app:banner_indicator_selected_color="#95F2EC"
-                    app:banner_radius="20dp"
-                    app:layout_constraintDimensionRatio="W,392:1006"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <com.wang.avi.AVLoadingIndicatorView
+                        android:id="@+id/bannerLoading"
+                        style="@style/AVLoadingIndicatorView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible"
+                        app:indicatorColor="#B3FF0000"
+                        app:indicatorName="LineSpinFadeLoaderIndicator"
+                        app:layout_constraintBottom_toBottomOf="@+id/recommendBanner"
+                        app:layout_constraintEnd_toEndOf="@+id/recommendBanner"
+                        app:layout_constraintStart_toStartOf="@+id/recommendBanner"
+                        app:layout_constraintTop_toTopOf="@+id/recommendBanner" />
+                    <LinearLayout
+                        android:background="@drawable/bg_recommend2"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="3dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
+                        app:layout_constraintTop_toTopOf="@+id/recommendBanner" />
+                    <com.example.cloudmusic.views.MyBanner
+                        android:id="@+id/recommendBanner"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginHorizontal="15dp"
+                        android:background="@null"
+                        android:clickable="true"
+                        app:banner_indicator_selected_color="#95F2EC"
+                        app:banner_radius="20dp"
+                        app:layout_constraintDimensionRatio="W,392:1006"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <com.scwang.smart.refresh.footer.BallPulseFooter
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="50dp"/>
+                    <LinearLayout
+                        android:id="@+id/linearLayout5"
+                        android:layout_width="match_parent"
+                        android:layout_height="800dp"
+                        android:layout_marginTop="13dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/recommendBanner">
+
+                        <include
+                            android:id="@+id/musicListRecommend"
+                            layout="@layout/music_list_recommend" />
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
+
         </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
     </FrameLayout>

@@ -1,5 +1,6 @@
 package com.example.cloudmusic.adapter.banner;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.cloudmusic.R;
 
 import com.example.cloudmusic.callback.BannerClickCallback;
@@ -23,6 +25,7 @@ public class RecommendBannerAdapter extends BannerAdapter<Banner, RecommendBanne
     private ViewGroup parent;
     private BannerClickCallback clickCallback;
     private List<Banner> dataList;
+
 
     public RecommendBannerAdapter(List<Banner> datas) {
         super(datas);
@@ -50,11 +53,11 @@ public class RecommendBannerAdapter extends BannerAdapter<Banner, RecommendBanne
     @Override
     public void onBindView(BannerViewHolder holder, Banner data, int position, int size) {
         if (data.getPic().equals("isLoading"))
-            Glide.with(parent.getContext()).load(R.drawable.bg_loading).centerCrop().into(holder.itemBinding.bannerImageView);
-        else if(data.getPic().equals("isFail"))
-            Glide.with(parent.getContext()).load(R.drawable.bg_loading_fail).centerCrop().into(holder.itemBinding.bannerImageView);
+            Glide.with(parent.getContext()).load(R.drawable.bg_loading).diskCacheStrategy(DiskCacheStrategy.NONE).centerCrop().into(holder.itemBinding.bannerImageView);
+        else if (data.getPic().equals("isFail"))
+            Glide.with(parent.getContext()).load(R.drawable.bg_loading_fail).diskCacheStrategy(DiskCacheStrategy.NONE).centerCrop().into(holder.itemBinding.bannerImageView);
         else
-            Glide.with(parent.getContext()).load(data.getPic()).centerCrop().into(holder.itemBinding.bannerImageView);
+            Glide.with(parent.getContext()).load(data.getPic()).centerCrop().diskCacheStrategy(DiskCacheStrategy.NONE).into(holder.itemBinding.bannerImageView);
         holder.itemBinding.bannerTittle.setText(data.getTypeTitle());
     }
 
@@ -76,9 +79,10 @@ public class RecommendBannerAdapter extends BannerAdapter<Banner, RecommendBanne
 
         public void onBannerClick(View view) {
             int position = holder.getAdapterPosition();
-            if (position == -1) return;//视图刷新时点击，position为-1
+            Log.d("TAG", "Banner Position===" + position);
+            if (position == -1 || position > dataList.size() - 1) return;//视图刷新时点击，position为-1
             Banner data = dataList.get(position);
-            //clickCallback.onClick(data);
+            clickCallback.onClick(data);
         }
     }
 }

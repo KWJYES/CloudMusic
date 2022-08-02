@@ -64,7 +64,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
                 false);
         ViewHolder holder = new ViewHolder(itemBinding);
         holder.itemBinding.setPosition(holder.getAdapterPosition());
-        itemBinding.setClick(new ItemClickClass(holder));
+        holder.itemBinding.setClick(new ItemClickClass(holder));
         return holder;
     }
 
@@ -130,4 +130,6 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
             removeCallback.onRemove(song);
         }
     }
+
+
 }

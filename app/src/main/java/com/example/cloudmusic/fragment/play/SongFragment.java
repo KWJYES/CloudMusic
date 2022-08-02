@@ -45,6 +45,7 @@ public class SongFragment extends BaseFragment {
         rvm = new ViewModelProvider(Objects.requireNonNull(getActivity()), new ViewModelProvider.NewInstanceFactory()).get(RequestSongFragmentViewModel.class);
         binding.setSvm(svm);
         binding.setClick(new ClickClass());
+        binding.setLifecycleOwner(this);
         return binding.getRoot();
     }
 
@@ -125,38 +126,24 @@ public class SongFragment extends BaseFragment {
             @SuppressLint("SetTextI18n")
             @Override
             public void onChanged(Song song) {
-                //svm.setValue无效，不是线程问题，初始化时可以
-                //初始化时
                 svm.songName.setValue(song.getName());
                 svm.songAr.setValue(song.getArtist());
-                //时时更新时
-                binding.songTittle.setText(song.getName());
-                binding.songAr.setText(song.getArtist());
                 if(song.getName().startsWith("暂无播放")){
                     svm.currentPosition.setValue("00:00");
                     svm.duration.setValue("00:00");
-                    binding.currentPosition.setText("00:00");
-                    binding.duration.setText("00:00");
                 }
-                //Log.d("TAG",song.getName()+"...");
             }
         });
         rvm.duration.observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                //svm.setValue无效，不是线程问题，初始化时可以
-                svm.duration.setValue(s);//初始化时
-                binding.duration.setText(s);//时时更新时
-                //Log.d("TAG",s+" duration...");
+                svm.duration.setValue(s);
             }
         });
         rvm.currentPosition.observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                //svm.setValue无效，不是线程问题，初始化时可以
-                svm.currentPosition.setValue(s);//初始化时
-                binding.currentPosition.setText(s);//时时更新时
-                //Log.d("TAG",s+" currentPosition...");
+                svm.currentPosition.setValue(s);
             }
         });
         rvm.durationLD.observe(this, new Observer<Integer>() {

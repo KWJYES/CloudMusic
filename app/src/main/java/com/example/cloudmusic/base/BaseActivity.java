@@ -48,6 +48,7 @@ abstract public class BaseActivity extends AppCompatActivity {
 
     /**
      * 设置沉浸式状态栏
+     * @param isDark 是否设置为深色主题
      */
     protected void setTransparentStatusBar(boolean isDark) {
         Window window = getWindow();

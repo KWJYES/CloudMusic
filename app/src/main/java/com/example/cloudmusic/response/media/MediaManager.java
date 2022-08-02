@@ -203,9 +203,11 @@ public class MediaManager implements IMediaRequest {
         if (playerBinder == null) return;
         playerBinder.play(song);
         this.song = song;
-        isPlaying.setValue(true);
-        songLD.setValue(this.song);
-        Log.d("MediaManager TAG", "play()--->isPlaying=" + isPlaying.getValue() + "  song=" + Objects.requireNonNull(songLD.getValue()).getName());
+        if (isPlaying != null)
+            isPlaying.setValue(true);
+        if (songLD != null)
+            songLD.setValue(this.song);
+        //Log.d("MediaManager TAG", "play()--->isPlaying=" + isPlaying.getValue() + "  song=" + Objects.requireNonNull(songLD.getValue()).getName());
     }
 
     @Override
@@ -274,8 +276,9 @@ public class MediaManager implements IMediaRequest {
             }
             cursor.close();// 释放资源
         }
-        //songListLD.setValue(list);
-        songList.addAll(list);
+        if (songListLD != null)
+            songListLD.setValue(list);
+        addSongs(list);//test
     }
 
     @Override

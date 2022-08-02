@@ -22,6 +22,7 @@ public class DiscussionFragment extends BaseFragment {
     @Override
     protected View initFragment(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding= DataBindingUtil.inflate(inflater,R.layout.fragment_discussion,container, false);
+        binding.setLifecycleOwner(this);
         return binding.getRoot();
     }
 }

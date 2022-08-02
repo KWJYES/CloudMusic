@@ -18,12 +18,14 @@ package com.example.cloudmusic.views
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
 import android.widget.FrameLayout
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.ORIENTATION_HORIZONTAL
+import androidx.viewpager2.widget.ViewPager2.ORIENTATION_VERTICAL
 import kotlin.math.absoluteValue
 import kotlin.math.sign
 
@@ -87,21 +89,28 @@ class NestedScrollableHost : FrameLayout {
             val dx = e.x - initialX
             val dy = e.y - initialY
             val isVpHorizontal = orientation == ORIENTATION_HORIZONTAL
+            //val isVpVertical = orientation == ORIENTATION_VERTICAL
 
             // assuming ViewPager2 touch-slop is 2x touch-slop of child
             val scaledDx = dx.absoluteValue * if (isVpHorizontal) .5f else 1f
             val scaledDy = dy.absoluteValue * if (isVpHorizontal) 1f else .5f
 
             if (scaledDx > touchSlop || scaledDy > touchSlop) {
+                Log.d("NestedScrollableHost","1");
                 if (isVpHorizontal == (scaledDy > scaledDx)) {
+                    Log.d("NestedScrollableHost","2");
                     // Gesture is perpendicular, allow all parents to intercept
-                    parent.requestDisallowInterceptTouchEvent(false)
+                    parent.requestDisallowInterceptTouchEvent(true)
+                    //parent.requestDisallowInterceptTouchEvent(false)
                 } else {
+                    Log.d("NestedScrollableHost","3");
                     // Gesture is parallel, query child if movement in that direction is possible
                     if (canChildScroll(orientation, if (isVpHorizontal) dx else dy)) {
+                        Log.d("NestedScrollableHost","4");
                         // Child can scroll, disallow all parents to intercept
                         parent.requestDisallowInterceptTouchEvent(true)
                     } else {
+                        Log.d("NestedScrollableHost","5");
                         // Child cannot scroll, allow all parents to intercept
                         parent.requestDisallowInterceptTouchEvent(false)
                     }

@@ -2,7 +2,11 @@ package com.example.cloudmusic.entity;
 
 import org.litepal.crud.LitePalSupport;
 
-public class Song extends LitePalSupport {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Song extends LitePalSupport implements Serializable {
     private int id;
     private String name;//歌名
     private String url;//歌曲播放url
@@ -15,6 +19,15 @@ public class Song extends LitePalSupport {
     private String album;//专辑
     private String albumId;//专辑ID
 
+    private List<SongList> songListList=new ArrayList<>();
+
+    public List<SongList> getSongListList() {
+        return songListList;
+    }
+
+    public void setSongListList(List<SongList> songListList) {
+        this.songListList = songListList;
+    }
 
     public Song() {
     }

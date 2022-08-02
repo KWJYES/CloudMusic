@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="svm"
+            type="com.example.cloudmusic.state.StateSearchViewModel" />
+        <variable
+            name="click"
+            type="com.example.cloudmusic.activities.SearchActivity.ClickClass" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="#F4F4F4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:context=".activities.SearchActivity">
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <Button
+                android:onClick="@{click::back}"
+                android:background="@drawable/ic_back3"
+                android:id="@+id/back"
+                android:layout_gravity="center_vertical"
+                android:padding="3dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"/>
+
+            <EditText
+                android:id="@+id/searchET"
+                android:layout_marginStart="5dp"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/select_et_shape2"
+                android:drawableStart="@drawable/ic_select"
+                android:hint="@{svm.defaultSearchWord+` 最近很火哦`}"
+                android:text="@={svm.searchWord}"
+                android:paddingStart="6dp"
+                android:paddingEnd="20dp"
+                android:singleLine="true"
+                android:textCursorDrawable="@drawable/login_et_cursor"
+                android:textSize="15sp"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                android:onClick="@{click::search}"
+                android:textColor="@drawable/tv_search"
+                android:gravity="center"
+                android:text="搜索"
+                android:textSize="16sp"
+                android:id="@+id/search"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"/>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/searchFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

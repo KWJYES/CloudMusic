@@ -16,4 +16,12 @@ public interface IRecommendService {
      */
     @GET("banner")
     Call<ResponseBody> getBanners(@Query("type") int type);
+
+    /**
+     * 获取推荐歌单
+     * @param limit
+     * @return
+     */
+    @GET("personalized")
+    Call<ResponseBody> getRecommendMusic(@Query("limit") int limit);
 }

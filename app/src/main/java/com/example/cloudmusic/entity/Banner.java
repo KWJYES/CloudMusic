@@ -1,6 +1,8 @@
 package com.example.cloudmusic.entity;
 
-public class Banner {
+import java.io.Serializable;
+
+public class Banner implements Serializable {
     private String pic;
     private String url;
     private String typeTitle;

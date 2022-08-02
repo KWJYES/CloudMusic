@@ -4,10 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="svm"
+            type="com.example.cloudmusic.state.StateHomeFragmentViewModel" />
+        <variable
+            name="click"
+            type="com.example.cloudmusic.fragment.main.HomeFragment.ClickClass" />
 
     </data>
 
     <FrameLayout
+        android:background="#F4F4F4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".fragment.main.HomeFragment">
@@ -66,21 +73,24 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/home_tablelayout"
                 android:orientation="horizontal" >
-                <EditText
+                <TextView
+                    android:gravity="center_vertical"
+                    android:onClick="@{click::search}"
                     android:singleLine="true"
                     android:paddingEnd="20dp"
-                    android:hint="你从未离去"
+                    android:text="@{svm.defaultSearchWord}"
                     android:paddingStart="6dp"
-                    android:drawableStart="@drawable/ic_select"
                     android:textSize="15sp"
+                    android:layout_marginStart="10dp"
                     android:background="@drawable/select_et_shape"
-                    android:textCursorDrawable="@drawable/login_et_cursor"
                     android:layout_marginEnd="10dp"
                     android:layout_width="0dp"
                     android:layout_height="35dp"
                     android:layout_weight="1"
                     android:layout_gravity="center_vertical"
-                    tools:ignore="RtlSymmetry" />
+                    tools:ignore="RtlSymmetry"
+                    android:textCursorDrawable="@drawable/login_et_cursor"
+                    app:drawableStartCompat="@drawable/ic_select" />
 
             </LinearLayout>
 

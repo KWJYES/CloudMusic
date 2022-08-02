@@ -3,7 +3,6 @@ package com.example.cloudmusic.activities;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -27,13 +26,12 @@ import com.example.cloudmusic.R;
 import com.example.cloudmusic.adapter.viewpager2.MainViewPager2Adapter;
 import com.example.cloudmusic.base.BaseActivity;
 import com.example.cloudmusic.callback.MediaPlayerViewOnClickCallback;
-import com.example.cloudmusic.callback.MusicListOnClickCallback;
+import com.example.cloudmusic.callback.PlayerViewMusicListOnClickCallback;
 import com.example.cloudmusic.callback.PlayOnClickCallback;
 import com.example.cloudmusic.callback.SongListItemOnClickCallback;
 import com.example.cloudmusic.callback.SongListItemRemoveCallback;
 import com.example.cloudmusic.databinding.ActivityMainBinding;
 import com.example.cloudmusic.entity.MyEvent;
-import com.example.cloudmusic.entity.Song;
 import com.example.cloudmusic.fragment.main.DiscussionFragment;
 import com.example.cloudmusic.fragment.main.HomeFragment;
 import com.example.cloudmusic.fragment.main.MineFragment;
@@ -142,8 +140,8 @@ public class MainActivity extends BaseActivity {
         notificationEnable();
         //绑定服务
         bindPlayerService();
-        //临时测试：获取本地音乐列表
-        rvm.getLocalMusic(this);
+
+        rvm.getLocalMusic(this);//test
     }
 
     /**
@@ -188,7 +186,6 @@ public class MainActivity extends BaseActivity {
         if (childAt instanceof RecyclerView) {
             childAt.setOverScrollMode(View.OVER_SCROLL_NEVER);
         }
-
         binding.mainViewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
@@ -286,7 +283,7 @@ public class MainActivity extends BaseActivity {
         /**
          * 播放列表点击事件
          */
-        public MusicListOnClickCallback musicListOnClickCallback = new MusicListOnClickCallback() {
+        public PlayerViewMusicListOnClickCallback playerViewMusicListOnClickCallback = new PlayerViewMusicListOnClickCallback() {
             @Override
             public void onClick() {
                 SongListItemOnClickCallback songListItemOnClickCallback = song -> rvm.play(song);

@@ -16,34 +16,32 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-
-
         <com.example.cloudmusic.views.MediaPlayerView
             android:id="@+id/playerView"
-            app:is_playing="@{svm.playing}"
-            app:bgColor="@{svm.mediaPlayerViewBg}"
-            app:mediaPlayerViewOnClickListener="@{event.mediaPlayerViewOnClickCallback}"
-            app:btn_musicListOnClickListener="@{event.musicListOnClickCallback}"
-            app:btn_startOrPauseOnClickListener="@{event.playOnClickCallback}"
-            app:ic_songPng="@{svm.songPic}"
-            app:tv_songName="@{svm.songName}"
             android:layout_width="0dp"
             android:layout_height="72dp"
             android:layout_marginBottom="0dp"
+            app:bgColor="@{svm.mediaPlayerViewBg}"
+            app:btn_musicListOnClickListener="@{event.playerViewMusicListOnClickCallback}"
+            app:btn_startOrPauseOnClickListener="@{event.playOnClickCallback}"
+            app:ic_songPng="@{svm.songPic}"
+            app:is_playing="@{svm.playing}"
             app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
             app:layout_constraintEnd_toStartOf="@+id/guideline5"
-            app:layout_constraintStart_toStartOf="@+id/guideline4" />
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:mediaPlayerViewOnClickListener="@{event.mediaPlayerViewOnClickCallback}"
+            app:tv_songName="@{svm.songName}" />
 
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigation"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/white"
-        app:itemIconTint="@drawable/main_bottom_navigation"
-        app:itemTextColor="@drawable/main_bottom_navigation"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/bottom_navigation" />
+            android:id="@+id/bottomNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/white"
+            app:itemIconTint="@drawable/main_bottom_navigation"
+            app:itemTextColor="@drawable/main_bottom_navigation"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:menu="@menu/bottom_navigation" />
         <!--            app:itemBackground="@null"-->
 
         <androidx.constraintlayout.widget.Guideline
@@ -64,13 +62,12 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
-
     <data>
 
         <variable
             name="svm"
             type="com.example.cloudmusic.state.StateMainViewModel" />
+
         <variable
             name="event"
             type="com.example.cloudmusic.activities.MainActivity.EventHandler" />

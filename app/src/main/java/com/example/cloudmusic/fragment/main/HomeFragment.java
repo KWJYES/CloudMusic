@@ -1,22 +1,32 @@
 package com.example.cloudmusic.fragment.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.cloudmusic.R;
+import com.example.cloudmusic.activities.SearchActivity;
 import com.example.cloudmusic.adapter.viewpager2.ViewPager2Adapter;
 import com.example.cloudmusic.base.BaseFragment;
 import com.example.cloudmusic.databinding.FragmentHomeBinding;
 import com.example.cloudmusic.fragment.home.MusicRoomFragment;
 import com.example.cloudmusic.fragment.home.RecommendFragment;
+import com.example.cloudmusic.request.RequestHomeFragmentViewModel;
+import com.example.cloudmusic.state.StateHomeFragmentViewModel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -28,10 +38,25 @@ import java.util.Objects;
 public class HomeFragment extends BaseFragment {
 
     FragmentHomeBinding binding;
+    StateHomeFragmentViewModel svm;
+    RequestHomeFragmentViewModel rvm;
+
+
+    @Override
+    public void onPause() {
+        Log.d("TAG","omeFragment onPause");
+        binding.homeViewPager2.setUserInputEnabled(true);
+        super.onPause();
+    }
 
     @Override
     protected View initFragment(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        svm=new ViewModelProvider(this,new ViewModelProvider.NewInstanceFactory()).get(StateHomeFragmentViewModel.class);
+        rvm=new ViewModelProvider(this,new ViewModelProvider.NewInstanceFactory()).get(RequestHomeFragmentViewModel.class);
         binding= DataBindingUtil.inflate(inflater,R.layout.fragment_home,container, false);
+        binding.setSvm(svm);
+        binding.setClick(new ClickClass());
+        binding.setLifecycleOwner(this);
         return binding.getRoot();
     }
 
@@ -39,6 +64,16 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void initView() {
         initViewPager2();
+    }
+
+    @Override
+    protected void observerDataStateUpdateAction() {
+        rvm.defaultSearchWord.observe(this, s -> svm.defaultSearchWord.setValue(s+" 听说最近很火"));
+    }
+
+    @Override
+    protected void initSomeData() {
+        rvm.requestDefaultSearchWord();
     }
 
     /**
@@ -65,5 +100,15 @@ public class HomeFragment extends BaseFragment {
                 tab.setText(titles.get(position));
             }
         }).attach();
+    }
+
+
+
+    public class ClickClass{
+        public void search(View view){
+            Intent intent = new Intent(getActivity(), SearchActivity.class);
+            intent.putExtra("defaultSearchWord",svm.defaultSearchWord.getValue());
+            startActivity(intent);
+        }
     }
 }
