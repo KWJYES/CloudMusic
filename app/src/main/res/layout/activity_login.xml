@@ -11,7 +11,7 @@
 
         <variable
             name="svm"
-            type="com.example.cloudmusic.state.StateLoginViewModel" />
+            type="com.example.cloudmusic.state.activity.StateLoginViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,13 +1,22 @@
 package com.example.cloudmusic.entity;
 
-import org.litepal.crud.LitePalSupport;
+import com.example.cloudmusic.base.BaseEntity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Song extends LitePalSupport implements Serializable {
+public class Song extends BaseEntity implements Serializable {
     private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    private String songId;
     private String name;//歌名
     private String url;//歌曲播放url
     private String picUrl;//歌曲图片
@@ -32,17 +41,18 @@ public class Song extends LitePalSupport implements Serializable {
     public Song() {
     }
 
-    public Song(String name, String artist) {
+    public Song(String songId, String name, String artist) {
+        this.songId = songId;
         this.name = name;
         this.artist = artist;
     }
 
-    public int getId() {
-        return id;
+    public String getSongId() {
+        return songId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setSongId(String songId) {
+        this.songId = songId;
     }
 
     public String getName() {

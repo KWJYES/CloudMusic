@@ -1,6 +1,5 @@
 package com.example.cloudmusic.activities;
 
-import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -14,9 +13,8 @@ import com.example.cloudmusic.base.BaseActivity;
 import com.example.cloudmusic.databinding.ActivityPlayerBinding;
 import com.example.cloudmusic.fragment.play.LyricFragment;
 import com.example.cloudmusic.fragment.play.SongFragment;
-import com.example.cloudmusic.request.RequestPlayViewModel;
-import com.example.cloudmusic.state.StatePlayerViewModel;
-import com.google.android.material.tabs.TabLayout;
+import com.example.cloudmusic.request.activity.RequestPlayViewModel;
+import com.example.cloudmusic.state.activity.StatePlayerViewModel;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;

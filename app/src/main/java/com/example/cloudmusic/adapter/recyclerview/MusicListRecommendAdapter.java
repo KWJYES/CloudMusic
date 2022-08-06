@@ -13,7 +13,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.cloudmusic.R;
-import com.example.cloudmusic.callback.MusicListRecommendClickCallback;
+import com.example.cloudmusic.utils.callback.MusicListRecommendClickCallback;
 import com.example.cloudmusic.databinding.ItemMusiclistRecommendBinding;
 import com.example.cloudmusic.entity.MusicList;
 
@@ -50,11 +50,9 @@ public class MusicListRecommendAdapter extends RecyclerView.Adapter<MusicListRec
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         MusicList musicList= musicLists.get(position);
         holder.binding.setSvm(musicList);
-        //设置图片圆角角度
-        RoundedCorners roundedCorners= new RoundedCorners(15);
-        //通过RequestOptions扩展功能,override:采样率,因为ImageView就这么大,可以压缩图片,降低内存消耗
-        RequestOptions options= RequestOptions.bitmapTransform(roundedCorners).override(300, 300);
-        Glide.with(parent.getContext()).load(musicList.getPicUrl()).centerCrop().diskCacheStrategy(DiskCacheStrategy.NONE).apply(options).into(holder.binding.imageView2);
+        RoundedCorners roundedCorners= new RoundedCorners(15);//设置图片圆角角度
+        RequestOptions options= RequestOptions.bitmapTransform(roundedCorners).override(300, 300);//通过RequestOptions扩展功能,override:采样率,因为ImageView就这么大,可以压缩图片,降低内存消耗
+        Glide.with(parent.getContext()).load(musicList.getPicUrl()).diskCacheStrategy(DiskCacheStrategy.NONE).apply(options).into(holder.binding.imageView2);
     }
 
     @Override

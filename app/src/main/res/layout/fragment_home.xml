@@ -6,7 +6,7 @@
     <data>
         <variable
             name="svm"
-            type="com.example.cloudmusic.state.StateHomeFragmentViewModel" />
+            type="com.example.cloudmusic.state.fragment.main.StateHomeFragmentViewModel" />
         <variable
             name="click"
             type="com.example.cloudmusic.fragment.main.HomeFragment.ClickClass" />
@@ -65,7 +65,7 @@
 
             <LinearLayout
                 android:paddingVertical="10dp"
-                android:paddingHorizontal="10dp"
+                android:paddingHorizontal="3dp"
                 android:id="@+id/linearLayout4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -11,8 +11,8 @@ import android.view.View;
 import com.example.cloudmusic.R;
 import com.example.cloudmusic.base.BaseActivity;
 import com.example.cloudmusic.databinding.ActivityLoginBinding;
-import com.example.cloudmusic.request.RequestLoginViewModel;
-import com.example.cloudmusic.state.StateLoginViewModel;
+import com.example.cloudmusic.request.activity.RequestLoginViewModel;
+import com.example.cloudmusic.state.activity.StateLoginViewModel;
 
 
 public class LoginActivity extends BaseActivity {

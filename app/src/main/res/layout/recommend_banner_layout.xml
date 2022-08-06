@@ -9,22 +9,27 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:paddingHorizontal="1dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
-            android:onClick="@{click::onBannerClick}"
             android:id="@+id/bannerImageView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="0dp"
+            android:onClick="@{click::onBannerClick}"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="W,392:1006"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <TextView
-            android:onClick="@{click::onBannerClick}"
             android:id="@+id/bannerTittle"
             android:layout_width="80dp"
             android:layout_height="24dp"
             android:background="@drawable/banner_tittle_shape"
             android:gravity="center"
+            android:onClick="@{click::onBannerClick}"
             android:text="标题标题"
             android:textColor="@color/white"
             android:textSize="12sp"

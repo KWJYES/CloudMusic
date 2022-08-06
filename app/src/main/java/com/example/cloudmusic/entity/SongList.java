@@ -1,5 +1,7 @@
 package com.example.cloudmusic.entity;
 
+import com.example.cloudmusic.base.BaseEntity;
+
 import org.litepal.crud.LitePalSupport;
 
 import java.util.ArrayList;
@@ -8,7 +10,16 @@ import java.util.List;
 /**
  * 音乐列表
  */
-public class SongList extends LitePalSupport {
+public class SongList extends BaseEntity {
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     private String name;
     private List<Song> songList=new ArrayList<>();
 

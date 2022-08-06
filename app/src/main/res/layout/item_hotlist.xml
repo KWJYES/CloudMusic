@@ -22,7 +22,7 @@
 
         <TextView
             android:onClick="@{click::onItemClick}"
-            android:id="@+id/textView9"
+            android:id="@+id/position"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:gravity="center"
@@ -34,6 +34,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/searchWords"
             android:textColor="@color/black"
             android:onClick="@{click::onItemClick}"
             android:layout_width="0dp"
@@ -42,10 +43,10 @@
             android:gravity="center_vertical"
             android:text="@{svm.searchWord}"
             android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="@+id/textView9"
+            app:layout_constraintBottom_toBottomOf="@+id/position"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView9"
-            app:layout_constraintTop_toTopOf="@+id/textView9" />
+            app:layout_constraintStart_toEndOf="@+id/position"
+            app:layout_constraintTop_toTopOf="@+id/position" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

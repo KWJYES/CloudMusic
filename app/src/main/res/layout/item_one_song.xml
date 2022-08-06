@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="svm"
+            type="com.example.cloudmusic.entity.Song" />
+        <variable
+            name="click"
+            type="com.example.cloudmusic.adapter.recyclerview.searched.OneSongAdapter.ClickClass" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="?attr/selectableItemBackground"
+        android:onClick="@{click::itemClick}"
+        android:paddingStart="10dp"
+        android:paddingEnd="5dp">
+
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/btn_more"
+            android:onClick="@{click::moreOperate}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_marginTop="3dp"
+            android:maxLines="1"
+            android:id="@+id/songNameTV"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:text="@{svm.name}"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@+id/album"
+            app:layout_constraintEnd_toStartOf="@+id/button5"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginBottom="5dp"
+
+            android:src="@drawable/ic_001"
+            app:layout_constraintBottom_toBottomOf="@+id/album"
+            app:layout_constraintStart_toStartOf="@+id/songNameTV"
+            app:layout_constraintTop_toTopOf="@+id/album" />
+
+        <TextView
+            android:maxLines="1"
+            android:id="@+id/artistTV"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginStart="5dp"
+            android:gravity="center_vertical"
+            android:text="@{svm.artist}"
+            android:textColor="@color/artist_tv"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/album"
+            app:layout_constraintStart_toEndOf="@+id/imageView4"
+            app:layout_constraintTop_toTopOf="@+id/album" />
+
+        <TextView
+            android:id="@+id/album"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:ellipsize="end"
+            android:gravity="top"
+            android:maxLines="1"
+            android:text="@{` - `+svm.album}"
+            android:textColor="#737373"
+            android:textSize="12sp"
+            android:layout_marginTop="1dp"
+            app:layout_constraintEnd_toStartOf="@+id/button5"
+            app:layout_constraintStart_toEndOf="@+id/artistTV"
+            app:layout_constraintTop_toBottomOf="@+id/songNameTV" />
+
+        <View
+            android:id="@+id/aView"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/view_bg2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:layout_editor_absoluteX="10dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -4,10 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="click"
+            type="com.example.cloudmusic.fragment.search.SearchingFragment.ClickClass" />
 
     </data>
 
     <FrameLayout
+        android:background="#F4F4F4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".fragment.search.SearchingFragment">
@@ -26,6 +30,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
+                        android:layout_marginTop="10dp"
                         android:layout_marginStart="10dp"
                         android:id="@+id/textView4"
                         android:layout_width="wrap_content"
@@ -44,6 +49,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
                     <TextView
+                        android:onClick="@{click::clearHistorySearch}"
                         android:layout_marginEnd="10dp"
                         android:textColor="@color/black"
                         android:layout_width="wrap_content"
@@ -58,7 +64,8 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:background="@drawable/bg_hot_esarch"
-                    android:layout_marginVertical="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
                     android:layout_marginHorizontal="25dp"
                     android:layout_width="match_parent"
                     android:layout_height="850dp"
@@ -78,15 +85,17 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <Button
-                        android:layout_marginEnd="15dp"
-                        android:background="@drawable/btn_play2"
-                        android:paddingStart="5dp"
+                        android:id="@+id/button4"
                         android:layout_width="60dp"
                         android:layout_height="0dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/btn_play2"
                         android:drawableStart="@drawable/ic_play3"
                         android:gravity="center_vertical"
-                        android:textSize="13sp"
+                        android:onClick="@{click::playHot}"
+                        android:paddingStart="5dp"
                         android:text="播放  "
+                        android:textSize="13sp"
                         app:layout_constraintBottom_toBottomOf="@+id/textView3"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/textView3"
@@ -109,6 +118,30 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/lineView"
                         tools:layout_editor_absoluteX="5dp" />
+
+                    <com.wang.avi.AVLoadingIndicatorView
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/hotListLoading"
+                        style="@style/AVLoadingIndicatorView"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:visibility="visible"
+                        app:indicatorColor="#B3FF0000"
+                        app:indicatorName="PacmanIndicator"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/hotListRecyclerView" />
+
+                    <TextView
+                        android:id="@+id/hotListLoadingTV"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="   正在获取..."
+                        android:textColor="@color/black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/hotListLoading" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>

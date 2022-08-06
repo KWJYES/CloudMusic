@@ -2,6 +2,7 @@ package com.example.cloudmusic.entity;
 
 public class SearchWord {
 
+
     private String searchWord;
     private int score;
     private String content;

@@ -18,9 +18,9 @@ import androidx.databinding.BindingAdapter;
 
 import com.bumptech.glide.Glide;
 import com.example.cloudmusic.R;
-import com.example.cloudmusic.callback.MediaPlayerViewOnClickCallback;
-import com.example.cloudmusic.callback.PlayerViewMusicListOnClickCallback;
-import com.example.cloudmusic.callback.PlayOnClickCallback;
+import com.example.cloudmusic.utils.callback.MediaPlayerViewOnClickCallback;
+import com.example.cloudmusic.utils.callback.PlayerViewMusicListOnClickCallback;
+import com.example.cloudmusic.utils.callback.PlayOnClickCallback;
 
 public class MediaPlayerView extends RelativeLayout {
 

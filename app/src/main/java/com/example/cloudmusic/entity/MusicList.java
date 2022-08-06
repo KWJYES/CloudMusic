@@ -1,5 +1,7 @@
 package com.example.cloudmusic.entity;
 
+import com.example.cloudmusic.base.BaseEntity;
+
 import java.io.Serializable;
 
 /**

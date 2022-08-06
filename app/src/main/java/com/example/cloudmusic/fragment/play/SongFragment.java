@@ -15,13 +15,13 @@ import android.widget.SeekBar;
 
 import com.example.cloudmusic.R;
 import com.example.cloudmusic.base.BaseFragment;
-import com.example.cloudmusic.callback.SongListItemOnClickCallback;
-import com.example.cloudmusic.callback.SongListItemRemoveCallback;
+import com.example.cloudmusic.utils.callback.SongListItemOnClickCallback;
+import com.example.cloudmusic.utils.callback.SongListItemRemoveCallback;
 import com.example.cloudmusic.databinding.FragmentSongBinding;
 import com.example.cloudmusic.entity.MyEvent;
 import com.example.cloudmusic.entity.Song;
-import com.example.cloudmusic.request.RequestSongFragmentViewModel;
-import com.example.cloudmusic.state.StateSongFragmentViewModel;
+import com.example.cloudmusic.request.fragment.play.RequestSongFragmentViewModel;
+import com.example.cloudmusic.state.fragment.play.StateSongFragmentViewModel;
 import com.example.cloudmusic.utils.CloudMusic;
 import com.example.cloudmusic.views.MusicListDialog;
 
@@ -95,70 +95,44 @@ public class SongFragment extends BaseFragment {
 
     @Override
     protected void observerDataStateUpdateAction() {
-        rvm.playMode.observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer playMode) {
-                switch (playMode) {
-                    case CloudMusic.Loop:
-                        binding.playModel.setBackgroundResource(R.drawable.ic_loop2);
-                        break;
-                    case CloudMusic.Single_Loop:
-                        binding.playModel.setBackgroundResource(R.drawable.ic_single_loop);
-                        break;
-                    case CloudMusic.Random:
-                        binding.playModel.setBackgroundResource(R.drawable.ic_random);
-                        break;
-                }
+        rvm.playMode.observe(this, playMode -> {
+            switch (playMode) {
+                case CloudMusic.Loop:
+                    binding.playModel.setBackgroundResource(R.drawable.ic_loop2);
+                    break;
+                case CloudMusic.Single_Loop:
+                    binding.playModel.setBackgroundResource(R.drawable.ic_single_loop);
+                    break;
+                case CloudMusic.Random:
+                    binding.playModel.setBackgroundResource(R.drawable.ic_random);
+                    break;
             }
         });
-        rvm.isPlaying.observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean isPlaying) {
-                if (isPlaying) {
-                    binding.play.setBackgroundResource(R.drawable.btn_puase_selector);
-                } else {
-                    binding.play.setBackgroundResource(R.drawable.btn_play_selector);
-                }
-                Log.d("TAG", "isPlaying--->" + isPlaying);
+        rvm.isPlaying.observe(this, isPlaying -> {
+            if (isPlaying) {
+                binding.play.setBackgroundResource(R.drawable.btn_puase_selector);
+            } else {
+                binding.play.setBackgroundResource(R.drawable.btn_play_selector);
+            }
+            Log.d("TAG", "isPlaying--->" + isPlaying);
+        });
+        rvm.song.observe(this, song -> {
+            svm.songName.setValue(song.getName());
+            svm.songAr.setValue(song.getArtist());
+            if(song.getName().startsWith("暂无播放")){
+                svm.currentPosition.setValue("00:00");
+                svm.duration.setValue("00:00");
             }
         });
-        rvm.song.observe(this, new Observer<Song>() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onChanged(Song song) {
-                svm.songName.setValue(song.getName());
-                svm.songAr.setValue(song.getArtist());
-                if(song.getName().startsWith("暂无播放")){
-                    svm.currentPosition.setValue("00:00");
-                    svm.duration.setValue("00:00");
-                }
-            }
+        rvm.duration.observe(this, s -> svm.duration.setValue(s));
+        rvm.currentPosition.observe(this, s -> svm.currentPosition.setValue(s));
+        rvm.durationLD.observe(this, duration -> {
+            binding.seekBar.setMax(duration);
+            rvm.formatDuration(duration);
         });
-        rvm.duration.observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                svm.duration.setValue(s);
-            }
-        });
-        rvm.currentPosition.observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                svm.currentPosition.setValue(s);
-            }
-        });
-        rvm.durationLD.observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer duration) {
-                binding.seekBar.setMax(duration);
-                rvm.formatDuration(duration);
-            }
-        });
-        rvm.currentPositionLD.observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer currentPosition) {
-                binding.seekBar.setProgress(currentPosition);
-                rvm.formatCurrentTime(currentPosition);
-            }
+        rvm.currentPositionLD.observe(this, currentPosition -> {
+            binding.seekBar.setProgress(currentPosition);
+            rvm.formatCurrentTime(currentPosition);
         });
     }
 
@@ -172,8 +146,8 @@ public class SongFragment extends BaseFragment {
     public void onEvent(MyEvent myEvent) {
         int msg = myEvent.getMsg();
         switch (msg) {
-            case 0://准备播放
-                Log.d("TAG", "EventBus 准备播放...");
+            case 0://准备播放完成
+                Log.d("TAG", "EventBus 准备播放完成...");
                 int duration = myEvent.getDuration();
                 binding.seekBar.setMax(duration);
                 rvm.formatDuration(duration);
@@ -181,9 +155,9 @@ public class SongFragment extends BaseFragment {
                 break;
             case 1://当前播放进度
                 int currentPosition = myEvent.getCurrentPosition();
-                Log.d("currentPosition", "" + currentPosition);
-                Log.d("seekBar","Progress-->"+binding.seekBar.getProgress());
-                Log.d("seekBar","Max-->"+binding.seekBar.getMax());
+//                Log.d("currentPosition", "" + currentPosition);
+//                Log.d("seekBar","Progress-->"+binding.seekBar.getProgress());
+//                Log.d("seekBar","Max-->"+binding.seekBar.getMax());
                 if(Objects.requireNonNull(svm.songName.getValue()).startsWith("暂无播放")) break;
                 binding.seekBar.setProgress(currentPosition);
                 rvm.formatCurrentTime(currentPosition);
@@ -194,6 +168,8 @@ public class SongFragment extends BaseFragment {
                 rvm.updatePlayBtn();
                 rvm.nextSong();
                 break;
+            case 3://开始播放
+                rvm.updatePlayBtn();
         }
     }
 

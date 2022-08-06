@@ -1,23 +1,20 @@
 package com.example.cloudmusic.adapter.recyclerview;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cloudmusic.R;
-import com.example.cloudmusic.callback.SongListItemOnClickCallback;
-import com.example.cloudmusic.callback.SongListItemRemoveCallback;
+import com.example.cloudmusic.utils.callback.SongListItemOnClickCallback;
+import com.example.cloudmusic.utils.callback.SongListItemRemoveCallback;
 import com.example.cloudmusic.databinding.ItemMusicRecyclerviewBinding;
 import com.example.cloudmusic.entity.Song;
 import com.example.cloudmusic.response.media.MediaManager;
@@ -32,8 +29,6 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
     private LinearLayoutManager layoutManager;
     private Song currentSong;
     private SongListItemRemoveCallback removeCallback;
-    // private MusicAdapter.ViewHolder currentHolder;
-
 
     public void setRemoveCallback(SongListItemRemoveCallback removeCallback) {
         this.removeCallback = removeCallback;
@@ -43,14 +38,11 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
         this.clickCallback = clickCallback;
     }
 
-    public MusicAdapter(List<Song> songList) {
-        this.songList = songList;
-    }
-
     public MusicAdapter(List<Song> songList, LinearLayoutManager layoutManager) {
         this.songList = songList;
         this.layoutManager = layoutManager;
         currentSong=MediaManager.getInstance().getCurrentSong();
+        Log.d("1111",currentSong.getSongId()+" "+currentSong.getId());
     }
 
     @NonNull
@@ -73,7 +65,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
         Song song = songList.get(position);
         holder.itemBinding.setPosition(holder.getAdapterPosition() + 1);
         holder.itemBinding.setSvm(song);
-        if (song.equals(currentSong)) {
+        if (song.getSongId().equals(currentSong.getSongId())) {
             holder.itemBinding.songName.setTextColor(ContextCompat.getColor(parent.getContext(), R.color.main_color));
             holder.itemBinding.positionTV.setTextColor(ContextCompat.getColor(parent.getContext(), R.color.main_color));
         }
@@ -123,13 +115,10 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
             int position = holder.getAdapterPosition();
             if (position == -1) return;//视图刷新时点击，position为-1
             Song song = songList.get(position);
-            String name = song.getName();
             songList.remove(song);
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, getItemCount());
             removeCallback.onRemove(song);
         }
     }
-
-
 }

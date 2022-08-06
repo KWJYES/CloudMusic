@@ -10,8 +10,6 @@ import com.example.cloudmusic.sevices.PlayerService;
 import java.util.List;
 
 public interface IMediaRequest {
-    void addSongs(List<Song> songs);
-    void addSong(Song song);
     void removeSong(Song song,MutableLiveData<Boolean> isPlaying,MutableLiveData<Song> songLD);
     void play(MutableLiveData<Boolean> isPlaying,MutableLiveData<Song> songLD,Song song);//播放
     void pause(MutableLiveData<Boolean> isPlaying);//暂停

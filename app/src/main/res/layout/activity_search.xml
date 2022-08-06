@@ -6,7 +6,7 @@
     <data>
         <variable
             name="svm"
-            type="com.example.cloudmusic.state.StateSearchViewModel" />
+            type="com.example.cloudmusic.state.activity.StateSearchViewModel" />
         <variable
             name="click"
             type="com.example.cloudmusic.activities.SearchActivity.ClickClass" />
@@ -14,7 +14,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="#F4F4F4"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
@@ -49,7 +49,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/select_et_shape2"
                 android:drawableStart="@drawable/ic_select"
-                android:hint="@{svm.defaultSearchWord+` 最近很火哦`}"
+                android:hint="@{svm.defaultSearchWord}"
                 android:text="@={svm.searchWord}"
                 android:paddingStart="6dp"
                 android:paddingEnd="20dp"
@@ -78,5 +78,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
 
+        <!--默认是56*56大小，图片默认是24*24-->
+        <com.example.cloudmusic.views.DragFloatActionButton
+            app:maxImageSize="25dp"
+            android:clickable="true"
+            app:fabCustomSize="50dp"
+            android:id="@+id/dragFloatActionButton"
+            app:borderWidth="0dp"
+            android:backgroundTint="@color/main_color"
+            android:src="@drawable/ic_music"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

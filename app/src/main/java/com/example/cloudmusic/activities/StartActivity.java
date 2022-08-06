@@ -1,20 +1,17 @@
 package com.example.cloudmusic.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 
 import com.example.cloudmusic.R;
 import com.example.cloudmusic.base.BaseActivity;
 import com.example.cloudmusic.databinding.ActivityStartBinding;
-import com.example.cloudmusic.request.RequestLoginViewModel;
-import com.example.cloudmusic.request.RequestStartViewModel;
+import com.example.cloudmusic.request.activity.RequestStartViewModel;
 
 public class StartActivity extends BaseActivity {
 

@@ -26,6 +26,7 @@ public class PlayerService extends Service {
 
     private MediaPlayer mediaPlayer;
     boolean isStopThread;//是否停止线程
+    boolean finishing=false;//是否正在结束上一首的播放,上一首在结束时，可能已经开了下一首的发送线程，但发送的是正在结束的进度信息，会导致出现多次发送“播放完成”
 
     private NotificationManager manager;
 
@@ -49,9 +50,10 @@ public class PlayerService extends Service {
             int duration = mediaPlayer.getDuration();
             MyEvent myEvent = new MyEvent();
             myEvent.setDuration(duration);
-            myEvent.setMsg(0);//准备播放
+            myEvent.setMsg(0);//准备播放完成
             EventBus.getDefault().post(myEvent);
             playerBinder.start();
+
         });
         return playerBinder;
     }
@@ -79,6 +81,7 @@ public class PlayerService extends Service {
                     myEvent.setDuration(duration);
                     myEvent.setMsg(0);//准备播放
                     EventBus.getDefault().post(myEvent);
+                    start();
                 });
                 try {
                     mediaPlayer.setDataSource(song.getUrl());
@@ -107,6 +110,9 @@ public class PlayerService extends Service {
             if (!mediaPlayer.isPlaying()) {
                 mediaPlayer.start();
                 createNotification();//创建前台通知
+                MyEvent myEvent=new MyEvent();
+                myEvent.setMsg(3);//开始播放
+                EventBus.getDefault().post(myEvent);
             }
         }
 
@@ -146,8 +152,11 @@ public class PlayerService extends Service {
                         myEvent.setMsg(1);//当前进度
                         //发送数据给activity fragment, 使用EventBus实现
                         EventBus.getDefault().post(myEvent);
-                        //Log.d("11111",currentPosition+" "+duration);
-                        if(currentPosition>=duration-700){
+                        if(currentPosition<duration-500){
+                            finishing=false;
+                        }
+                        if(currentPosition>=duration-500&&!finishing){
+                            finishing=true;
                             MyEvent myEvent2 = new MyEvent();
                             myEvent2.setMsg(2);//播放完成
                             EventBus.getDefault().post(myEvent2);

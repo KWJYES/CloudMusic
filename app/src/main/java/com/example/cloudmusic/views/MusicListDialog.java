@@ -10,13 +10,12 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.cloudmusic.R;
 import com.example.cloudmusic.adapter.recyclerview.MusicAdapter;
-import com.example.cloudmusic.callback.SongListItemOnClickCallback;
-import com.example.cloudmusic.callback.SongListItemRemoveCallback;
+import com.example.cloudmusic.utils.callback.SongListItemOnClickCallback;
+import com.example.cloudmusic.utils.callback.SongListItemRemoveCallback;
 import com.example.cloudmusic.databinding.DialogMusiclistBinding;
 import com.example.cloudmusic.entity.Song;
 import com.example.cloudmusic.response.media.MediaManager;
@@ -41,8 +40,9 @@ public class MusicListDialog extends Dialog {
         super.onCreate(savedInstanceState);
         binding= DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_musiclist, null, false);
         setContentView(binding.getRoot());
-        init();
+        initWindow();
         initList();
+
     }
 
     /**
@@ -64,7 +64,7 @@ public class MusicListDialog extends Dialog {
      * 初始化对话框样式
      * 与显示位置
      */
-    private void init() {
+    private void initWindow() {
         Window window = getWindow();
         window.setBackgroundDrawableResource(R.drawable.dialog_shape_musici_list);
         WindowManager.LayoutParams params = window.getAttributes();

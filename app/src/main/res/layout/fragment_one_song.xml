@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.search.searched.OneSongFragment">
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:layout_gravity="center"
+            android:id="@+id/oneSongLoading"
+            style="@style/AVLoadingIndicatorView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:visibility="visible"
+            app:indicatorColor="#B3FF0000"
+            app:indicatorName="BallGridBeatIndicator" />
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/oneSongSmartRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.scwang.smart.refresh.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:overScrollMode="never"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/oneSongRV"/>
+            <com.scwang.smart.refresh.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="30dp"/>
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+    </FrameLayout>
+</layout>

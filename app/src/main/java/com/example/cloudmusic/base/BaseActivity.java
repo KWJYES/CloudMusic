@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 abstract public class BaseActivity extends AppCompatActivity {
 
+    protected boolean isVisited =false;//是否可见过
+
     /**
      * 初始化DataBinding与ViewModel
      * @param savedInstanceState
@@ -22,6 +24,21 @@ abstract public class BaseActivity extends AppCompatActivity {
         initView();
         observerDataStateUpdateAction();
         initSomeData();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(isVisited) return;
+        isVisited=true;
+        getInternetData();
+    }
+
+    /**
+     * 请求网络数据
+     */
+    protected  void getInternetData(){
+
     }
 
     /**

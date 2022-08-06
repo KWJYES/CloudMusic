@@ -11,9 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.cloudmusic.R;
 
-import com.example.cloudmusic.callback.BannerClickCallback;
+import com.example.cloudmusic.utils.callback.BannerClickCallback;
 import com.example.cloudmusic.databinding.RecommendBannerLayoutBinding;
 import com.example.cloudmusic.entity.Banner;
 import com.youth.banner.adapter.BannerAdapter;
@@ -52,12 +54,14 @@ public class RecommendBannerAdapter extends BannerAdapter<Banner, RecommendBanne
 
     @Override
     public void onBindView(BannerViewHolder holder, Banner data, int position, int size) {
+        RoundedCorners roundedCorners= new RoundedCorners(48);//设置图片圆角角度
+        RequestOptions options= RequestOptions.bitmapTransform(roundedCorners);//通过RequestOptions扩展功能,override:采样率,因为ImageView就这么大,可以压缩图片,降低内存消耗
         if (data.getPic().equals("isLoading"))
-            Glide.with(parent.getContext()).load(R.drawable.bg_loading).diskCacheStrategy(DiskCacheStrategy.NONE).centerCrop().into(holder.itemBinding.bannerImageView);
+            Glide.with(parent.getContext()).load(R.drawable.bg_loading).diskCacheStrategy(DiskCacheStrategy.NONE).apply(options).into(holder.itemBinding.bannerImageView);
         else if (data.getPic().equals("isFail"))
-            Glide.with(parent.getContext()).load(R.drawable.bg_loading_fail).diskCacheStrategy(DiskCacheStrategy.NONE).centerCrop().into(holder.itemBinding.bannerImageView);
+            Glide.with(parent.getContext()).load(R.drawable.bg_loading_fail).diskCacheStrategy(DiskCacheStrategy.NONE).apply(options).into(holder.itemBinding.bannerImageView);
         else
-            Glide.with(parent.getContext()).load(data.getPic()).centerCrop().diskCacheStrategy(DiskCacheStrategy.NONE).into(holder.itemBinding.bannerImageView);
+            Glide.with(parent.getContext()).load(data.getPic()).diskCacheStrategy(DiskCacheStrategy.NONE).apply(options).into(holder.itemBinding.bannerImageView);
         holder.itemBinding.bannerTittle.setText(data.getTypeTitle());
     }
 

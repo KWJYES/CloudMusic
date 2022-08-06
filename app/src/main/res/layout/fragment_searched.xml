@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <variable
+            name="svm"
+            type="com.example.cloudmusic.state.fragment.search.StateSearchedFragmentViewModel" />
+
+        <variable
+            name="click"
+            type="com.example.cloudmusic.fragment.search.SearchedFragment.ClickClass" />
 
     </data>
 
@@ -10,6 +19,77 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".fragment.search.SearchedFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/search_tablelayout"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@null"
+                android:maxWidth="100dp"
+                android:minWidth="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tabBackground="@android:color/transparent"
+                app:tabIndicator="@drawable/tab_indicator2"
+                app:tabIndicatorColor="@color/main_color"
+                app:tabRippleColor="@android:color/transparent"
+                app:tabSelectedTextColor="@color/black"
+                app:tabTextAppearance="@style/TableLayoutStyle2"
+                app:tabTextColor="#656565">
+
+<!--                <com.google.android.material.tabs.TabItem-->
+<!--                    android:id="@+id/comprehensive"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="综合" />-->
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/oneSong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="单曲" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/musicList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="歌单" />
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/album"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="专辑" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/artist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="歌手" />
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/lrc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="歌词" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="用户" />
+            </com.google.android.material.tabs.TabLayout>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/searchedVP2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/search_tablelayout" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </FrameLayout>

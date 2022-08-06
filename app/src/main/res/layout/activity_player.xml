@@ -10,7 +10,7 @@
 
         <variable
             name="svm"
-            type="com.example.cloudmusic.state.StatePlayerViewModel" />
+            type="com.example.cloudmusic.state.activity.StatePlayerViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

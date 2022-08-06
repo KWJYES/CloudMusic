@@ -5,12 +5,11 @@
         <shape>
             <corners android:radius="3dp" />
             <size android:height="6dp"
-                 android:width="50dp"/>
-            <solid android:color="@color/main_color"/>
-<!--            <gradient-->
-<!--                android:startColor="#FF8A64EB"-->
-<!--                android:endColor="#8064E8DE"-->
-<!--                android:angle="0" />-->
+                 android:width="40dp"/>
+            <gradient
+                android:startColor="#ED2B2B"
+                android:endColor="#66ED2B2B"
+                android:angle="0" />
         </shape>
     </item>
 </layer-list>

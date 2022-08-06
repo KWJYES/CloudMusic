@@ -25,20 +25,20 @@ import android.widget.Toast;
 import com.example.cloudmusic.R;
 import com.example.cloudmusic.adapter.viewpager2.MainViewPager2Adapter;
 import com.example.cloudmusic.base.BaseActivity;
-import com.example.cloudmusic.callback.MediaPlayerViewOnClickCallback;
-import com.example.cloudmusic.callback.PlayerViewMusicListOnClickCallback;
-import com.example.cloudmusic.callback.PlayOnClickCallback;
-import com.example.cloudmusic.callback.SongListItemOnClickCallback;
-import com.example.cloudmusic.callback.SongListItemRemoveCallback;
+import com.example.cloudmusic.utils.callback.MediaPlayerViewOnClickCallback;
+import com.example.cloudmusic.utils.callback.PlayerViewMusicListOnClickCallback;
+import com.example.cloudmusic.utils.callback.PlayOnClickCallback;
+import com.example.cloudmusic.utils.callback.SongListItemOnClickCallback;
+import com.example.cloudmusic.utils.callback.SongListItemRemoveCallback;
 import com.example.cloudmusic.databinding.ActivityMainBinding;
 import com.example.cloudmusic.entity.MyEvent;
 import com.example.cloudmusic.fragment.main.DiscussionFragment;
 import com.example.cloudmusic.fragment.main.HomeFragment;
 import com.example.cloudmusic.fragment.main.MineFragment;
-import com.example.cloudmusic.request.RequestMainViewModel;
+import com.example.cloudmusic.request.activity.RequestMainViewModel;
 import com.example.cloudmusic.response.media.MediaManager;
 import com.example.cloudmusic.sevices.PlayerService;
-import com.example.cloudmusic.state.StateMainViewModel;
+import com.example.cloudmusic.state.activity.StateMainViewModel;
 import com.example.cloudmusic.views.MusicListDialog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -141,7 +141,7 @@ public class MainActivity extends BaseActivity {
         //绑定服务
         bindPlayerService();
 
-        rvm.getLocalMusic(this);//test
+        //rvm.getLocalMusic(this);//test
     }
 
     /**
