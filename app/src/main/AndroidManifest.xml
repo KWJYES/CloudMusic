@@ -40,6 +40,7 @@
             android:exported="true" />
 
         <activity
+            android:launchMode="singleTask"
             android:name=".activities.PlayerActivity"
             android:exported="false" />
         <activity

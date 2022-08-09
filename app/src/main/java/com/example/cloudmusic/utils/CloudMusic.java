@@ -11,4 +11,8 @@ public class CloudMusic {
     public static final int Single_Loop =1;
     public static final int Random=2;
 
+    public static boolean isGettingSongUrl = false;//防止操作过快
+    public static boolean isStartPlayerActivity = false;//防止二次启动PlayerActivity
+    public static boolean isStartMusicListDialog = false;//防止二次启动MusicListDialog
+
 }

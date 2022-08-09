@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.cloudmusic.entity.Song;
 import com.example.cloudmusic.response.media.MediaManager;
+import com.example.cloudmusic.response.network.HttpRequestManager;
 
 public class RequestSongFragmentViewModel extends ViewModel {
     public MutableLiveData<Boolean> isPlaying =new MutableLiveData<>();
@@ -14,6 +15,7 @@ public class RequestSongFragmentViewModel extends ViewModel {
     public MutableLiveData<Integer> currentPositionLD =new MutableLiveData<>();
     public MutableLiveData<Integer> playMode =new MutableLiveData<>();
     public MutableLiveData<Song> song=new MutableLiveData<>();
+    //public MutableLiveData<Song> songPlay=new MutableLiveData<>();
 
 
 
@@ -103,4 +105,8 @@ public class RequestSongFragmentViewModel extends ViewModel {
     public void getCurrentSong(){
         MediaManager.getInstance().getCurrentSong(song);
     }
+
+//    public void getSongUrl(Song s){
+//        HttpRequestManager.getInstance().getSongUrl(s,songPlay);
+//    }
 }

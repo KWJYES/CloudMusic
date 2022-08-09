@@ -40,6 +40,7 @@
                 android:layout_height="25dp"/>
 
             <EditText
+                android:imeOptions="actionSearch"
                 android:id="@+id/searchET"
                 android:layout_marginStart="5dp"
                 android:layout_width="0dp"
@@ -57,7 +58,6 @@
                 android:textCursorDrawable="@drawable/login_et_cursor"
                 android:textSize="15sp"
                 tools:ignore="RtlSymmetry" />
-
             <TextView
                 android:onClick="@{click::search}"
                 android:textColor="@drawable/tv_search"

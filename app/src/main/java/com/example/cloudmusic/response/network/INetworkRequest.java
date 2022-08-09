@@ -6,6 +6,7 @@ import com.example.cloudmusic.entity.Banner;
 import com.example.cloudmusic.entity.MusicList;
 import com.example.cloudmusic.entity.SearchWord;
 import com.example.cloudmusic.entity.Song;
+import com.example.cloudmusic.utils.callback.GetSongUrlCallback;
 
 import java.util.List;
 
@@ -26,5 +27,7 @@ public interface INetworkRequest {
 
     void loadMoreOneSong(String keywords, int limit, int offset, MutableLiveData<String> loadMoreRequestState,MutableLiveData<List<Song>> loadMoreList);
 
-    void getSongUrl(Song song,MutableLiveData<Song> songLD);
+    //void getSongUrl(Song song,MutableLiveData<Song> songLD);
+
+    void getSongUrl(Song song, GetSongUrlCallback callback);
 }

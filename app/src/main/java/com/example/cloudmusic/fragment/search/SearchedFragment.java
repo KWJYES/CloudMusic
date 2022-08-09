@@ -16,6 +16,7 @@ import com.example.cloudmusic.R;
 import com.example.cloudmusic.adapter.viewpager2.ViewPager2Adapter;
 import com.example.cloudmusic.base.BaseFragment;
 import com.example.cloudmusic.databinding.FragmentSearchedBinding;
+import com.example.cloudmusic.entity.HistorySearch;
 import com.example.cloudmusic.fragment.search.searched.AlbumFragment;
 import com.example.cloudmusic.fragment.search.searched.ArtistFragment;
 import com.example.cloudmusic.fragment.search.searched.LrcFragment;
@@ -59,6 +60,13 @@ public class SearchedFragment extends BaseFragment {
     }
 
     @Override
+    protected void initSomeData() {
+        HistorySearch historySearch=new HistorySearch();
+        historySearch.setKeywords(searedWord);
+        rvm.addHistorySearch(historySearch);
+    }
+
+    @Override
     protected void initView() {
         svm.keywords.setValue(searedWord);
         initViewPager2();
@@ -99,5 +107,6 @@ public class SearchedFragment extends BaseFragment {
                 tab.setText(titles.get(position));
             }
         }).attach();
+        binding.searchedVP2.setOffscreenPageLimit(5);
     }
 }

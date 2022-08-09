@@ -2,26 +2,33 @@ package com.example.cloudmusic.activities;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 
 import com.example.cloudmusic.R;
 import com.example.cloudmusic.base.BaseActivity;
 import com.example.cloudmusic.databinding.ActivitySearchBinding;
+import com.example.cloudmusic.entity.HistorySearch;
+import com.example.cloudmusic.entity.Song;
 import com.example.cloudmusic.fragment.search.SearchedFragment;
 import com.example.cloudmusic.fragment.search.SearchingFragment;
 import com.example.cloudmusic.request.activity.RequestSearchViewModel;
 import com.example.cloudmusic.state.activity.StateSearchViewModel;
 import com.example.cloudmusic.utils.CloudMusic;
+import com.example.cloudmusic.utils.callback.HistorySearchItemClickCallback;
 import com.example.cloudmusic.utils.callback.SongListItemOnClickCallback;
 import com.example.cloudmusic.utils.callback.SongListItemRemoveCallback;
+import com.example.cloudmusic.views.DragFloatActionButton;
 import com.example.cloudmusic.views.MusicListDialog;
 
 import java.util.Objects;
@@ -53,7 +60,14 @@ public class SearchActivity extends BaseActivity {
         replaceFragment(new SearchingFragment(null, searchWord -> {
             replaceFragment(new SearchedFragment(searchWord.getSearchWord()));
             svm.searchWord.setValue(searchWord.getSearchWord());
+        }, historySearch -> {
+            replaceFragment(new SearchedFragment(historySearch.getKeywords()));
+            svm.searchWord.setValue(historySearch.getKeywords());
         }));
+        binding.searchET.setOnEditorActionListener((textView, i, keyEvent) -> {
+            getSearch();
+            return false;
+        });
         binding.searchET.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -68,6 +82,9 @@ public class SearchActivity extends BaseActivity {
                 Fragment fragment = new SearchingFragment(svm.hotList.getValue(), searchWord -> {
                     replaceFragment(new SearchedFragment(searchWord.getSearchWord()));
                     svm.searchWord.setValue(searchWord.getSearchWord());
+                }, historySearch -> {
+                    replaceFragment(new SearchedFragment(historySearch.getKeywords()));
+                    svm.searchWord.setValue(historySearch.getKeywords());
                 });
                 if (editable.toString().equals("") && !currentFragment.getClass().equals(fragment.getClass())) {
                     replaceFragment(fragment);
@@ -75,6 +92,7 @@ public class SearchActivity extends BaseActivity {
             }
         });
         binding.dragFloatActionButton.setOnClickListener(view -> {
+            if (CloudMusic.isStartMusicListDialog) return;
             SongListItemOnClickCallback songListItemOnClickCallback = song -> rvm.play(song);
             SongListItemRemoveCallback removeCallback = song -> rvm.remove(song);
             MusicListDialog dialog = new MusicListDialog(SearchActivity.this, R.style.Base_ThemeOverlay_AppCompat_Dialog, songListItemOnClickCallback, removeCallback);
@@ -89,6 +107,9 @@ public class SearchActivity extends BaseActivity {
             Fragment fragment = new SearchingFragment(svm.hotList.getValue(), searchWord -> {
                 replaceFragment(new SearchedFragment(searchWord.getSearchWord()));
                 svm.searchWord.setValue(searchWord.getSearchWord());
+            }, historySearch -> {
+                replaceFragment(new SearchedFragment(historySearch.getKeywords()));
+                svm.searchWord.setValue(historySearch.getKeywords());
             });
             if (currentFragment.getClass().equals(fragment.getClass())) {
                 replaceFragment(fragment);
@@ -114,7 +135,7 @@ public class SearchActivity extends BaseActivity {
      * 获取热搜列表
      */
     private void getHotList() {
-        if(svm.hotList.getValue()==null||svm.hotList.getValue().size()==0) {
+        if (svm.hotList.getValue() == null || svm.hotList.getValue().size() == 0) {
             rvm.requestHotList();
         }
     }
@@ -132,21 +153,25 @@ public class SearchActivity extends BaseActivity {
         transaction.commit();//调用commit()方法来提交事务
     }
 
+    private void getSearch(){
+        Fragment fragment;
+        if (Objects.equals(svm.searchWord.getValue(), "")) {
+            String keywords=Objects.requireNonNull(svm.defaultSearchWord.getValue()).split(" ")[0];
+            fragment = new SearchedFragment(keywords);//默认搜索
+            svm.searchWord.setValue(keywords);
+        } else {
+            fragment = new SearchedFragment(svm.searchWord.getValue());//搜索
+        }
+        replaceFragment(fragment);
+    }
+
     public class ClickClass {
         public void back(View view) {
             finish();
         }
 
         public void search(View view) {
-            Fragment fragment;
-            if (Objects.equals(svm.searchWord.getValue(), "")) {
-                fragment = new SearchedFragment(svm.defaultSearchWord.getValue());//默认搜索
-                svm.searchWord.setValue(Objects.requireNonNull(svm.defaultSearchWord.getValue()).split(" ")[0]);
-            } else {
-                fragment = new SearchedFragment(svm.searchWord.getValue());//搜索
-            }
-            replaceFragment(fragment);
-
+            getSearch();
         }
 
     }

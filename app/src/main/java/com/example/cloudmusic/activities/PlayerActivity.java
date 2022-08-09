@@ -15,6 +15,7 @@ import com.example.cloudmusic.fragment.play.LyricFragment;
 import com.example.cloudmusic.fragment.play.SongFragment;
 import com.example.cloudmusic.request.activity.RequestPlayViewModel;
 import com.example.cloudmusic.state.activity.StatePlayerViewModel;
+import com.example.cloudmusic.utils.CloudMusic;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
@@ -58,6 +59,12 @@ public class PlayerActivity extends BaseActivity {
         }
         //TableLayout对接
         new TabLayoutMediator(binding.playTablelayout, binding.playViewPager2, (tab, position) -> tab.setText(titles.get(position))).attach();
+    }
+
+    @Override
+    protected void onDestroy() {
+        CloudMusic.isStartPlayerActivity=false;
+        super.onDestroy();
     }
 
     public class ClickClass {

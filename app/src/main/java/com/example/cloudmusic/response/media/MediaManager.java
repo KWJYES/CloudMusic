@@ -9,8 +9,10 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.cloudmusic.entity.Song;
 import com.example.cloudmusic.response.db.LitePalManager;
+import com.example.cloudmusic.response.network.HttpRequestManager;
 import com.example.cloudmusic.sevices.PlayerService;
 import com.example.cloudmusic.utils.CloudMusic;
+import com.example.cloudmusic.utils.callback.GetSongUrlCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,8 +64,15 @@ public class MediaManager implements IMediaRequest {
 
     @Override
     public void nextSong(MutableLiveData<Boolean> isPlaying, MutableLiveData<Song> songLD) {
+        if( CloudMusic.isGettingSongUrl) return;
         List<Song> songList=getSongList();
-        int position = songList.indexOf(this.song);
+        int position=-1;
+        for(int i=0;i<songList.size();i++){
+            if(this.song.getSongId().equals(songList.get(i).getSongId())){
+                position=i;
+                break;
+            }
+        }
         if (position == -1) return;
         switch (playMode) {
             case CloudMusic.Loop:
@@ -78,16 +87,25 @@ public class MediaManager implements IMediaRequest {
                 break;
         }
         Song song = songList.get(position);
-        playerBinder.play(song);
-        this.song = song;
-        isPlaying.setValue(true);
-        songLD.setValue(this.song);
+        HttpRequestManager.getInstance().getSongUrl(song, song1 -> {
+            playerBinder.play(song1);
+            this.song = song1;
+            isPlaying.setValue(true);
+            songLD.setValue(this.song);
+        });
     }
 
     @Override
     public void lastSong(MutableLiveData<Boolean> isPlaying, MutableLiveData<Song> songLD) {
+        if( CloudMusic.isGettingSongUrl) return;
         List<Song> songList=getSongList();
-        int position = songList.indexOf(this.song);
+        int position=-1;
+        for(int i=0;i<songList.size();i++){
+            if(this.song.getSongId().equals(songList.get(i).getSongId())){
+                position=i;
+                break;
+            }
+        }
         if (position == -1) return;
         switch (playMode) {
             case CloudMusic.Loop:
@@ -102,10 +120,12 @@ public class MediaManager implements IMediaRequest {
                 break;
         }
         Song song = songList.get(position);
-        playerBinder.play(song);
-        this.song = song;
-        isPlaying.setValue(true);
-        songLD.setValue(this.song);
+        HttpRequestManager.getInstance().getSongUrl(song, song1 -> {
+            playerBinder.play(song1);
+            this.song = song1;
+            isPlaying.setValue(true);
+            songLD.setValue(this.song);
+        });
     }
 
     @Override
@@ -168,13 +188,21 @@ public class MediaManager implements IMediaRequest {
     @Override
     public void play(MutableLiveData<Boolean> isPlaying, MutableLiveData<Song> songLD, Song song) {
         if (playerBinder == null) return;
-        playerBinder.play(song);
-        this.song = song;
-        LitePalManager.getInstance().addSongsToPlayList(song);
-        if (isPlaying != null)
-            isPlaying.setValue(true);
-        if (songLD != null)
-            songLD.setValue(this.song);
+        if(this.song.getSongId().equals(song.getSongId())){
+            if (songLD != null)
+                songLD.setValue(this.song);
+            return;
+        }
+        HttpRequestManager.getInstance().getSongUrl(song, song1 -> {
+            playerBinder.play(song1);
+            this.song = song1;
+            LitePalManager.getInstance().addSongToPlayList(song1);
+            if (isPlaying != null)
+                isPlaying.setValue(true);
+            if (songLD != null)
+                songLD.setValue(this.song);
+        });
+
     }
 
     @Override

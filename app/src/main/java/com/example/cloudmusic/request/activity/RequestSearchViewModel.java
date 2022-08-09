@@ -14,6 +14,7 @@ import java.util.List;
 public class RequestSearchViewModel extends ViewModel {
     public MutableLiveData<List<SearchWord>> hotList=new MutableLiveData<>();
     public MutableLiveData<String> hotListState=new MutableLiveData<>();
+    public MutableLiveData<Song> songPlay=new MutableLiveData<>();
 
 
     public void requestHotList() {
@@ -26,4 +27,7 @@ public class RequestSearchViewModel extends ViewModel {
     public void play(Song s){
         MediaManager.getInstance().play(null,null,s);
     }
+//    public void getSongUrl(Song s){
+//        HttpRequestManager.getInstance().getSongUrl(s,songPlay);
+//    }
 }

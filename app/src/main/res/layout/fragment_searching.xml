@@ -51,7 +51,7 @@
                     <TextView
                         android:onClick="@{click::clearHistorySearch}"
                         android:layout_marginEnd="10dp"
-                        android:textColor="@color/black"
+                        android:textColor="@drawable/clear_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="清空历史记录"

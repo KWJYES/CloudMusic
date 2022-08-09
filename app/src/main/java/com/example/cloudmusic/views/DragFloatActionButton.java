@@ -34,6 +34,7 @@ public class DragFloatActionButton extends FloatingActionButton {
     private int lastY;
     private boolean isDrag;
 
+
     @Override
     public boolean onTouchEvent(@NonNull MotionEvent ev) {
         int rawX = (int) ev.getRawX();

@@ -52,6 +52,7 @@ public class PlayerService extends Service {
             myEvent.setDuration(duration);
             myEvent.setMsg(0);//准备播放完成
             EventBus.getDefault().post(myEvent);
+            Log.d("TAG", "EventBus 播放准备就绪");
             playerBinder.start();
 
         });
@@ -68,7 +69,7 @@ public class PlayerService extends Service {
                 mediaPlayer.setLooping(false);//是否循环播放
                 mediaPlayer.prepareAsync();//异步
                 createNotification();//创建前台通知
-                Log.d("TAG","play...");
+                Log.d("TAG",song.getName()+" play() prepareAsync()...");
             } catch (IOException e) {
                 Log.d("TAG", "PlayerService 音乐url设置异常");
                 Log.d("TAG", "url:" + song.getUrl());
@@ -81,6 +82,7 @@ public class PlayerService extends Service {
                     myEvent.setDuration(duration);
                     myEvent.setMsg(0);//准备播放
                     EventBus.getDefault().post(myEvent);
+                    Log.d("TAG", "EventBus 播放准备就绪");
                     start();
                 });
                 try {
@@ -155,12 +157,14 @@ public class PlayerService extends Service {
                         if(currentPosition<duration-500){
                             finishing=false;
                         }
-                        if(currentPosition>=duration-500&&!finishing){
+                        Log.d("TAG",currentPosition+" "+duration);
+                        if(currentPosition>=duration-500&&!finishing&&duration<72000000){
                             finishing=true;
                             MyEvent myEvent2 = new MyEvent();
-                            myEvent2.setMsg(2);//播放完成
+                            myEvent2.setMsg(2);//播放结束
                             EventBus.getDefault().post(myEvent2);
                             reset();
+                            Log.d("TAG", "EventBus 播放结束");
                             break;
                         }
                     } catch (InterruptedException e) {

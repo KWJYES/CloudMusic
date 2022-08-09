@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.cloudmusic.entity.Song;
 import com.example.cloudmusic.response.media.MediaManager;
+import com.example.cloudmusic.response.network.HttpRequestManager;
 import com.example.cloudmusic.response.permission.PermissionManager;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class RequestMainViewModel extends ViewModel {
     public MutableLiveData<List<Song>> songListLD=new MutableLiveData<>();
     public MutableLiveData<Boolean> isPlaying=new MutableLiveData<>();
     public MutableLiveData<Song> song=new MutableLiveData<>();
+    //public MutableLiveData<Song> songPlay=new MutableLiveData<>();
 
 
 
@@ -98,4 +100,8 @@ public class RequestMainViewModel extends ViewModel {
     public void saveCurrentTime(int currentTime){
         MediaManager.getInstance().setCurrentTime(currentTime);
     }
+
+//    public void getSongUrl(Song s){
+//        HttpRequestManager.getInstance().getSongUrl(s,songPlay);
+//    }
 }

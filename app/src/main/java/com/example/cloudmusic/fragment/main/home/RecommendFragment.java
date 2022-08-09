@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +18,14 @@ import android.widget.Toast;
 import com.example.cloudmusic.R;
 import com.example.cloudmusic.activities.AgentWebActivity;
 import com.example.cloudmusic.activities.MusicListActivity;
+import com.example.cloudmusic.activities.PlayerActivity;
 import com.example.cloudmusic.adapter.banner.RecommendBannerAdapter;
 import com.example.cloudmusic.adapter.recyclerview.MusicListRecommendAdapter;
 import com.example.cloudmusic.base.BaseFragment;
 import com.example.cloudmusic.databinding.FragmentRecommendBinding;
 import com.example.cloudmusic.entity.Banner;
 import com.example.cloudmusic.entity.MusicList;
+import com.example.cloudmusic.entity.Song;
 import com.example.cloudmusic.request.fragment.main.home.RequestRecommendFragmentViewModel;
 import com.example.cloudmusic.state.fragment.main.home.StateRecommendFragmentViewModel;
 import com.example.cloudmusic.utils.CloudMusic;
@@ -89,6 +93,12 @@ public class RecommendFragment extends BaseFragment {
             svm.musicListList.setValue(musicLists);
             setRecommendMusicListRV();
         });
+        rvm.song.observe(this, new Observer<Song>() {
+            @Override
+            public void onChanged(Song song) {
+                Objects.requireNonNull(getActivity()).startActivity(new Intent(getActivity(), PlayerActivity.class));
+            }
+        });
     }
 
     private void setRecommendMusicListRV() {
@@ -107,6 +117,12 @@ public class RecommendFragment extends BaseFragment {
     @Override
     protected void initSomeData() {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        CloudMusic.isStartPlayerActivity=false;
     }
 
     @Override
@@ -146,10 +162,16 @@ public class RecommendFragment extends BaseFragment {
         List<Banner> bannerList = new ArrayList<>(bannerData);
         RecommendBannerAdapter bannerAdapter = new RecommendBannerAdapter(bannerList);
         bannerAdapter.setClickCallback(banner -> {
-            if (banner.getUrl() != null) {
+            Log.d("TAG","banner url--->"+banner.getUrl());
+            Log.d("TAG","banner song--->"+banner.getSong().getSongId()+" "+banner.getSong().getName());
+            if (banner.getUrl() != null&&!banner.getUrl().equals("")&&!banner.getUrl().equals("null")) {
                 Intent intent = new Intent(getActivity(), AgentWebActivity.class);
                 intent.putExtra("banner", banner);
                 Objects.requireNonNull(getActivity()).startActivity(intent);
+            }else if (banner.getSong()!=null&&banner.getSong().getSongId()!=null&&!banner.getSong().getSongId().equals("null")&&banner.getSong().getName()!=null&&!banner.getSong().getName().equals("null")){
+                if(CloudMusic.isStartPlayerActivity) return;
+                CloudMusic.isStartPlayerActivity=true;
+                rvm.play(banner.getSong());
             }
         });
         binding.recommendBanner.addBannerLifecycleObserver(getActivity()).setAdapter(bannerAdapter)

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cloudmusic.R;
+import com.example.cloudmusic.utils.CloudMusic;
 import com.example.cloudmusic.utils.callback.SongListItemOnClickCallback;
 import com.example.cloudmusic.utils.callback.SongListItemRemoveCallback;
 import com.example.cloudmusic.databinding.ItemMusicRecyclerviewBinding;
@@ -29,6 +31,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
     private LinearLayoutManager layoutManager;
     private Song currentSong;
     private SongListItemRemoveCallback removeCallback;
+    private Toast toast;
 
     public void setRemoveCallback(SongListItemRemoveCallback removeCallback) {
         this.removeCallback = removeCallback;
@@ -42,13 +45,13 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
         this.songList = songList;
         this.layoutManager = layoutManager;
         currentSong=MediaManager.getInstance().getCurrentSong();
-        Log.d("1111",currentSong.getSongId()+" "+currentSong.getId());
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         this.parent = parent;
+        toast = Toast.makeText(parent.getContext(), "⊙▽⊙您操作太快la~", Toast.LENGTH_SHORT);
         ItemMusicRecyclerviewBinding itemBinding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.getContext()),
                 R.layout.item_music_recyclerview,
@@ -97,8 +100,21 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
             int position = holder.getAdapterPosition();
             if (position == -1) return;//视图刷新时点击，position为-1
             Song song = songList.get(position);
+            int currentSongPos=-1;
+            for(int i=0;i< songList.size();i++){
+                if(songList.get(i).getSongId().equals(currentSong.getSongId())){
+                    currentSongPos=i;
+                    break;
+                }
+            }
+            if(CloudMusic.isGettingSongUrl){
+                toast.show();
+                return;
+            }else {
+                toast.cancel();
+            }
             //换歌变色
-            View currentItem = layoutManager.findViewByPosition(songList.indexOf(currentSong));
+            View currentItem = layoutManager.findViewByPosition(currentSongPos);
             if (currentItem != null) {
                 TextView songName = currentItem.findViewById(R.id.songName);
                 TextView positionTV = currentItem.findViewById(R.id.positionTV);
@@ -115,6 +131,12 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
             int position = holder.getAdapterPosition();
             if (position == -1) return;//视图刷新时点击，position为-1
             Song song = songList.get(position);
+            if(CloudMusic.isGettingSongUrl){
+                toast.show();
+                return;
+            }else {
+                toast.cancel();
+            }
             songList.remove(song);
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, getItemCount());

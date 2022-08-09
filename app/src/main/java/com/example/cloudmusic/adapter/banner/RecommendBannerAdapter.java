@@ -82,8 +82,7 @@ public class RecommendBannerAdapter extends BannerAdapter<Banner, RecommendBanne
         }
 
         public void onBannerClick(View view) {
-            int position = holder.getAdapterPosition();
-            Log.d("TAG", "Banner Position===" + position);
+            int position = holder.getAdapterPosition()-1;//banner的坑
             if (position == -1 || position > dataList.size() - 1) return;//视图刷新时点击，position为-1
             Banner data = dataList.get(position);
             clickCallback.onClick(data);

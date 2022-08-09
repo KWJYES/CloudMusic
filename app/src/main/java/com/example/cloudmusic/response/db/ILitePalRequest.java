@@ -3,6 +3,7 @@ package com.example.cloudmusic.response.db;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.cloudmusic.base.BaseEntity;
+import com.example.cloudmusic.entity.HistorySearch;
 import com.example.cloudmusic.entity.Song;
 import com.example.cloudmusic.entity.SongList;
 import com.example.cloudmusic.utils.enums.EntityType;
@@ -16,9 +17,15 @@ public interface ILitePalRequest {
 
     void addSongsToPlayList(List<Song> songs);
 
-    void addSongsToPlayList(Song song);
+    void addSongToPlayList(Song song);
 
     void removePlayList(Song song);
 
     List<Song> getSongList(String listName);
+
+    void getHistorySearch(MutableLiveData<List<HistorySearch>> hsList);
+
+    void clearHistorySearch(MutableLiveData<List<HistorySearch>> hsList);
+
+    void addHistorySearch(HistorySearch historySearch);
 }

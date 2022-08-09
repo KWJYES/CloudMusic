@@ -134,6 +134,7 @@ public class SongFragment extends BaseFragment {
             binding.seekBar.setProgress(currentPosition);
             rvm.formatCurrentTime(currentPosition);
         });
+        //rvm.songPlay.observe(this, song -> rvm.play(song));
     }
 
 
@@ -147,7 +148,6 @@ public class SongFragment extends BaseFragment {
         int msg = myEvent.getMsg();
         switch (msg) {
             case 0://准备播放完成
-                Log.d("TAG", "EventBus 准备播放完成...");
                 int duration = myEvent.getDuration();
                 binding.seekBar.setMax(duration);
                 rvm.formatDuration(duration);
@@ -163,8 +163,7 @@ public class SongFragment extends BaseFragment {
                 rvm.formatCurrentTime(currentPosition);
                 rvm.saveCurrentTime(myEvent.getCurrentPosition());
                 break;
-            case 2://播放完成
-                Log.d("TAG", "SongFragment 播放完成...");
+            case 2://播放结束
                 rvm.updatePlayBtn();
                 rvm.nextSong();
                 break;
@@ -208,6 +207,7 @@ public class SongFragment extends BaseFragment {
          * @param view
          */
         public void list(View view) {
+            if (CloudMusic.isStartMusicListDialog)return;
             SongListItemOnClickCallback songListItemOnClickCallback = song -> rvm.play(song);
             SongListItemRemoveCallback removeCallback = song -> rvm.remove(song);
             MusicListDialog dialog = new MusicListDialog(Objects.requireNonNull(getActivity()), R.style.Base_ThemeOverlay_AppCompat_Dialog, songListItemOnClickCallback, removeCallback);

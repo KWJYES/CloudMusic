@@ -1,5 +1,7 @@
 package com.example.cloudmusic.response.network;
 
+import android.annotation.SuppressLint;
+import android.icu.text.SimpleDateFormat;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -13,6 +15,7 @@ import com.example.cloudmusic.response.media.MediaManager;
 import com.example.cloudmusic.response.retrofit_api.IRecommendService;
 import com.example.cloudmusic.response.retrofit_api.ISearchService;
 import com.example.cloudmusic.utils.CloudMusic;
+import com.example.cloudmusic.utils.callback.GetSongUrlCallback;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -22,6 +25,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -102,7 +107,7 @@ public class HttpRequestManager implements INetworkRequest {
                                 String albumName = album.getString("name");
                                 songData.setAlbum(albumName);
                             } catch (JSONException e) {
-                                Log.d("TAG", "该banner song为null");
+                                //Log.d("TAG", "该banner song为null");
                                 e.printStackTrace();
                             }
                             bannerData.setPic(pic);
@@ -323,7 +328,7 @@ public class HttpRequestManager implements INetworkRequest {
                                 resultSongList.add(resultSong);
                             }
                             loadMoreList.setValue(resultSongList);
-                        }else {
+                        } else {
                             loadMoreRequestState.setValue(CloudMusic.FAILURE);
                         }
                     } catch (JSONException | IOException e) {
@@ -342,14 +347,136 @@ public class HttpRequestManager implements INetworkRequest {
         });
     }
 
+//    @Override
+//    public void getSongUrl(Song song, MutableLiveData<Song> songLD) {
+//        CloudMusic.isGettingSongUrl=true;
+//        if (song.getSongId().startsWith("000")) {
+//            songLD.setValue(song);
+//            CloudMusic.isGettingSongUrl=false;
+//            return;//本地
+//        }
+//        //15min内不重复获取
+//        List<Song> songList = MediaManager.getInstance().getSongList();
+//        for (Song song1 : songList) {
+//            if (song1.getSongId().equals(song.getSongId())) {
+//                // 获取服务器返回的时间戳 转换成"yyyy-MM-dd HH:mm:ss"
+//                // 计算结束时间 - 开始时间的时间差
+//                String starTime=song1.getUrlStartTime();
+//                if(starTime==null) break;
+//                Calendar calendar = Calendar.getInstance();
+//                String endTime = calendar.get(Calendar.YEAR) + "-" +
+//                        calendar.get(Calendar.MONTH)+1 + "-" +
+//                        calendar.get(Calendar.DAY_OF_MONTH) + " " +
+//                        calendar.get(Calendar.HOUR_OF_DAY) + ":" +
+//                        calendar.get(Calendar.MINUTE) + ":" +
+//                        calendar.get(Calendar.SECOND);
+//                @SuppressLint("SimpleDateFormat")
+//                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                try {
+//                    Date end = formatter.parse(endTime);//结束时间
+//                    Date start = formatter.parse(starTime);//开始时间
+//                    // 这样得到的差值是微秒级别
+//                    long diff = end.getTime() - start.getTime();
+//                    long days = diff / (1000 * 60 * 60 * 24);
+//                    long hours = (diff - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+//                    long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours * (1000 * 60 * 60)) / (1000 * 60);
+//                    Log.d("TAG", song.getName() + "url有效时间剩余：" + (-days < 0 ? 0 : -days) + "天" + (-hours < 0 ? 0 : -hours) + "时" + ((20 - minutes) < 0 ? 0 : (20 - minutes)) + "分");
+//                    if (days == 0 && hours == 0 && minutes <= 20) {
+//                        songLD.setValue(song1);
+//                        CloudMusic.isGettingSongUrl=false;
+//                        return;
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//                break;
+//            }
+//        }
+//        ISearchService searchService = retrofit.create(ISearchService.class);
+//        searchService.getSongUrl(song.getSongId()).enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+//                if (response.code() == 200) {
+//                    try {
+//                        if (response.body() != null) {
+//                            JSONObject jsonObject = new JSONObject(response.body().string());
+//                            JSONArray data = jsonObject.getJSONArray("data");
+//                            String url = data.getJSONObject(0).getString("url");
+//                            Calendar calendar = Calendar.getInstance();
+//                            String urlStartTime = calendar.get(Calendar.YEAR) + "-" +
+//                                    calendar.get(Calendar.MONTH) + "-" +
+//                                    calendar.get(Calendar.DAY_OF_MONTH)+1 + " " +
+//                                    calendar.get(Calendar.HOUR_OF_DAY) + ":" +
+//                                    calendar.get(Calendar.MINUTE) + ":" +
+//                                    calendar.get(Calendar.SECOND);
+//                            song.setUrlStartTime(urlStartTime);
+//                            song.setUrl(url);
+//                            songLD.setValue(song);
+//                            CloudMusic.isGettingSongUrl=false;
+//                        } else {
+//                            songLD.setValue(song);
+//                            CloudMusic.isGettingSongUrl=false;
+//                        }
+//                    } catch (JSONException | IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                } else {
+//                    songLD.setValue(song);
+//                    CloudMusic.isGettingSongUrl=false;
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                songLD.setValue(song);
+//                CloudMusic.isGettingSongUrl=false;
+//            }
+//        });
+//    }
+
     @Override
-    public void getSongUrl(Song song, MutableLiveData<Song> songLD) {
-        //不重复获取
+    public void getSongUrl(Song song, GetSongUrlCallback callback) {
+        CloudMusic.isGettingSongUrl=true;
+        if (song.getSongId().startsWith("000")) {
+            callback.onResult(song);
+            CloudMusic.isGettingSongUrl=false;
+            return;//本地
+        }
+        //15min内不重复获取
         List<Song> songList = MediaManager.getInstance().getSongList();
-        for(Song song1:songList){
-            if (song1.getSongId().equals(song.getSongId())){
-                songLD.setValue(song1);
-                return;
+        for (Song song1 : songList) {
+            if (song1.getSongId().equals(song.getSongId())) {
+                // 获取服务器返回的时间戳 转换成"yyyy-MM-dd HH:mm:ss"
+                // 计算结束时间 - 开始时间的时间差
+                String starTime=song1.getUrlStartTime();
+                if(starTime==null) break;
+                Calendar calendar = Calendar.getInstance();
+                String endTime = calendar.get(Calendar.YEAR) + "-" +
+                        calendar.get(Calendar.MONTH)+1 + "-" +
+                        calendar.get(Calendar.DAY_OF_MONTH) + " " +
+                        calendar.get(Calendar.HOUR_OF_DAY) + ":" +
+                        calendar.get(Calendar.MINUTE) + ":" +
+                        calendar.get(Calendar.SECOND);
+                @SuppressLint("SimpleDateFormat")
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                try {
+                    Date end = formatter.parse(endTime);//结束时间
+                    Date start = formatter.parse(starTime);//开始时间
+                    // 这样得到的差值是微秒级别
+                    long diff = end.getTime() - start.getTime();
+                    long days = diff / (1000 * 60 * 60 * 24);
+                    long hours = (diff - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+                    long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours * (1000 * 60 * 60)) / (1000 * 60);
+                    Log.d("TAG", song.getName() + "url有效时间剩余：" + (-days < 0 ? 0 : -days) + "天" + (-hours < 0 ? 0 : -hours) + "时" + ((20 - minutes) < 0 ? 0 : (20 - minutes)) + "分");
+                    if (days == 0 && hours == 0 && minutes <= 20) {
+                        callback.onResult(song1);
+                        CloudMusic.isGettingSongUrl=false;
+                        return;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
             }
         }
         ISearchService searchService = retrofit.create(ISearchService.class);
@@ -360,24 +487,36 @@ public class HttpRequestManager implements INetworkRequest {
                     try {
                         if (response.body() != null) {
                             JSONObject jsonObject = new JSONObject(response.body().string());
-                            JSONArray data= jsonObject.getJSONArray("data");
-                            String url=data.getJSONObject(0).getString("url");
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            String url = data.getJSONObject(0).getString("url");
+                            Calendar calendar = Calendar.getInstance();
+                            String urlStartTime = calendar.get(Calendar.YEAR) + "-" +
+                                    calendar.get(Calendar.MONTH) + "-" +
+                                    calendar.get(Calendar.DAY_OF_MONTH)+1 + " " +
+                                    calendar.get(Calendar.HOUR_OF_DAY) + ":" +
+                                    calendar.get(Calendar.MINUTE) + ":" +
+                                    calendar.get(Calendar.SECOND);
+                            song.setUrlStartTime(urlStartTime);
                             song.setUrl(url);
-                            songLD.setValue(song);
+                            callback.onResult(song);
+                            CloudMusic.isGettingSongUrl=false;
                         } else {
-                            songLD.setValue(song);
+                            callback.onResult(song);
+                            CloudMusic.isGettingSongUrl=false;
                         }
                     } catch (JSONException | IOException e) {
                         e.printStackTrace();
                     }
                 } else {
-                    songLD.setValue(song);
+                    callback.onResult(song);
+                    CloudMusic.isGettingSongUrl=false;
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                songLD.setValue(song);
+                callback.onResult(song);
+                CloudMusic.isGettingSongUrl=false;
             }
         });
     }

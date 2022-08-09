@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.cloudmusic.R;
 import com.example.cloudmusic.adapter.recyclerview.MusicAdapter;
+import com.example.cloudmusic.utils.CloudMusic;
 import com.example.cloudmusic.utils.callback.SongListItemOnClickCallback;
 import com.example.cloudmusic.utils.callback.SongListItemRemoveCallback;
 import com.example.cloudmusic.databinding.DialogMusiclistBinding;
@@ -31,8 +32,15 @@ public class MusicListDialog extends Dialog {
 
     public MusicListDialog(@NonNull Context context, int themeResId,SongListItemOnClickCallback clickCallback,SongListItemRemoveCallback removeCallback) {
         super(context, themeResId);
+        CloudMusic.isStartMusicListDialog=true;
         this.clickCallback=clickCallback;
         this.removeCallback=removeCallback;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        CloudMusic.isStartMusicListDialog=false;
     }
 
     @Override

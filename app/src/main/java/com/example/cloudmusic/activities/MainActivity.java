@@ -3,6 +3,7 @@ package com.example.cloudmusic.activities;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -25,6 +26,8 @@ import android.widget.Toast;
 import com.example.cloudmusic.R;
 import com.example.cloudmusic.adapter.viewpager2.MainViewPager2Adapter;
 import com.example.cloudmusic.base.BaseActivity;
+import com.example.cloudmusic.entity.Song;
+import com.example.cloudmusic.utils.CloudMusic;
 import com.example.cloudmusic.utils.callback.MediaPlayerViewOnClickCallback;
 import com.example.cloudmusic.utils.callback.PlayerViewMusicListOnClickCallback;
 import com.example.cloudmusic.utils.callback.PlayOnClickCallback;
@@ -104,7 +107,9 @@ public class MainActivity extends BaseActivity {
         rvm.song.observe(this, song -> {
             svm.songName.setValue(song.getName() + " - " + song.getArtist());
             svm.mediaPlayerViewBg.setValue(new Random().nextInt(7)+1);
+            svm.songPic.setValue(song.getPicUrl());
         });
+        //rvm.songPlay.observe(this, song -> rvm.play(song));
     }
 
     @Override
@@ -286,6 +291,7 @@ public class MainActivity extends BaseActivity {
         public PlayerViewMusicListOnClickCallback playerViewMusicListOnClickCallback = new PlayerViewMusicListOnClickCallback() {
             @Override
             public void onClick() {
+                if (CloudMusic.isStartMusicListDialog)return;
                 SongListItemOnClickCallback songListItemOnClickCallback = song -> rvm.play(song);
                 SongListItemRemoveCallback removeCallback = song -> rvm.remove(song);
                 MusicListDialog dialog = new MusicListDialog(MainActivity.this, R.style.Base_ThemeOverlay_AppCompat_Dialog, songListItemOnClickCallback, removeCallback);
@@ -315,11 +321,9 @@ public class MainActivity extends BaseActivity {
                 rvm.saveDuration(myEvent.getDuration());
                 break;
             case 1://当前播放进度
-                Log.d("currentPosition", "" + myEvent.getCurrentPosition());
                 rvm.saveCurrentTime(myEvent.getCurrentPosition());
                 break;
             case 2://播放完成
-                Log.d("TAG", "MainActivity 播放完成...");
                 rvm.updatePlayBtn();
                 rvm.nextSong();
                 break;

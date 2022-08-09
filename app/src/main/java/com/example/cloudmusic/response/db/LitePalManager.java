@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.cloudmusic.base.BaseEntity;
+import com.example.cloudmusic.entity.HistorySearch;
 import com.example.cloudmusic.entity.Song;
 import com.example.cloudmusic.entity.SongList;
 import com.example.cloudmusic.utils.enums.EntityType;
@@ -35,10 +36,17 @@ public class LitePalManager implements ILitePalRequest {
     public <T extends BaseEntity> void save(T entity, EntityType type) {
         switch (type) {
             case Song:
-                Song t = (Song) entity;
-                List<Song> song = LitePal.where("songId = ? and name = ?", t.getSongId(), t.getName()).find(Song.class, true);
-                if (song.size() == 0) {
-                    t.save();
+                Song s = (Song) entity;
+                List<Song> songs = LitePal.where("songId = ? and name = ?", s.getSongId(), s.getName()).find(Song.class, true);
+                if (songs.size() == 0) {
+                    s.save();
+                }
+                break;
+            case HistorySearchWords:
+                HistorySearch hs = (HistorySearch) entity;
+                List<HistorySearch> historySearches = LitePal.where("keywords = ?", hs.getKeywords()).find(HistorySearch.class);
+                if (historySearches.size() == 0) {
+                    hs.save();
                 }
                 break;
         }
@@ -57,48 +65,32 @@ public class LitePalManager implements ILitePalRequest {
 
     @Override
     public void addSongsToPlayList(List<Song> songs) {
-        SongList songList = LitePal.where("name = ?", "playList").findFirst(SongList.class, true);
-        if (songList == null) {
-            songList = new SongList();
-            songList.setName("playList");
-            mark:for (Song song : songs) {
-                List<Song> t = LitePal.where("songId = ? and name = ?", song.getSongId(), song.getName()).find(Song.class, true);
-                if(t.size()!=0) {
-                    song = t.get(0);
-                    for (SongList songlist:song.getSongListList()){
-                        if(songlist.getName().equals("playList")) continue mark;
-                    }
-                }else {
-                    song.save();
-                }
-                songList.getSongList().add(song);
-            }
-            songList.save();
-        } else {
-            for (Song song : songs) {
-                if (!songList.getSongList().contains(song)) {
-                    List<Song> t = LitePal.where("songId = ? and name = ?", song.getSongId(), song.getName()).find(Song.class, true);
-                    if(t.size()!=0) {
-                        song = t.get(0);
-                    }else {
-                        song.save();
-                    }
-                    songList.getSongList().add(song);
-                }
-            }
-            songList.save();
+        for (Song s : songs) {
+            addSongToPlayList(s);
         }
     }
 
     @Override
-    public void addSongsToPlayList(Song song) {
+    public void addSongToPlayList(Song song) {
         List<Song> t = LitePal.where("songId = ? and name = ?", song.getSongId(), song.getName()).find(Song.class, true);
-        if(t.size()!=0) {
-            song=t.get(0);
-            for (SongList songList:song.getSongListList()){
-                if(songList.getName().equals("playList")) return;
+        if (t.size() != 0) {
+            for(int i=0;i<t.size();i++){
+                if (t.get(i).getSongId().startsWith("000")) {//本地0
+                    song = t.get(i);
+                    if (song.getSongList().getName().equals("playList")) return;
+                } else {//网络
+                    if (song.getUrlStartTime().equals(t.get(i).getUrlStartTime())) {
+                        song = t.get(i);
+                        if (song.getSongList().getName().equals("playList")) return;
+                    } else {
+                        song.updateAll("songId = ? and name = ?", song.getSongId(), song.getName());
+                        List<Song> t2 = LitePal.where("songId = ? and name = ?", song.getSongId(), song.getName()).find(Song.class, true);
+                        song = t2.get(i);
+                        if (song.getSongList().getName().equals("playList")) return;
+                    }
+                }
             }
-        }else {
+        } else {
             song.save();
         }
         SongList songList = LitePal.where("name = ?", "playList").findFirst(SongList.class, true);
@@ -117,10 +109,13 @@ public class LitePalManager implements ILitePalRequest {
     @Override
     public void removePlayList(Song song) {
         SongList songList = LitePal.where("name = ?", "playList").findFirst(SongList.class, true);
-        songList.getSongList().remove(song);
+        for (Song song1:songList.getSongList()){
+            if(song1.getSongId().equals(song.getSongId()))
+                LitePal.delete(Song.class,song1.getId());
+        }
+        songList.getSongList().removeIf(s -> s.getSongId().equals(song.getSongId()));
         songList.save();
-        // TODO:暂时测试用
-        LitePal.deleteAll(Song.class, "songId = ? and name = ?", song.getSongId(), song.getName());
+        //LitePal.deleteAll(Song.class, "songId = ? and name = ?", song.getSongId(), song.getName());
     }
 
     @Override
@@ -132,5 +127,27 @@ public class LitePalManager implements ILitePalRequest {
             songList.save();
         }
         return songList.getSongList();
+    }
+
+    @Override
+    public void getHistorySearch(MutableLiveData<List<HistorySearch>> hsList) {
+        List<HistorySearch> historySearches = LitePal.findAll(HistorySearch.class);
+        hsList.setValue(historySearches);
+    }
+
+    @Override
+    public void clearHistorySearch(MutableLiveData<List<HistorySearch>> hsList) {
+        LitePal.deleteAll(HistorySearch.class);
+        List<HistorySearch> historySearches = LitePal.findAll(HistorySearch.class);
+        hsList.setValue(historySearches);
+    }
+
+    @Override
+    public void addHistorySearch(HistorySearch historySearch) {
+        List<HistorySearch> historySearches = LitePal.where("keywords = ?", historySearch.getKeywords()).find(HistorySearch.class);
+        if (historySearches.size() == 0) {
+            historySearch.save();
+        }
+
     }
 }

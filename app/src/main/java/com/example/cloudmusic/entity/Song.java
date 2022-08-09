@@ -28,13 +28,23 @@ public class Song extends BaseEntity implements Serializable {
     private String album;//专辑
     private String albumId;//专辑ID
 
-    private List<SongList> songListList=new ArrayList<>();
+    private String urlStartTime;
 
-    public List<SongList> getSongListList() {
+    public String getUrlStartTime() {
+        return urlStartTime;
+    }
+
+    public void setUrlStartTime(String urlStartTime) {
+        this.urlStartTime = urlStartTime;
+    }
+
+    private SongList songListList;
+
+    public SongList getSongList() {
         return songListList;
     }
 
-    public void setSongListList(List<SongList> songListList) {
+    public void setSongList(SongList songListList) {
         this.songListList = songListList;
     }
 

@@ -46,8 +46,7 @@ public class OneSongFragment extends BaseFragment {
     private OneSongAdapter adapter;
     private final String keywords;
     private final List<Song> songList = new ArrayList<>();
-    private boolean isGettingSongUrl = false;//防止操作过快
-    private boolean isStartPlayerActivity = false;//防止二次启动PlayerActivity
+
     private Toast getUrlToast;
 
     public OneSongFragment(String keywords) {
@@ -86,16 +85,14 @@ public class OneSongFragment extends BaseFragment {
     @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void observerDataStateUpdateAction() {
-        rvm.songLD.observe(this, song -> {//获取Url后
-            isGettingSongUrl = false;
+        rvm.songLD.observe(this, song -> {
             if (song.getUrl() == null || song.getUrl().equals("")) {
                 Toast toast = Toast.makeText(getContext(), "\n获取音乐失败~\n", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
-                isStartPlayerActivity = false;
+                CloudMusic.isStartPlayerActivity = false;
                 return;
             }
-            rvm.playSong(song);
             getUrlToast.cancel();
             Objects.requireNonNull(getActivity()).startActivity(new Intent(getActivity(), PlayerActivity.class));
         });
@@ -128,7 +125,7 @@ public class OneSongFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        isStartPlayerActivity=false;
+        CloudMusic.isStartPlayerActivity=false;
     }
 
     @Override
@@ -150,10 +147,9 @@ public class OneSongFragment extends BaseFragment {
         });
         adapter.setClickCallback(song -> {
             getUrlToast.show();
-            isGettingSongUrl = true;
-            if (isStartPlayerActivity) return;
-            isStartPlayerActivity = true;
-            rvm.getSongUrl(song);
+            if (CloudMusic.isStartPlayerActivity) return;
+            CloudMusic.isStartPlayerActivity = true;
+            rvm.playSong(song);
         });
         binding.oneSongRV.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.oneSongRV.setAdapter(adapter);

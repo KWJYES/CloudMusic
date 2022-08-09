@@ -32,10 +32,6 @@ public class RequestOneSongViewModel extends ViewModel {
     }
 
     public void playSong(Song song){
-        MediaManager.getInstance().play(null,null,song);
-    }
-
-    public void getSongUrl(Song song){
-        HttpRequestManager.getInstance().getSongUrl(song,songLD);
+        MediaManager.getInstance().play(null,songLD,song);
     }
 }
