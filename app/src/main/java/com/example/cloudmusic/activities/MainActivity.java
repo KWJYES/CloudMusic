@@ -60,7 +60,6 @@ public class MainActivity extends BaseActivity {
     private StateMainViewModel svm;
     private RequestMainViewModel rvm;
     @SuppressLint("StaticFieldLeak")
-    public static Context mainActivityContext;
     private final ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -78,7 +77,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initActivity() {
         LitePal.getDatabase();//初始化数据库
-        mainActivityContext = this;
+        CloudMusic.mainActivityContext = this;
         setTransparentStatusBar(true);
         svm = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(StateMainViewModel.class);
         rvm = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(RequestMainViewModel.class);

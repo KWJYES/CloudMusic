@@ -12,10 +12,20 @@ import com.example.cloudmusic.entity.MusicList;
 import com.example.cloudmusic.entity.SearchWord;
 import com.example.cloudmusic.entity.Song;
 import com.example.cloudmusic.response.media.MediaManager;
+import com.example.cloudmusic.response.retrofit_api.ILoginService;
 import com.example.cloudmusic.response.retrofit_api.IRecommendService;
 import com.example.cloudmusic.response.retrofit_api.ISearchService;
+import com.example.cloudmusic.response.retrofit_api.ISignUpService;
 import com.example.cloudmusic.utils.CloudMusic;
+import com.example.cloudmusic.utils.cookies.LocalCookieJar;
 import com.example.cloudmusic.utils.callback.GetSongUrlCallback;
+
+import com.example.cloudmusic.utils.cookies.ReadCookiesInterceptor;
+import com.example.cloudmusic.utils.cookies.SaveCookiesInterceptor;
+import com.franmontiel.persistentcookiejar.ClearableCookieJar;
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -29,6 +39,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,7 +54,15 @@ public class HttpRequestManager implements INetworkRequest {
      * 使用单例模式
      */
     private HttpRequestManager() {
-        retrofit = new Retrofit.Builder().baseUrl(CloudMusic.baseUrl).build();
+        if (CloudMusic.getContext() != null) {
+            OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                    .addInterceptor(new SaveCookiesInterceptor())
+                    .addInterceptor(new ReadCookiesInterceptor())
+                    .build();
+            retrofit = new Retrofit.Builder().client(okHttpClient).baseUrl(CloudMusic.baseUrl).build();
+        }else {
+            Log.d("TAG","CloudMusic.getContext() is null!!");
+        }
     }
 
     private static HttpRequestManager httpRequestManager;
@@ -72,10 +91,8 @@ public class HttpRequestManager implements INetworkRequest {
             @Override
             public void onResponse(Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 if (response.code() == 200) {
-                    Log.d("TAG", "banner数据请求成功");
                     try {
                         List<Banner> bannerList = new ArrayList<>();
-                        bannerRequestState.setValue(CloudMusic.SUCCEED);
                         String jsonData = response.body().string();
                         JSONObject jsonObject = new JSONObject(jsonData);
                         JSONArray banners = jsonObject.getJSONArray("banners");
@@ -114,6 +131,7 @@ public class HttpRequestManager implements INetworkRequest {
                             bannerData.setUrl(url);
                             bannerData.setTypeTitle(typeTitle);
                             bannerData.setSong(songData);
+//                            if ((bannerData.getSong() != null && bannerData.getSong().toString().equals("null")) || (bannerData.getUrl() != null && !bannerData.getUrl().equals("null")))
                             bannerList.add(bannerData);
                         }
                         bannerRequestResult.setValue(bannerList);
@@ -137,8 +155,100 @@ public class HttpRequestManager implements INetworkRequest {
     }
 
     @Override
-    public void getLoginState(MutableLiveData<Boolean> loginState) {
+    public void getLoginState(MutableLiveData<Boolean> isLogin,MutableLiveData<String> isLoginRequestState) {
+        ILoginService loginService = retrofit.create(ILoginService.class);
+        loginService.loginState().enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.code() == 200) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        Log.d("TAG", "loginState--->" + jsonObject.toString());
+                        JSONObject data = jsonObject.getJSONObject("data");
+                        JSONObject account = data.getJSONObject("account");
+                        if (account != null && !account.toString().equals("null")) {
+                            CloudMusic.userId = account.getString("id");
+                            isLogin.setValue(true);
+                        } else {
+                            isLogin.setValue(false);
+                        }
+                    } catch (JSONException e) {
+                        isLogin.setValue(false);
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Log.d("HttpRequestManager","getLoginState : response.code() != 200");
+                    isLoginRequestState.setValue(CloudMusic.FAILURE);
+                }
+            }
 
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("HttpRequestManager","getLoginState : onFailure");
+                isLoginRequestState.setValue(CloudMusic.FAILURE);
+            }
+        });
+    }
+
+    @Override
+    public void loginRefresh(MutableLiveData<Boolean> loginRefresh) {
+        ILoginService loginService = retrofit.create(ILoginService.class);
+        loginService.loginRefresh().enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.code() == 200){
+                    try {
+                        if (response.body() != null) {
+                            Log.d("TAG","loginRefresh body--->"+response.body().string());
+                        }else {
+                            Log.d("TAG","loginRefresh--->body is null");
+                            Log.d("TAG","loginRefresh headers--->"+response.headers().toString());
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    loginRefresh.setValue(true);
+                }
+                else
+                    loginRefresh.setValue(false);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                loginRefresh.setValue(false);
+            }
+        });
+    }
+
+    @Override
+    public void login(String phone, String password, MutableLiveData<String> loginState) {
+        ILoginService loginService = retrofit.create(ILoginService.class);
+        loginService.login(phone, password).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    if (response.body() != null) {
+                        Log.d("TAG","Login json body--->"+response.body().string());
+                    }else {
+                        Log.d("TAG","Login body is null,Headers--->"+response.headers().toString());
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (response.code() == 200) {
+                    loginState.setValue(CloudMusic.SUCCEED);
+                } else {
+                    loginState.setValue(CloudMusic.FAILURE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                loginState.setValue(CloudMusic.FAILURE);
+            }
+        });
     }
 
     @Override
@@ -436,10 +546,10 @@ public class HttpRequestManager implements INetworkRequest {
 
     @Override
     public void getSongUrl(Song song, GetSongUrlCallback callback) {
-        CloudMusic.isGettingSongUrl=true;
+        CloudMusic.isGettingSongUrl = true;
         if (song.getSongId().startsWith("000")) {
             callback.onResult(song);
-            CloudMusic.isGettingSongUrl=false;
+            CloudMusic.isGettingSongUrl = false;
             return;//本地
         }
         //15min内不重复获取
@@ -448,11 +558,11 @@ public class HttpRequestManager implements INetworkRequest {
             if (song1.getSongId().equals(song.getSongId())) {
                 // 获取服务器返回的时间戳 转换成"yyyy-MM-dd HH:mm:ss"
                 // 计算结束时间 - 开始时间的时间差
-                String starTime=song1.getUrlStartTime();
-                if(starTime==null) break;
+                String starTime = song1.getUrlStartTime();
+                if (starTime == null) break;
                 Calendar calendar = Calendar.getInstance();
                 String endTime = calendar.get(Calendar.YEAR) + "-" +
-                        calendar.get(Calendar.MONTH)+1 + "-" +
+                        calendar.get(Calendar.MONTH) + 1 + "-" +
                         calendar.get(Calendar.DAY_OF_MONTH) + " " +
                         calendar.get(Calendar.HOUR_OF_DAY) + ":" +
                         calendar.get(Calendar.MINUTE) + ":" +
@@ -470,7 +580,7 @@ public class HttpRequestManager implements INetworkRequest {
                     Log.d("TAG", song.getName() + "url有效时间剩余：" + (-days < 0 ? 0 : -days) + "天" + (-hours < 0 ? 0 : -hours) + "时" + ((20 - minutes) < 0 ? 0 : (20 - minutes)) + "分");
                     if (days == 0 && hours == 0 && minutes <= 20) {
                         callback.onResult(song1);
-                        CloudMusic.isGettingSongUrl=false;
+                        CloudMusic.isGettingSongUrl = false;
                         return;
                     }
                 } catch (Exception e) {
@@ -492,34 +602,213 @@ public class HttpRequestManager implements INetworkRequest {
                             Calendar calendar = Calendar.getInstance();
                             String urlStartTime = calendar.get(Calendar.YEAR) + "-" +
                                     calendar.get(Calendar.MONTH) + "-" +
-                                    calendar.get(Calendar.DAY_OF_MONTH)+1 + " " +
+                                    calendar.get(Calendar.DAY_OF_MONTH) + 1 + " " +
                                     calendar.get(Calendar.HOUR_OF_DAY) + ":" +
                                     calendar.get(Calendar.MINUTE) + ":" +
                                     calendar.get(Calendar.SECOND);
                             song.setUrlStartTime(urlStartTime);
                             song.setUrl(url);
                             callback.onResult(song);
-                            CloudMusic.isGettingSongUrl=false;
+                            CloudMusic.isGettingSongUrl = false;
                         } else {
                             callback.onResult(song);
-                            CloudMusic.isGettingSongUrl=false;
+                            CloudMusic.isGettingSongUrl = false;
                         }
                     } catch (JSONException | IOException e) {
                         e.printStackTrace();
                     }
                 } else {
                     callback.onResult(song);
-                    CloudMusic.isGettingSongUrl=false;
+                    CloudMusic.isGettingSongUrl = false;
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 callback.onResult(song);
-                CloudMusic.isGettingSongUrl=false;
+                CloudMusic.isGettingSongUrl = false;
             }
         });
     }
 
+    @Override
+    public void checkPhone(String phone, MutableLiveData<Boolean> enable, MutableLiveData<String> requestState) {
+        ISignUpService signUpService = retrofit.create(ISignUpService.class);
+        signUpService.checkPhone(phone).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.code() == 200) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        int exist = jsonObject.getInt("exist");
+                        if (exist == 1) {
+                            enable.setValue(false);
+                        } else {
+                            enable.setValue(true);
+                        }
+                    } catch (JSONException | IOException e) {
+                        e.printStackTrace();
+                    }
+                    requestState.setValue(CloudMusic.SUCCEED);
+                } else {
+                    requestState.setValue(CloudMusic.FAILURE);
+                }
+            }
 
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                requestState.setValue(CloudMusic.FAILURE);
+            }
+        });
+    }
+
+    @Override
+    public void checkNickname(String nickname, MutableLiveData<Boolean> enable, MutableLiveData<String> requestState, MutableLiveData<String> candidateNickname) {
+        ISignUpService signUpService = retrofit.create(ISignUpService.class);
+        signUpService.checkNickname(nickname).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.code() == 200) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        boolean duplicated = jsonObject.getBoolean("duplicated");
+                        if (duplicated) {
+                            enable.setValue(false);
+                            JSONArray candidateNicknames = jsonObject.getJSONArray("candidateNicknames");
+                            String name = candidateNicknames.get(0).toString();
+                            candidateNickname.setValue(name);
+                        } else {
+                            enable.setValue(true);
+                        }
+                    } catch (JSONException | IOException e) {
+                        e.printStackTrace();
+                    }
+                    requestState.setValue(CloudMusic.SUCCEED);
+                } else {
+                    requestState.setValue(CloudMusic.FAILURE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                requestState.setValue(CloudMusic.FAILURE);
+            }
+        });
+    }
+
+    @Override
+    public void captchaSent(String phone, MutableLiveData<String> sentRequestState) {
+        ISignUpService signUpService = retrofit.create(ISignUpService.class);
+        signUpService.captchaSent(phone).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.code() == 200) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        Log.d("TAG","captchaSent--->"+jsonObject.toString());
+                        int code= jsonObject.getInt("code");
+                        if(code==400){
+                            sentRequestState.setValue(CloudMusic.FAILURE);
+                        }else {
+                            sentRequestState.setValue(CloudMusic.SUCCEED);
+                        }
+                    } catch (JSONException | IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    sentRequestState.setValue(CloudMusic.FAILURE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                sentRequestState.setValue(CloudMusic.FAILURE);
+            }
+        });
+    }
+
+    @Override
+    public void checkCaptcha(String phone, String captcha, MutableLiveData<String> checkRequestState, MutableLiveData<Boolean> correct) {
+        ISignUpService signUpService = retrofit.create(ISignUpService.class);
+        signUpService.checkCaptcha(phone, captcha).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.code() == 200) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+//                        Log.d("TAG","phone: "+phone+"captcha: "+captcha);
+//                        Log.d("TAG","checkCaptcha"+jsonObject.toString());
+                        boolean data = jsonObject.getBoolean("data");
+                        if (data) {
+                            correct.setValue(true);
+                        } else {
+                            correct.setValue(false);
+                        }
+                    } catch (JSONException | IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    checkRequestState.setValue(CloudMusic.SUCCEED);
+                } else {
+                    correct.setValue(false);
+                    checkRequestState.setValue(CloudMusic.FAILURE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                correct.setValue(false);
+                checkRequestState.setValue(CloudMusic.FAILURE);
+            }
+        });
+    }
+
+    @Override
+    public void signUp(String phone, String captcha, String nickname, String password, MutableLiveData<String> signupRequestState) {
+        ISignUpService signUpService = retrofit.create(ISignUpService.class);
+        signUpService.signUp(captcha, phone, password, nickname).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.code() == 200) {
+                    signupRequestState.setValue(CloudMusic.SUCCEED);
+                } else {
+                    signupRequestState.setValue(CloudMusic.FAILURE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                signupRequestState.setValue(CloudMusic.FAILURE);
+            }
+        });
+    }
+
+    @Override
+    public void login(String phone,String password, String captcha, MutableLiveData<String> loginState) {
+        ILoginService loginService = retrofit.create(ILoginService.class);
+        loginService.login(phone, "password", captcha).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    if (response.body() != null) {
+                        Log.d("TAG","Login json body--->"+response.body().string());
+                    }else {
+                        Log.d("TAG","Login body is null,Headers--->"+response.headers().toString());
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (response.code() == 200) {
+                    loginState.setValue(CloudMusic.SUCCEED);
+                } else {
+                    loginState.setValue(CloudMusic.FAILURE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                loginState.setValue(CloudMusic.FAILURE);
+            }
+        });
+    }
 }

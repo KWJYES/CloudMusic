@@ -57,7 +57,6 @@ public class RecommendFragment extends BaseFragment {
         //下拉刷新
         binding.smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
             getBannerData();
-            getRecommendMusicList();
         });
         binding.recommendBanner.setBannerGalleryMZ(15);
         binding.bannerLoading.show();
@@ -78,8 +77,11 @@ public class RecommendFragment extends BaseFragment {
                 List<Banner> bannerList = new ArrayList<>();
                 bannerList.add(banner);
                 setBanner(bannerList);
+                binding.smartRefreshLayout.finishRefresh();
+            }else {
+                Log.d("TAG", "Banner数据请求成功");
+                getRecommendMusicList();
             }
-            getRecommendMusicList();
         });
         rvm.bannerRequestResult.observe(this, this::setBanner);
         rvm.recommendMusicListRequestState.observe(this, s -> {
@@ -93,12 +95,7 @@ public class RecommendFragment extends BaseFragment {
             svm.musicListList.setValue(musicLists);
             setRecommendMusicListRV();
         });
-        rvm.song.observe(this, new Observer<Song>() {
-            @Override
-            public void onChanged(Song song) {
-                Objects.requireNonNull(getActivity()).startActivity(new Intent(getActivity(), PlayerActivity.class));
-            }
-        });
+        rvm.song.observe(this, song -> Objects.requireNonNull(getActivity()).startActivity(new Intent(getActivity(), PlayerActivity.class)));
     }
 
     private void setRecommendMusicListRV() {
@@ -134,9 +131,7 @@ public class RecommendFragment extends BaseFragment {
      * 攻取推荐歌单
      */
     private void getRecommendMusicList() {
-        if (svm.musicListList.getValue() == null || svm.musicListList.getValue().size() == 0) {
             rvm.requestRecommendMusicList();
-        }
     }
 
     /**

@@ -7,10 +7,14 @@ import android.content.SharedPreferences;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.cloudmusic.activities.MainActivity;
 import com.example.cloudmusic.entity.Song;
+import com.example.cloudmusic.utils.CloudMusic;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class SharedPreferencesManager implements ISharedPreferencesRequest {
 
@@ -85,5 +89,15 @@ public class SharedPreferencesManager implements ISharedPreferencesRequest {
     public void applyAccount(Context context,String account){
         getEditor(context).putString("account",account);
         getEditor(context).apply();
+    }
+
+    @Override
+    public Set<String> getCookieSet() {
+        return getPref(CloudMusic.getContext()).getStringSet("Cookies",new HashSet<>());
+    }
+
+    @Override
+    public void saveCookieSet(HashSet<String> cookies) {
+        getEditor(CloudMusic.getContext()).putStringSet("Cookies", cookies).apply();
     }
 }

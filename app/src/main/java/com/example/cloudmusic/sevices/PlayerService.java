@@ -135,7 +135,19 @@ public class PlayerService extends Service {
             //播放结束关发送消息线程
             if (mediaPlayer == null) return;
             isStopThread = true;
-            mediaPlayer.reset();
+//            mediaPlayer.reset();
+            mediaPlayer.release();
+            mediaPlayer = null;
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setOnPreparedListener(mediaPlayer -> {
+                int duration = mediaPlayer.getDuration();
+                MyEvent myEvent = new MyEvent();
+                myEvent.setDuration(duration);
+                myEvent.setMsg(0);//准备播放
+                EventBus.getDefault().post(myEvent);
+                Log.d("TAG", "EventBus 播放准备就绪");
+                start();
+            });
         }
 
         /**
@@ -157,7 +169,7 @@ public class PlayerService extends Service {
                         if(currentPosition<duration-500){
                             finishing=false;
                         }
-                        Log.d("TAG",currentPosition+" "+duration);
+                        //Log.d("TAG",currentPosition+" "+duration);
                         if(currentPosition>=duration-500&&!finishing&&duration<72000000){
                             finishing=true;
                             MyEvent myEvent2 = new MyEvent();

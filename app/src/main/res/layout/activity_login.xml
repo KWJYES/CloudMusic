@@ -21,23 +21,23 @@
         tools:context=".activities.LoginActivity">
 
         <ImageView
-            android:scaleType="centerCrop"
-            android:src="@drawable/bg_login2"
             android:id="@+id/loginBg"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_login3" />
 
-        <TextView
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="云听音乐"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/circleImageView" />
+        <!--        <TextView-->
+        <!--            android:gravity="center"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="云听音乐"-->
+        <!--            android:textColor="@color/white"-->
+        <!--            android:textSize="20sp"-->
+        <!--            android:textStyle="bold"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/circleImageView" />-->
 
 
         <com.example.cloudmusic.views.StatusBarHightView
@@ -59,30 +59,25 @@
             app:layout_constraintTop_toBottomOf="@+id/statusBarHightView" />
 
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/circleImageView"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="120dp"
-            android:src="@drawable/ic_cloudmusic_logo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <!--        <de.hdodenhof.circleimageview.CircleImageView-->
+        <!--            android:id="@+id/circleImageView"-->
+        <!--            android:layout_width="80dp"-->
+        <!--            android:layout_height="80dp"-->
+        <!--            android:layout_marginTop="50dp"-->
+        <!--            android:src="@drawable/ic_cloudmusic_logo"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent" />-->
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="75dp"
-            app:cardBackgroundColor="#33FFFFFF"
-            app:cardCornerRadius="25dp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline3"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/circleImageView">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:id="@+id/cardView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toTopOf="@+id/guideline7">
 
                 <LinearLayout
                     android:id="@+id/linearLayout2"
@@ -97,14 +92,14 @@
                     tools:layout_editor_absoluteX="4dp">
 
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
                         android:layout_marginStart="5dp"
                         android:padding="10dp"
                         android:src="@drawable/ic_login_account" />
 
                     <EditText
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="20dp"
                         android:layout_weight="1"
@@ -131,14 +126,14 @@
                     tools:layout_editor_absoluteX="4dp">
 
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
                         android:layout_marginStart="5dp"
                         android:padding="10dp"
                         android:src="@drawable/ic_login_password" />
 
                     <EditText
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="20dp"
                         android:layout_weight="1"
@@ -150,55 +145,55 @@
                         android:textSize="16sp" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/linearLayout3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:background="@drawable/linelayout_1"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                    tools:layout_editor_absoluteX="4dp">
+<!--                <LinearLayout-->
+<!--                    android:layout_marginTop="15dp"-->
+<!--                    android:id="@+id/linearLayout3"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginHorizontal="5dp"-->
+<!--                    android:layout_marginBottom="15dp"-->
+<!--                    android:background="@drawable/linelayout_1"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/linearLayout2"-->
+<!--                    tools:layout_editor_absoluteX="4dp">-->
 
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="5dp"
-                        android:padding="10dp"
-                        android:src="@drawable/ic_verification_code" />
+<!--                    <ImageView-->
+<!--                        android:layout_width="45dp"-->
+<!--                        android:layout_height="45dp"-->
+<!--                        android:layout_marginStart="5dp"-->
+<!--                        android:padding="10dp"-->
+<!--                        android:src="@drawable/ic_verification_code" />-->
 
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/login_input"
-                        android:hint="验证码"
-                        android:inputType="number"
-                        android:text="@={svm.password}"
-                        android:textCursorDrawable="@drawable/login_et_cursor"
-                        android:textSize="16sp" />
-                    <TextView
-                        android:textSize="11sp"
-                        android:onClick="@{click::getVerificationCode}"
-                        android:textColor="@drawable/get_logincode_tv"
-                        android:layout_marginEnd="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="点击获取验证码"/>
-                </LinearLayout>
+<!--                    <EditText-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:backgroundTint="@color/login_input"-->
+<!--                        android:hint="验证码"-->
+<!--                        android:inputType="number"-->
+<!--                        android:text="@={svm.captcha}"-->
+<!--                        android:textCursorDrawable="@drawable/login_et_cursor"-->
+<!--                        android:textSize="16sp" />-->
+
+<!--                    <TextView-->
+<!--                        android:clickable="@{!svm.wait}"-->
+<!--                        android:layout_width="100dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_marginEnd="20dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:onClick="@{click::getCaptcha}"-->
+<!--                        android:text="@{svm.captchaTimeText}"-->
+<!--                        android:textColor="@drawable/get_logincode_tv"-->
+<!--                        android:textSize="11sp" />-->
+<!--                </LinearLayout>-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.cardview.widget.CardView>
-
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/login_button"
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_marginTop="15dp"
@@ -206,22 +201,22 @@
             android:onClick="@{click::login}"
             android:text="登   陆"
             android:textColor="@color/white"
-            android:textSize="25sp"
+            android:textSize="20sp"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
         <TextView
+            android:layout_marginTop="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             android:onClick="@{click::signup}"
             android:text="立即注册"
             android:textColor="@drawable/signup_tv"
             android:textSize="15sp"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/button" />
+            app:layout_constraintTop_toBottomOf="@+id/login_button" />
 
 
         <androidx.constraintlayout.widget.Guideline
@@ -237,6 +232,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.88" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.42" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

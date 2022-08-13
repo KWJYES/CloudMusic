@@ -148,6 +148,5 @@ public class LitePalManager implements ILitePalRequest {
         if (historySearches.size() == 0) {
             historySearch.save();
         }
-
     }
 }

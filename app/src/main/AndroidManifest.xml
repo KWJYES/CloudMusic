@@ -22,6 +22,9 @@
         android:theme="@style/Theme.CloudMusic"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activities.SignUpActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.MusicListActivity"
             android:exported="false" />
         <activity
@@ -40,10 +43,11 @@
             android:exported="true" />
 
         <activity
-            android:launchMode="singleTask"
             android:name=".activities.PlayerActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTask" />
         <activity
+            android:launchMode="singleTask"
             android:name=".activities.MainActivity"
             android:exported="false" />
         <activity

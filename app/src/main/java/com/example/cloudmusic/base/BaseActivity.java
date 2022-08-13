@@ -9,6 +9,8 @@ import android.view.WindowManager;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cloudmusic.utils.ActivityCollector;
+
 abstract public class BaseActivity extends AppCompatActivity {
 
     protected boolean isVisited =false;//是否可见过
@@ -20,6 +22,7 @@ abstract public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityCollector.addActivity(this);//创建时放入List
         initActivity();
         initView();
         observerDataStateUpdateAction();
@@ -84,4 +87,11 @@ abstract public class BaseActivity extends AppCompatActivity {
      * 初始化DataBing
      */
     abstract protected void initActivity();
+
+
+    @Override
+    protected void onDestroy() {
+        ActivityCollector.removeActivity(this);//销毁时移出List
+        super.onDestroy();
+    }
 }
