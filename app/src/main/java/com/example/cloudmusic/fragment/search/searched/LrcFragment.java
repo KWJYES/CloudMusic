@@ -1,66 +1,99 @@
 package com.example.cloudmusic.fragment.search.searched;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.cloudmusic.R;
+import com.example.cloudmusic.adapter.recyclerview.LrcSearchedAdapter;
+import com.example.cloudmusic.base.BaseFragment;
+import com.example.cloudmusic.databinding.FragmentLrcBinding;
+import com.example.cloudmusic.entity.Lyrics;
+import com.example.cloudmusic.request.fragment.search.searched.RequestLrcFragmentViewModel;
+import com.example.cloudmusic.utils.CloudMusic;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LrcFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class LrcFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class LrcFragment extends BaseFragment {
 
-    public LrcFragment() {
-        // Required empty public constructor
-    }
+    FragmentLrcBinding binding;
+    RequestLrcFragmentViewModel rvm;
+    private final String keyword;
+    private List<Lyrics> mLyricsList;
+    private LrcSearchedAdapter lrcSearchedAdapter;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LrcFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static LrcFragment newInstance(String param1, String param2) {
-        LrcFragment fragment = new LrcFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public LrcFragment(String keyword) {
+        this.keyword = keyword;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    protected View initFragment(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding= DataBindingUtil.inflate(inflater,R.layout.fragment_lrc,container,false);
+        rvm = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(RequestLrcFragmentViewModel.class);
+        binding.setLifecycleOwner(this);
+        mLyricsList=new ArrayList<>();
+        return binding.getRoot();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lrc, container, false);
+    protected void getInternetData() {
+        rvm.search(keyword);
+    }
+
+    @Override
+    protected void initView() {
+        binding.Loading.show();
+        binding.dataFalse.setVisibility(View.GONE);
+        binding.oneSongSmartRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            binding.Loading.show();
+            binding.dataFalse.setVisibility(View.GONE);
+            mLyricsList.clear();
+            rvm.search(keyword);
+        });
+        binding.oneSongSmartRefreshLayout.setOnLoadMoreListener(refreshLayout -> rvm.loadMore(keyword, mLyricsList.size()));
+    }
+
+    @Override
+    protected void observerDataStateUpdateAction() {
+        rvm.lrcList.observe(this, lyrics -> {
+            if (mLyricsList.size() == 0) {
+                setRV(lyrics);
+            } else {
+                loadMoreArtist(lyrics);
+            }
+        });
+        rvm.requestState.observe(this, s -> {
+            if (s.equals(CloudMusic.FAILURE)) {
+                if (mLyricsList.size() == 0)
+                    binding.dataFalse.setVisibility(View.VISIBLE);
+            } else {
+                binding.dataFalse.setVisibility(View.GONE);
+            }
+            binding.oneSongSmartRefreshLayout.finishRefresh();
+            binding.oneSongSmartRefreshLayout.finishLoadMore();
+            binding.Loading.hide();
+        });
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void loadMoreArtist(List<Lyrics> lyrics) {
+        mLyricsList.addAll(lyrics);
+        lrcSearchedAdapter.notifyDataSetChanged();
+    }
+
+    private void setRV(List<Lyrics> lyrics) {
+        mLyricsList.addAll(lyrics);
+        binding.RV.setLayoutManager(new LinearLayoutManager(getContext()));
+        lrcSearchedAdapter = new LrcSearchedAdapter(mLyricsList);
+        binding.RV.setAdapter(lrcSearchedAdapter);
     }
 }

@@ -7,6 +7,7 @@ import android.content.Context;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.cloudmusic.entity.Artist;
 import com.example.cloudmusic.entity.Song;
 import com.example.cloudmusic.response.media.MediaManager;
 import com.example.cloudmusic.response.network.HttpRequestManager;
@@ -18,9 +19,23 @@ public class RequestMainViewModel extends ViewModel {
     public MutableLiveData<List<Song>> songListLD=new MutableLiveData<>();
     public MutableLiveData<Boolean> isPlaying=new MutableLiveData<>();
     public MutableLiveData<Song> song=new MutableLiveData<>();
-    //public MutableLiveData<Song> songPlay=new MutableLiveData<>();
+    public MutableLiveData<List<String>> likeIdList=new MutableLiveData<>();
+    public MutableLiveData<String> likeIdListRequestState=new MutableLiveData<>();
+    public MutableLiveData<List<Artist>> artistList=new MutableLiveData<>();
+    public MutableLiveData<String> artistListRequestState=new MutableLiveData<>();
 
 
+    public void getLikeArtistList(){
+        HttpRequestManager.getInstance().getLikeArtist(artistList,artistListRequestState);
+    }
+
+    public void getLikeIdList(String uid){
+        HttpRequestManager.getInstance().getLikeSongIdList(uid,likeIdList,likeIdListRequestState);
+    }
+
+    public void getLevel(){
+        HttpRequestManager.getInstance().getUserLevel();
+    }
 
     /**
      * 下一曲

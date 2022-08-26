@@ -3,7 +3,6 @@ package com.example.cloudmusic.fragment.main;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,11 +18,11 @@ import com.example.cloudmusic.activities.SearchActivity;
 import com.example.cloudmusic.adapter.viewpager2.ViewPager2Adapter;
 import com.example.cloudmusic.base.BaseFragment;
 import com.example.cloudmusic.databinding.FragmentHomeBinding;
-import com.example.cloudmusic.fragment.main.home.MusicRoomFragment;
+import com.example.cloudmusic.fragment.main.home.ArtistFragment;
+import com.example.cloudmusic.fragment.main.home.MusicListFragment;
 import com.example.cloudmusic.fragment.main.home.RecommendFragment;
 import com.example.cloudmusic.request.fragment.main.RequestHomeFragmentViewModel;
 import com.example.cloudmusic.state.fragment.main.StateHomeFragmentViewModel;
-import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
@@ -86,9 +85,11 @@ public class HomeFragment extends BaseFragment {
         List<Fragment> fragmentList = new ArrayList<>();
         List<String> titles = new ArrayList<>();
         titles.add("推荐");
-        titles.add("音乐馆");
+        titles.add("歌手");
+        titles.add("歌单");
         fragmentList.add(new RecommendFragment());
-        fragmentList.add(new MusicRoomFragment());
+        fragmentList.add(new ArtistFragment());
+        fragmentList.add(new MusicListFragment());
         ViewPager2Adapter adapter = new ViewPager2Adapter(Objects.requireNonNull(getActivity()), fragmentList);
         binding.homeViewPager2.setAdapter(adapter);
         //去除尽头阴影

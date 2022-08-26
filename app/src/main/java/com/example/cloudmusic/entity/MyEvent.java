@@ -10,6 +10,33 @@ public class MyEvent {
     private int duration;
     private String durationS;
     private int msg;
+    private Song song;
+    private boolean isPlaying;
+    private boolean isRemoveSong;
+
+    public boolean isRemoveSong() {
+        return isRemoveSong;
+    }
+
+    public void setRemoveSong(boolean removeSong) {
+        isRemoveSong = removeSong;
+    }
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void setPlaying(boolean playing) {
+        isPlaying = playing;
+    }
+
+    public Song getSong() {
+        return song;
+    }
+
+    public void setSong(Song song) {
+        this.song = song;
+    }
 
     public String getCurrentPositionS() {
         return currentPositionS;

@@ -7,6 +7,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:background="@drawable/bg_recommend_item"
         android:layout_height="wrap_content">
@@ -35,7 +36,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.example.cloudmusic.views.MyRecyclerView
+        <com.example.cloudmusic.views.MyHRecyclerView
             android:id="@+id/recommendMusicListRV"
             android:layout_width="match_parent"
             android:layout_height="163dp"

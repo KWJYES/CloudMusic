@@ -22,7 +22,7 @@ import java.util.Random;
 public class MediaManager implements IMediaRequest {
 
     private static PlayerService.PlayerBinder playerBinder;
-    private Song song = new Song("0","暂无播放", "歌手未知");
+    private Song song = new Song("0", "暂无播放", "歌手未知");
     private int duration = 0;
     private int currentTime = 0;
     /**
@@ -64,12 +64,12 @@ public class MediaManager implements IMediaRequest {
 
     @Override
     public void nextSong(MutableLiveData<Boolean> isPlaying, MutableLiveData<Song> songLD) {
-        if( CloudMusic.isGettingSongUrl) return;
-        List<Song> songList=getSongList();
-        int position=-1;
-        for(int i=0;i<songList.size();i++){
-            if(this.song.getSongId().equals(songList.get(i).getSongId())){
-                position=i;
+        if (CloudMusic.isGettingSongUrl) return;
+        List<Song> songList = getSongList();
+        int position = -1;
+        for (int i = 0; i < songList.size(); i++) {
+            if (this.song.getSongId().equals(songList.get(i).getSongId())) {
+                position = i;
                 break;
             }
         }
@@ -88,21 +88,25 @@ public class MediaManager implements IMediaRequest {
         }
         Song song = songList.get(position);
         HttpRequestManager.getInstance().getSongUrl(song, song1 -> {
+            if(song1==null)return;
             playerBinder.play(song1);
+            LitePalManager.getInstance().addSongToPlayList(song1);
             this.song = song1;
-            isPlaying.setValue(true);
-            songLD.setValue(this.song);
+            if (isPlaying != null)
+                isPlaying.setValue(true);
+            if (songLD != null)
+                songLD.setValue(this.song);
         });
     }
 
     @Override
     public void lastSong(MutableLiveData<Boolean> isPlaying, MutableLiveData<Song> songLD) {
-        if( CloudMusic.isGettingSongUrl) return;
-        List<Song> songList=getSongList();
-        int position=-1;
-        for(int i=0;i<songList.size();i++){
-            if(this.song.getSongId().equals(songList.get(i).getSongId())){
-                position=i;
+        if (CloudMusic.isGettingSongUrl) return;
+        List<Song> songList = getSongList();
+        int position = -1;
+        for (int i = 0; i < songList.size(); i++) {
+            if (this.song.getSongId().equals(songList.get(i).getSongId())) {
+                position = i;
                 break;
             }
         }
@@ -121,10 +125,14 @@ public class MediaManager implements IMediaRequest {
         }
         Song song = songList.get(position);
         HttpRequestManager.getInstance().getSongUrl(song, song1 -> {
+            if (song1==null)return;
             playerBinder.play(song1);
             this.song = song1;
-            isPlaying.setValue(true);
-            songLD.setValue(this.song);
+            LitePalManager.getInstance().addSongToPlayList(song1);
+            if (isPlaying != null)
+                isPlaying.setValue(true);
+            if (songLD != null)
+                songLD.setValue(this.song);
         });
     }
 
@@ -177,7 +185,7 @@ public class MediaManager implements IMediaRequest {
         if (song.getSongId().equals(this.song.getSongId())) {
             if (isPlaying != null)
                 isPlaying.setValue(false);
-            this.song = new Song("0","暂无播放", "歌手未知");
+            this.song = new Song("0", "暂无播放", "歌手未知");
             if (songLD != null)
                 songLD.setValue(this.song);
             playerBinder.reset();
@@ -188,35 +196,38 @@ public class MediaManager implements IMediaRequest {
     @Override
     public void play(MutableLiveData<Boolean> isPlaying, MutableLiveData<Song> songLD, Song song) {
         if (playerBinder == null) return;
-        if(this.song.getSongId().equals(song.getSongId())){
+        if (this.song.getSongId().equals(song.getSongId())) {
             if (songLD != null)
                 songLD.setValue(this.song);
             return;
         }
         HttpRequestManager.getInstance().getSongUrl(song, song1 -> {
+            if (song1==null)return;
             playerBinder.play(song1);
             this.song = song1;
             LitePalManager.getInstance().addSongToPlayList(song1);
+            LitePalManager.getInstance().addSongToHistoryList(song1);
             if (isPlaying != null)
                 isPlaying.setValue(true);
             if (songLD != null)
                 songLD.setValue(this.song);
         });
-
     }
 
     @Override
     public void pause(MutableLiveData<Boolean> isPlaying) {
         if (playerBinder == null) return;
         playerBinder.pause();
-        isPlaying.setValue(false);
+        if (isPlaying != null)
+            isPlaying.setValue(false);
     }
 
     @Override
     public void start(MutableLiveData<Boolean> isPlaying) {
         if (playerBinder == null) return;
         playerBinder.start();
-        isPlaying.setValue(true);
+        if (isPlaying != null)
+            isPlaying.setValue(true);
     }
 
     @Override
@@ -239,16 +250,16 @@ public class MediaManager implements IMediaRequest {
 
     @Override
     public void getLocalMusicData(Context context, MutableLiveData<List<Song>> songListLD) {
-        int count=1;
+        int count = 1;
         List<Song> list = new ArrayList<>();
-        // 媒体库查询语句（写一个工具类MusicUtils）
+        // 媒体库查询语句
         Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null,
                 null, MediaStore.Audio.AudioColumns.IS_MUSIC);
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 Song song = new Song();
-                song.setSongId("000"+count);
-                count=count+1;
+                song.setSongId("000" + count);
+                count = count + 1;
                 song.setName(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME)));//歌曲
                 song.setArtist(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST))); //歌手
                 song.setUrl(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)));//路径
@@ -272,7 +283,6 @@ public class MediaManager implements IMediaRequest {
         }
         if (songListLD != null)
             songListLD.setValue(list);
-        //addSongs(list);//test
     }
 
     @Override

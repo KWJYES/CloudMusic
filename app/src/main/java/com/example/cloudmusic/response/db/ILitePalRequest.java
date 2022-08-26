@@ -6,6 +6,7 @@ import com.example.cloudmusic.base.BaseEntity;
 import com.example.cloudmusic.entity.HistorySearch;
 import com.example.cloudmusic.entity.Song;
 import com.example.cloudmusic.entity.SongList;
+import com.example.cloudmusic.entity.SongLrc;
 import com.example.cloudmusic.utils.enums.EntityType;
 
 import java.util.List;
@@ -16,10 +17,13 @@ public interface ILitePalRequest {
     void getSongList(String listName, MutableLiveData<SongList> songListLD);
 
     void addSongsToPlayList(List<Song> songs);
+    void addSongsToHistoryList(List<Song> songs);
 
     void addSongToPlayList(Song song);
+    void addSongToHistoryList(Song song);
 
     void removePlayList(Song song);
+    void removeAllPlayList();
 
     List<Song> getSongList(String listName);
 
@@ -28,4 +32,6 @@ public interface ILitePalRequest {
     void clearHistorySearch(MutableLiveData<List<HistorySearch>> hsList);
 
     void addHistorySearch(HistorySearch historySearch);
+
+    List<SongLrc> searchSongLrc(String songId);
 }

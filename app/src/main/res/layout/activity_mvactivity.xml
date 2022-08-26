@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="svm"
+            type="com.example.cloudmusic.state.activity.StateMVViewModel" />
+<variable
+    name="click"
+    type="com.example.cloudmusic.activities.MVActivity.ClickClass" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.MVActivity">
+
+        <com.example.cloudmusic.views.StatusBarHightView
+            android:id="@+id/statusBarHightView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/statusBarHightView4">
+
+            <Button
+                android:onClick="@{click::back}"
+                android:id="@+id/button"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/ic_back_wihte"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:text="@{svm.mvTittle}"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_marginHorizontal="40dp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <VideoView
+            android:id="@+id/videoView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="750:570"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:text="评论"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/videoView" />
+
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_word"
+            app:layout_constraintBottom_toBottomOf="@+id/textView18"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView18" />
+
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/smartRefreshLayout"
+            android:layout_marginBottom="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView18">
+            <com.scwang.smart.refresh.header.MaterialHeader
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/comment_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <com.scwang.smart.refresh.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+        <TextView
+            android:id="@+id/nullTV"
+            android:visibility="invisible"
+            android:layout_marginTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="暂无评论"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/smartRefreshLayout" />
+        <androidx.cardview.widget.CardView
+            android:layout_marginBottom="0dp"
+            android:id="@+id/linearLayout10"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toBottomOf="parent">
+            <LinearLayout
+                android:layout_marginBottom="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <EditText
+                    android:text="@={svm.content}"
+                    android:textSize="15sp"
+                    android:textCursorDrawable="@drawable/comment_et_cursor"
+                    android:background="@drawable/bg_comment_et"
+                    android:paddingHorizontal="13dp"
+                    android:hint="写点什么..."
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:onClick="@{click::send}"
+                    android:background="@drawable/ic_send"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="10dp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/mvLoading"
+            style="@style/AVLoadingIndicatorView"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:visibility="visible"
+            app:indicatorColor="#FFFFFF"
+            app:indicatorName="PacmanIndicator"
+            app:layout_constraintBottom_toBottomOf="@+id/videoView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+        <TextView
+            android:id="@+id/LoadingTV"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="   正在加载..."
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mvLoading" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

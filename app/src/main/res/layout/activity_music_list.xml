@@ -4,16 +4,160 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="click"
             type="com.example.cloudmusic.activities.MusicListActivity.ClickClass" />
 
+        <variable
+            name="svm"
+            type="com.example.cloudmusic.state.activity.StateMusicListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         tools:context=".activities.MusicListActivity">
 
+        <com.example.cloudmusic.views.StatusBarHightView
+            android:id="@+id/statusBarHightView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/musiclist_rv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/musiclist_activity_bg" />
+
+        <ImageView
+            android:id="@+id/musiclist_activity_bg"
+            android:layout_width="match_parent"
+            android:layout_height="217dp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout11"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@drawable/musiclist_view_bg"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/musiclist_activity_bg" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView4"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginHorizontal="25dp"
+            android:layout_marginTop="120dp"
+            android:background="@color/white"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintTop_toTopOf="@+id/musiclist_activity_bg">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/imageView8"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/musilist_dec_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginVertical="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:scrollbars="vertical"
+                    android:text="@{svm.dec}"
+                    android:textColor="@color/black"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageView8"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/ic_back_wihte"
+            android:onClick="@{click::back}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/statusBarHightView5"
+            app:layout_goneMarginStart="20dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="@{svm.name}"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/button"
+            app:layout_constraintTop_toTopOf="@+id/button" />
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/playlistLoading"
+            style="@style/AVLoadingIndicatorView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            app:indicatorColor="#B3FF0000"
+            app:indicatorName="BallGridBeatIndicator"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView4" />
+
+        <LinearLayout
+            android:id="@+id/playlist_load_false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{click::refresh}"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/musiclist_rv">
+
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/ic_data_false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="网络错误\n点我刷新"
+                android:textSize="14sp" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

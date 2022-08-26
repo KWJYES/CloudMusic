@@ -81,7 +81,7 @@
             android:id="@+id/ic_musicPng"
             android:layout_width="52dp"
             android:layout_height="52dp"
-            android:background="#66A08A"
+            android:background="#A06D66"
             android:src="@drawable/ic_cd_default" />
     </androidx.cardview.widget.CardView>
 

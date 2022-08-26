@@ -15,6 +15,7 @@ import com.example.cloudmusic.base.BaseActivity;
 import com.example.cloudmusic.databinding.ActivityLoginBinding;
 import com.example.cloudmusic.request.activity.RequestLoginViewModel;
 import com.example.cloudmusic.state.activity.StateLoginViewModel;
+import com.example.cloudmusic.utils.ActivityCollector;
 import com.example.cloudmusic.utils.CloudMusic;
 
 
@@ -23,6 +24,7 @@ public class LoginActivity extends BaseActivity {
     private ActivityLoginBinding binding;
     private StateLoginViewModel svm;
     private RequestLoginViewModel rvm;
+    private String loginType;
 
     @Override
     protected void initActivity() {
@@ -41,6 +43,10 @@ public class LoginActivity extends BaseActivity {
         rvm.loginState.observe(this, s -> {
             if (s.equals(CloudMusic.SUCCEED)) {
                 CloudMusic.phone = svm.account.getValue();
+                if(loginType.equals(CloudMusic.LOGIN_INSIDE)){
+                    ActivityCollector.finishActivity(MainActivity.class);
+                }
+                CloudMusic.isLogin=true;
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 finish();
                 //rvm.loginRefresh();
@@ -86,6 +92,8 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void initView() {
         svm.captchaTimeText.setValue("点击获取验证码");
+        loginType=getIntent().getStringExtra(CloudMusic.LOGIN_TYPE);
+        if(loginType.equals(CloudMusic.LOGIN_INSIDE))binding.goingTV.setVisibility(View.GONE);
     }
 
     @Override
@@ -138,6 +146,7 @@ public class LoginActivity extends BaseActivity {
          */
         public void going(View view) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
         }
 
         /**

@@ -39,5 +39,11 @@
                 android:layout_height="30dp"/>
         </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
+        <ImageView
+            android:id="@+id/data_false"
+            android:layout_width="60dp"
+            android:layout_gravity="center"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_data_false"/>
     </FrameLayout>
 </layout>

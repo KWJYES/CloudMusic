@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.Toast;
 
 import com.example.cloudmusic.R;
@@ -21,7 +22,7 @@ public class StartActivity extends BaseActivity {
 
     @Override
     protected void initActivity() {
-        CloudMusic.startActivityContext=this;
+        CloudMusic.startActivityContext = this;
         setTransparentStatusBar(false);
         rvm = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(RequestStartViewModel.class);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_start);
@@ -35,43 +36,52 @@ public class StartActivity extends BaseActivity {
 
     @Override
     protected void getInternetData() {
-        //rvm.loginRefresh();
         rvm.getUseState();
     }
 
     @Override
     protected void observerDataStateUpdateAction() {
-        rvm.isLoginRequestState.observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                if(s.equals(CloudMusic.FAILURE)){
-                    Log.d("TAG","获取登陆状态失败");
-                    startActivity(new Intent(StartActivity.this,LoginActivity.class));
-                }
+        rvm.isLoginRequestState.observe(this, s -> {
+            if (s.equals(CloudMusic.FAILURE)) {
+                Log.d("TAG", "获取登陆状态失败");
+                Toast toast = Toast.makeText(StartActivity.this, "\n网络不给力\n请退出重试\n", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER,0,0);
+                toast.show();
+//                Intent intent = new Intent(StartActivity.this, LoginActivity.class);
+//                intent.putExtra(CloudMusic.LOGIN_TYPE, CloudMusic.LOGIN_START);
+//                startActivity(intent);
+//                finish();
             }
         });
         rvm.isLogin.observe(this, aBoolean -> {
-            Log.d("TAG","获取登陆状态成功");
-            if(aBoolean){
-                startActivity(new Intent(StartActivity.this,MainActivity.class));
-            }else {
-                startActivity(new Intent(StartActivity.this,LoginActivity.class));
+            Log.d("TAG", "获取登陆状态成功:"+aBoolean);
+            if (aBoolean) {
+                CloudMusic.isLogin=true;
+                startActivity(new Intent(StartActivity.this, MainActivity.class));
+            } else {
+                CloudMusic.isLogin=false;
+                Intent intent = new Intent(StartActivity.this, LoginActivity.class);
+                intent.putExtra(CloudMusic.LOGIN_TYPE,CloudMusic.LOGIN_START);
+                startActivity(intent);
             }
             finish();
         });
         rvm.loginRefresh.observe(this, aBoolean -> {
-            if(!aBoolean){
-                Log.d("TAG","登陆状态刷新失败");
-                Toast.makeText(StartActivity.this, "登陆状态刷新失败", Toast.LENGTH_SHORT).show();
+            if (!aBoolean) {
+                Log.d("TAG", "登陆状态刷新失败");
+                Toast.makeText(StartActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
+            } else {
+                Log.d("TAG", "登陆状态已刷新");
+
+                //finish();
             }
-            else Log.d("TAG","登陆状态已刷新");
-            rvm.getUseState();
+            //rvm.getUseState();
         });
     }
 
     @Override
     protected void onDestroy() {
-        Log.d("TAG","StartActivity onDestroy...");
+        Log.d("TAG", "StartActivity onDestroy...");
         super.onDestroy();
     }
 }

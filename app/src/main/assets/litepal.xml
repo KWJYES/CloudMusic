@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <litepal>
     <dbname value="CloudMusicDB" />
-    <version value="2"/>
+    <version value="3"/>
     <list>
         <!--在这里添加映射-->
         <mapping class="com.example.cloudmusic.entity.Song"/>
         <mapping class="com.example.cloudmusic.entity.HistorySearch"/>
         <mapping class="com.example.cloudmusic.entity.SongList"/>
+        <mapping class="com.example.cloudmusic.entity.SongLrc"/>
 <!--        <mapping class="com.example.cloudmusic.entity.MusicList"/>-->
     </list>
 </litepal>

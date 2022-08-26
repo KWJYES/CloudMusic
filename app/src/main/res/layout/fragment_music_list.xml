@@ -1,14 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragment.search.searched.MusicListFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data>
+
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        tools:context=".fragment.search.searched.MusicListFragment">
 
-</FrameLayout>
+        <com.wang.avi.AVLoadingIndicatorView
+            android:layout_gravity="center"
+            android:id="@+id/Loading"
+            style="@style/AVLoadingIndicatorView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:visibility="visible"
+            app:indicatorColor="#B3FF0000"
+            app:indicatorName="BallGridBeatIndicator" />
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/oneSongSmartRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.scwang.smart.refresh.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:overScrollMode="never"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/RV"/>
+            <com.scwang.smart.refresh.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="30dp"/>
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+        <ImageView
+            android:id="@+id/data_false"
+            android:layout_width="60dp"
+            android:layout_gravity="center"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_data_false"/>
+
+
+    </FrameLayout>
+</layout>

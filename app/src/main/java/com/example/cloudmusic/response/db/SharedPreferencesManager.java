@@ -97,6 +97,16 @@ public class SharedPreferencesManager implements ISharedPreferencesRequest {
     }
 
     @Override
+    public Set<String> getCookieNullSet(){
+        return getPref(CloudMusic.getContext()).getStringSet("CookiesNull",new HashSet<>());
+    }
+
+    @Override
+    public void saveCookieNullSet(HashSet<String> cookies) {
+        getEditor(CloudMusic.getContext()).putStringSet("CookiesNull", cookies).apply();
+    }
+
+    @Override
     public void saveCookieSet(HashSet<String> cookies) {
         getEditor(CloudMusic.getContext()).putStringSet("Cookies", cookies).apply();
     }

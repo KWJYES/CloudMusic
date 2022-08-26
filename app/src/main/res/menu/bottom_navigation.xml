@@ -5,9 +5,9 @@
         android:icon="@drawable/ic_main_home"
         android:title="首页" />
     <item
-        android:id="@+id/main_discussion"
-        android:icon="@drawable/ic_main_discussion"
-        android:title="社区" />
+        android:id="@+id/main_mv"
+        android:icon="@drawable/ic___mv__1"
+        android:title="MV" />
     <item
         android:id="@+id/main_my"
         android:icon="@drawable/ic_main_my"

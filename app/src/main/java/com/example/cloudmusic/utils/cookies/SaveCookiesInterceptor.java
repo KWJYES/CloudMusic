@@ -33,6 +33,16 @@ public class SaveCookiesInterceptor implements Interceptor {
                 SharedPreferencesManager.getInstance().saveCookieSet(cookies);
             }
         }
+        if(urlString.startsWith(CloudMusic.baseUrl + "login/status")){
+            if (!originalResponse.headers("Set-Cookie").isEmpty()) {
+                HashSet<String> cookies = new HashSet<>();
+                for (String header : originalResponse.headers("Set-Cookie")) {
+                    cookies.add(header);
+                    Log.d("Cookie", "OkHttp save LoginCookie: " + cookies);
+                }
+                SharedPreferencesManager.getInstance().saveCookieNullSet(cookies);
+            }
+        }
         return originalResponse;
     }
 }

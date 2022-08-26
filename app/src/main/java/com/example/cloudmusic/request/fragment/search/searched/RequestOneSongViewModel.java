@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.cloudmusic.entity.Song;
+import com.example.cloudmusic.response.db.LitePalManager;
 import com.example.cloudmusic.response.media.MediaManager;
 import com.example.cloudmusic.response.network.HttpRequestManager;
 
@@ -15,6 +16,13 @@ public class RequestOneSongViewModel extends ViewModel {
     public MutableLiveData<String> oneSongListRequestState = new MutableLiveData<>();
     public MutableLiveData<String> loadMoreRequestState = new MutableLiveData<>();
     public MutableLiveData<Song> songLD=new MutableLiveData<>();
+    public MutableLiveData<String> likeState=new MutableLiveData<>();
+
+
+    public void like(boolean isLike,String songId){
+        HttpRequestManager.getInstance().likeSong(isLike,songId,likeState);
+    }
+
 
     /**
      * 搜索单曲
@@ -33,5 +41,10 @@ public class RequestOneSongViewModel extends ViewModel {
 
     public void playSong(Song song){
         MediaManager.getInstance().play(null,songLD,song);
+    }
+
+
+    public void addSongToPlayList(Song song){
+        LitePalManager.getInstance().addSongToPlayList(song);
     }
 }

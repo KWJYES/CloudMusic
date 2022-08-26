@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="svm"
+            type="com.example.cloudmusic.entity.Lyric" />
+        <variable
+            name="click"
+            type="com.example.cloudmusic.adapter.recyclerview.LrcAdapter.ClickClass" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:onClick="@{click::onItemClick}"
+        android:layout_width="match_parent"
+        android:layout_height="35dp">
+        <TextView
+            android:id="@+id/tv"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:gravity="center"
+            android:textSize="17sp"
+            android:textColor="@color/normal_lrc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@{svm.sentence}"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -69,8 +69,12 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
         holder.itemBinding.setPosition(holder.getAdapterPosition() + 1);
         holder.itemBinding.setSvm(song);
         if (song.getSongId().equals(currentSong.getSongId())) {
+            Log.d("TAG","播放列表当前歌曲:"+song.getName());
             holder.itemBinding.songName.setTextColor(ContextCompat.getColor(parent.getContext(), R.color.main_color));
             holder.itemBinding.positionTV.setTextColor(ContextCompat.getColor(parent.getContext(), R.color.main_color));
+        }else {
+            holder.itemBinding.songName.setTextColor(ContextCompat.getColor(parent.getContext(), R.color.black));
+            holder.itemBinding.positionTV.setTextColor(ContextCompat.getColor(parent.getContext(), R.color.song_list_position));
         }
     }
 
@@ -107,7 +111,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
                     break;
                 }
             }
-            if(CloudMusic.isGettingSongUrl){
+            if((CloudMusic.isGettingSongUrl||CloudMusic.isReset)&&!currentSong.getSongId().equals("0")){
                 toast.show();
                 return;
             }else {

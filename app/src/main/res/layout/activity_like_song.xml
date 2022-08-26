@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="svm"
+            type="com.example.cloudmusic.state.activity.StateLikeSongViewModel" />
+        <variable
+            name="click"
+            type="com.example.cloudmusic.activities.LikeSongActivity.ClickClass" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.LikeSongActivity">
+
+        <com.example.cloudmusic.views.StatusBarHightView
+            android:id="@+id/statusBarHightView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/main_color"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout4"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/main_color"
+            app:layout_constraintTop_toBottomOf="@+id/statusBarHightView6">
+
+            <Button
+                android:onClick="@{click::back}"
+                android:id="@+id/button7"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/ic_back_wihte"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="喜欢列表"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/smartRefreshLayout"
+            android:layout_width="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
+            android:layout_height="0dp">
+            <com.scwang.smart.refresh.header.MaterialHeader
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/likeSongRV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+        <TextView
+            android:id="@+id/like_song_null"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="暂无喜欢音乐"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/likeListLoading"
+            style="@style/AVLoadingIndicatorView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            app:indicatorColor="#B3FF0000"
+            app:indicatorName="BallGridBeatIndicator"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout4" />
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

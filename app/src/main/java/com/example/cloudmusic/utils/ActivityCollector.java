@@ -2,6 +2,7 @@ package com.example.cloudmusic.utils;
 
 import android.app.Activity;
 
+import com.example.cloudmusic.activities.LoginActivity;
 import com.example.cloudmusic.base.BaseActivity;
 
 import java.util.ArrayList;
@@ -36,5 +37,14 @@ public class ActivityCollector {
             }
         }
         activities.clear();
+    }
+
+    public static void loginOutFinish(){
+        for (Activity activity : activities) {
+            if (!activity.getClass().equals(LoginActivity.class)) {
+                activity.finish();
+                activities.remove(activity);
+            }
+        }
     }
 }

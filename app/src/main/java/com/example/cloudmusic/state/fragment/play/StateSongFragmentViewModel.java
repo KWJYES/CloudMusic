@@ -13,4 +13,5 @@ public class StateSongFragmentViewModel extends ViewModel {
     public MutableLiveData<String> songName=new MutableLiveData<>();//歌名
     public MutableLiveData<String> songLyc=new MutableLiveData<>();//歌词
     public MutableLiveData<Song> song=new MutableLiveData<>();
+    public MutableLiveData<String> songId=new MutableLiveData<>();
 }

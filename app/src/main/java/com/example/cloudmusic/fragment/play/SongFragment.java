@@ -1,25 +1,28 @@
 package com.example.cloudmusic.fragment.play;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.cloudmusic.R;
 import com.example.cloudmusic.base.BaseFragment;
+import com.example.cloudmusic.utils.callback.FragmentMsgCallback;
 import com.example.cloudmusic.utils.callback.SongListItemOnClickCallback;
 import com.example.cloudmusic.utils.callback.SongListItemRemoveCallback;
 import com.example.cloudmusic.databinding.FragmentSongBinding;
 import com.example.cloudmusic.entity.MyEvent;
-import com.example.cloudmusic.entity.Song;
 import com.example.cloudmusic.request.fragment.play.RequestSongFragmentViewModel;
 import com.example.cloudmusic.state.fragment.play.StateSongFragmentViewModel;
 import com.example.cloudmusic.utils.CloudMusic;
@@ -37,6 +40,12 @@ public class SongFragment extends BaseFragment {
     FragmentSongBinding binding;
     StateSongFragmentViewModel svm;
     RequestSongFragmentViewModel rvm;
+    private FragmentMsgCallback fragmentMsgCallback;
+    private Toast likingToast;
+
+    public SongFragment(FragmentMsgCallback fragmentMsgCallback) {
+        this.fragmentMsgCallback = fragmentMsgCallback;
+    }
 
     @Override
     protected View initFragment(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,13 +60,16 @@ public class SongFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        likingToast = Toast.makeText(getContext(), "\n正在拼命响应中\n", Toast.LENGTH_SHORT);
+        likingToast.setGravity(Gravity.CENTER, 0, 0);
         binding.songTittle.setSelected(true);
         binding.songAr.setSelected(true);
         svm.currentPosition.setValue("00:00");
         svm.duration.setValue("00:00");
         svm.songAr.setValue("歌手未知");
         svm.songName.setValue("暂无播放");
-        svm.songLyc.setValue("（暂无歌词，请您欣赏音乐）");
+        svm.songLyc.setValue("暂无歌词，请您欣赏纯音乐");
+        svm.songId.setValue("0");
         initSeekBar();
     }
 
@@ -65,11 +77,13 @@ public class SongFragment extends BaseFragment {
     protected void initSomeData() {
         Log.d("TAG", "SongFragment initSomeData()...");
         rvm.updatePlayBtn();
+        CloudMusic.isSongFragmentEventBusRegister =true;
         EventBus.getDefault().register(this);
         rvm.getInitDuration();
         rvm.getInitCurrentTime();
         rvm.getCurrentSong();
         rvm.updatePlayModeBtn();
+        upDateLikeButton();
     }
 
     private void initSeekBar() {
@@ -114,17 +128,36 @@ public class SongFragment extends BaseFragment {
             } else {
                 binding.play.setBackgroundResource(R.drawable.btn_play_selector);
             }
-            Log.d("TAG", "isPlaying--->" + isPlaying);
+            MyEvent myEvent = new MyEvent();
+            myEvent.setPlaying(isPlaying);
+            myEvent.setRemoveSong(false);
+            fragmentMsgCallback.transferData(myEvent, 0);
         });
         rvm.song.observe(this, song -> {
+            svm.songId.setValue(song.getSongId());
+            svm.song.setValue(song);
             svm.songName.setValue(song.getName());
             svm.songAr.setValue(song.getArtist());
-            if(song.getName().startsWith("暂无播放")){
+            Glide.with(Objects.requireNonNull(getActivity())).load(song.getPicUrl()).placeholder(R.drawable.pic_cd).centerCrop().into(binding.icCd);
+            MyEvent myEvent = new MyEvent();
+            myEvent.setMsg(5);
+            myEvent.setSong(song);
+            EventBus.getDefault().post(myEvent);
+            if (song.getName().startsWith("暂无播放")) {
                 svm.currentPosition.setValue("00:00");
                 svm.duration.setValue("00:00");
+                Glide.with(Objects.requireNonNull(getActivity())).load(R.drawable.pic_cd).placeholder(R.drawable.pic_cd).centerCrop().into(binding.icCd);
+                MyEvent myEvent2 = new MyEvent();
+                myEvent2.setPlaying(false);
+                myEvent2.setRemoveSong(true);
+                fragmentMsgCallback.transferData(myEvent2, 0);
             }
+            upDateLikeButton();
         });
-        rvm.duration.observe(this, s -> svm.duration.setValue(s));
+        rvm.duration.observe(this, s -> {
+            if (!Objects.equals(svm.duration.getValue(), s))
+                svm.duration.setValue(s);
+        });
         rvm.currentPosition.observe(this, s -> svm.currentPosition.setValue(s));
         rvm.durationLD.observe(this, duration -> {
             binding.seekBar.setMax(duration);
@@ -134,9 +167,28 @@ public class SongFragment extends BaseFragment {
             binding.seekBar.setProgress(currentPosition);
             rvm.formatCurrentTime(currentPosition);
         });
-        //rvm.songPlay.observe(this, song -> rvm.play(song));
+        rvm.likeState.observe(this, s -> {
+            if (s.equals(CloudMusic.FAILURE)) {
+                Toast falseToast = Toast.makeText(getContext(), "\n操作失败!\n", Toast.LENGTH_SHORT);
+                falseToast.setGravity(Gravity.CENTER, 0, 0);
+                falseToast.show();
+            } else {
+                Toast toast = Toast.makeText(getContext(), "\n操作成功!\n", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+            }
+            upDateLikeButton();
+        });
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // 旋转动画
+        Animation rotate = AnimationUtils.loadAnimation(getActivity(), R.anim.ic_cd_rote);
+        binding.icCd.startAnimation(rotate);
+    }
 
     /**
      * 接收EventBus数据
@@ -158,7 +210,8 @@ public class SongFragment extends BaseFragment {
 //                Log.d("currentPosition", "" + currentPosition);
 //                Log.d("seekBar","Progress-->"+binding.seekBar.getProgress());
 //                Log.d("seekBar","Max-->"+binding.seekBar.getMax());
-                if(Objects.requireNonNull(svm.songName.getValue()).startsWith("暂无播放")) break;
+                if (Objects.requireNonNull(svm.songName.getValue()).startsWith("暂无播放")) break;
+                rvm.formatDuration(myEvent.getDuration());
                 binding.seekBar.setProgress(currentPosition);
                 rvm.formatCurrentTime(currentPosition);
                 rvm.saveCurrentTime(myEvent.getCurrentPosition());
@@ -169,7 +222,32 @@ public class SongFragment extends BaseFragment {
                 break;
             case 3://开始播放
                 rvm.updatePlayBtn();
+//                if (svm.song.getValue() != null)
+//                    rvm.song.setValue(svm.song.getValue());
+                break;
+            case 10://通知栏改变播放状态
+                rvm.isPlaying.setValue(myEvent.isPlaying());
         }
+    }
+
+    public void transferData(boolean playing) {
+        if (binding == null) return;
+        if (playing) {
+            binding.play.setBackgroundResource(R.drawable.btn_puase_selector);
+        } else {
+            binding.play.setBackgroundResource(R.drawable.btn_play_selector);
+        }
+    }
+
+
+    public void upDateLikeButton() {
+        for (String id : CloudMusic.likeSongIdSet) {
+            if (id.equals(svm.songId.getValue())) {
+                binding.likeBtn.setLike(true);
+                return;
+            }
+        }
+        binding.likeBtn.setLike(false);
     }
 
     public class ClickClass {
@@ -179,7 +257,7 @@ public class SongFragment extends BaseFragment {
          * @param view
          */
         public void play(View view) {
-            if(Objects.requireNonNull(svm.songName.getValue()).startsWith("暂无播放")) return;
+            if (Objects.requireNonNull(svm.songName.getValue()).startsWith("暂无播放")) return;
             rvm.startPause();
         }
 
@@ -207,7 +285,7 @@ public class SongFragment extends BaseFragment {
          * @param view
          */
         public void list(View view) {
-            if (CloudMusic.isStartMusicListDialog)return;
+            if (CloudMusic.isStartMusicListDialog) return;
             SongListItemOnClickCallback songListItemOnClickCallback = song -> rvm.play(song);
             SongListItemRemoveCallback removeCallback = song -> rvm.remove(song);
             MusicListDialog dialog = new MusicListDialog(Objects.requireNonNull(getActivity()), R.style.Base_ThemeOverlay_AppCompat_Dialog, songListItemOnClickCallback, removeCallback);
@@ -225,11 +303,29 @@ public class SongFragment extends BaseFragment {
         public void playModel(View view) {
             rvm.playModel();
         }
+
+        public void likeSong(View view) {
+            if(Objects.requireNonNull(svm.songId.getValue()).startsWith("000")){
+                Toast toast = Toast.makeText(getContext(), "\n本地音乐!\n", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                return;
+            }
+            if (CloudMusic.isLiking) {
+                likingToast.show();
+                return;
+            }
+            if (Objects.equals(svm.songId.getValue(), "0")) return;
+            binding.likeBtn.setLike(!binding.likeBtn.isLike());
+            rvm.like(binding.likeBtn.isLike(), svm.songId.getValue());
+        }
     }
 
     @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
+        CloudMusic.isSongFragmentEventBusRegister =false;
+        Log.d("TAG","--SongFragment onDestroy--");
         super.onDestroy();
     }
 }

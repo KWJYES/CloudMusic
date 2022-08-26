@@ -96,21 +96,21 @@ class NestedScrollableHost : FrameLayout {
             val scaledDy = dy.absoluteValue * if (isVpHorizontal) 1f else .5f
 
             if (scaledDx > touchSlop || scaledDy > touchSlop) {
-                Log.d("NestedScrollableHost","1");
+                //Log.d("NestedScrollableHost","1");
                 if (isVpHorizontal == (scaledDy > scaledDx)) {
-                    Log.d("NestedScrollableHost","2");
+                  //  Log.d("NestedScrollableHost","2");
                     // Gesture is perpendicular, allow all parents to intercept
                     parent.requestDisallowInterceptTouchEvent(true)
                     //parent.requestDisallowInterceptTouchEvent(false)
                 } else {
-                    Log.d("NestedScrollableHost","3");
+                  //  Log.d("NestedScrollableHost","3");
                     // Gesture is parallel, query child if movement in that direction is possible
                     if (canChildScroll(orientation, if (isVpHorizontal) dx else dy)) {
-                        Log.d("NestedScrollableHost","4");
+                       // Log.d("NestedScrollableHost","4");
                         // Child can scroll, disallow all parents to intercept
                         parent.requestDisallowInterceptTouchEvent(true)
                     } else {
-                        Log.d("NestedScrollableHost","5");
+                       // Log.d("NestedScrollableHost","5");
                         // Child cannot scroll, allow all parents to intercept
                         parent.requestDisallowInterceptTouchEvent(false)
                     }

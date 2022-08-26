@@ -60,12 +60,6 @@
                     android:layout_height="wrap_content"
                     android:text="歌单" />
                 <com.google.android.material.tabs.TabItem
-                    android:id="@+id/album"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="专辑" />
-
-                <com.google.android.material.tabs.TabItem
                     android:id="@+id/artist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -76,11 +70,6 @@
                     android:layout_height="wrap_content"
                     android:text="歌词" />
 
-                <com.google.android.material.tabs.TabItem
-                    android:id="@+id/user"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="用户" />
             </com.google.android.material.tabs.TabLayout>
 
             <androidx.viewpager2.widget.ViewPager2

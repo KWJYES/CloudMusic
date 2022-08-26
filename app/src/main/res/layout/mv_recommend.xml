@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_marginTop="6dp"
+        android:background="@drawable/bg_newsong"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:padding="2dp"
+            android:id="@+id/imageView3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="2dp"
+            android:src="@drawable/ic_mv"
+            app:layout_constraintBottom_toBottomOf="@+id/textView8"
+            app:layout_constraintDimensionRatio="W,1:1"
+            app:layout_constraintStart_toEndOf="@+id/textView8"
+            app:layout_constraintTop_toTopOf="@+id/textView8" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="热门MV"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.example.cloudmusic.views.MyVRecyclerView
+            android:id="@+id/myVRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/mvLoading"
+            style="@style/AVLoadingIndicatorView"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:visibility="visible"
+            app:indicatorColor="#B3FF0000"
+            app:indicatorName="LineScalePartyIndicator"
+           android:layout_marginTop="100dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/myVRecyclerView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

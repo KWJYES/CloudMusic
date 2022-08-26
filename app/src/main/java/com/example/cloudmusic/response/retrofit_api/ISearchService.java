@@ -40,4 +40,13 @@ public interface ISearchService {
      */
     @GET("song/url")
     Call<ResponseBody> getSongUrl(@Query("id")String id);
+
+
+    /**
+     * 获取歌词
+     * @param songId
+     * @return
+     */
+    @GET("lyric")
+    Call<ResponseBody> getSongLrc(@Query("id") String songId);
 }

@@ -31,7 +31,7 @@
 
             <com.google.android.material.tabs.TabLayout
                 app:tabGravity="center"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="5dp"
                 android:maxWidth="100dp"
                 android:minWidth="50dp"
                 app:tabPaddingStart="20dp"
@@ -39,7 +39,7 @@
                 app:tabBackground="@android:color/transparent"
                 app:tabRippleColor="@android:color/transparent"
                 android:id="@+id/home_tablelayout"
-                android:layout_width="180dp"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:background="@null"
                 app:layout_constraintStart_toStartOf="parent"
@@ -57,10 +57,15 @@
                     android:text="推荐" />
 
                 <com.google.android.material.tabs.TabItem
-                    android:id="@+id/rankingList"
+                    android:id="@+id/singer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="音乐馆" />
+                    android:text="歌手" />
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/musicList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="歌单" />
             </com.google.android.material.tabs.TabLayout>
 
             <LinearLayout

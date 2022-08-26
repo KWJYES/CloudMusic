@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@android:id/background">
         <shape>
-            <solid android:color="#80E6E6E6" />
+            <solid android:color="#A4EFEFEF" />
         </shape>
     </item>
     <item android:id="@android:id/secondaryProgress">

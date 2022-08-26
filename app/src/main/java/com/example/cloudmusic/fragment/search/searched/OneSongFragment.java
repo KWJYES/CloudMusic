@@ -27,6 +27,7 @@ import com.example.cloudmusic.entity.Song;
 import com.example.cloudmusic.request.fragment.search.searched.RequestOneSongViewModel;
 import com.example.cloudmusic.state.fragment.search.searched.StateOneSongViewModel;
 import com.example.cloudmusic.utils.CloudMusic;
+import com.example.cloudmusic.utils.callback.OneSongMoreDialogClickCallback;
 import com.example.cloudmusic.utils.callback.OneSongMoreOperateClickCallback;
 import com.example.cloudmusic.utils.callback.SongListItemOnClickCallback;
 import com.example.cloudmusic.views.OneSongMoreOperateDialog;
@@ -48,6 +49,7 @@ public class OneSongFragment extends BaseFragment {
     private final List<Song> songList = new ArrayList<>();
 
     private Toast getUrlToast;
+    private OneSongMoreOperateDialog dialog;
 
     public OneSongFragment(String keywords) {
         this.keywords = keywords;
@@ -63,20 +65,24 @@ public class OneSongFragment extends BaseFragment {
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void initView() {
-        svm.keywords.setValue(keywords);
         binding.oneSongLoading.show();
+        binding.dataFalse.setVisibility(View.GONE);
         binding.oneSongSmartRefreshLayout.setOnRefreshListener(refreshLayout -> {
             songList.clear();
-            rvm.requestSearchOneSong(svm.keywords.getValue());
+            adapter.notifyDataSetChanged();
+            binding.oneSongLoading.show();
+            binding.dataFalse.setVisibility(View.GONE);
+            rvm.requestSearchOneSong(keywords);
         });
         binding.oneSongSmartRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
             if (songList.size() == 0) {
                 binding.oneSongSmartRefreshLayout.finishLoadMore();
                 return;
             }
-            rvm.loadMore(svm.keywords.getValue(), songList.size());
+            rvm.loadMore(keywords, songList.size());
         });
         getUrlToast = Toast.makeText(getContext(), "\n正在获取音乐\n", Toast.LENGTH_SHORT);
         getUrlToast.setGravity(Gravity.CENTER, 0, 0);
@@ -96,42 +102,63 @@ public class OneSongFragment extends BaseFragment {
             getUrlToast.cancel();
             Objects.requireNonNull(getActivity()).startActivity(new Intent(getActivity(), PlayerActivity.class));
         });
+
         rvm.loadMoreRequestState.observe(this, s -> {
             if (s.equals(CloudMusic.FAILURE)) {
                 Toast.makeText(getActivity(), "加载失败", Toast.LENGTH_SHORT).show();
             }
             binding.oneSongSmartRefreshLayout.finishLoadMore();
         });
+
         rvm.oneSongListRequestState.observe(this, s -> {
             if (s.equals(CloudMusic.FAILURE)) {
                 Toast.makeText(getActivity(), "网络不给力~", Toast.LENGTH_SHORT).show();
+                if (songList.size() == 0)
+                    binding.dataFalse.setVisibility(View.VISIBLE);
+            } else {
+                binding.dataFalse.setVisibility(View.GONE);
             }
             binding.oneSongLoading.hide();
             binding.oneSongSmartRefreshLayout.finishRefresh();
         });
 
         rvm.oneSongList.observe(this, songs -> {
-            svm.oneSongList.setValue(songs);
+            songList.addAll(songs);
             setOneSongRV();
         });
+
         rvm.loadMoreList.observe(this, songs -> {
             for (Song song : songs) {
                 songList.add(song);
                 adapter.notifyDataSetChanged();
             }
         });
+
+        rvm.likeState.observe(this, s -> {
+            if (s.equals(CloudMusic.FAILURE)) {
+                Toast falseToast = Toast.makeText(getContext(), "\n操作失败!\n", Toast.LENGTH_SHORT);
+                falseToast.setGravity(Gravity.CENTER, 0, 0);
+                falseToast.show();
+            } else {
+                Toast toast = Toast.makeText(getContext(), "\n操作成功!\n", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+            }
+            if (dialog != null && dialog.isShowing())
+                dialog.upDateLikeButton();
+        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        CloudMusic.isStartPlayerActivity=false;
+        CloudMusic.isStartPlayerActivity = false;
     }
 
     @Override
     protected void getInternetData() {
-        if (svm.oneSongList.getValue() == null || svm.oneSongList.getValue().size() == 0) {
-            rvm.requestSearchOneSong(svm.keywords.getValue());
+        if (songList.size() == 0) {
+            rvm.requestSearchOneSong(keywords);
         }
     }
 
@@ -139,10 +166,21 @@ public class OneSongFragment extends BaseFragment {
      * 加载完成，进行展示
      */
     private void setOneSongRV() {
-        songList.addAll(Objects.requireNonNull(svm.oneSongList.getValue()));
         adapter = new OneSongAdapter(songList);
         adapter.setMoreOperateClickCallback(song -> {
-            OneSongMoreOperateDialog dialog=new OneSongMoreOperateDialog(Objects.requireNonNull(getContext()));
+            dialog = new OneSongMoreOperateDialog(Objects.requireNonNull(getContext()), song, song12 -> {
+                rvm.addSongToPlayList(song12);
+                Toast.makeText(getContext(), "已添加", Toast.LENGTH_SHORT).show();
+            }, song1 -> {
+                boolean isLike = true;
+                for (String id : CloudMusic.likeSongIdSet) {
+                    if (id.equals(song1.getSongId())) {
+                        isLike = false;
+                        break;
+                    }
+                }
+                rvm.like(isLike, song1.getSongId());
+            });
             dialog.show();
         });
         adapter.setClickCallback(song -> {

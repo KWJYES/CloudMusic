@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="svm"
+            type="com.example.cloudmusic.state.fragment.main.home.StateMusicListFragmentViewModel" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.main.home.MusicListFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/linearLayout12"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal"
+                android:paddingBottom="6dp"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.example.cloudmusic.views.PlayListSelectButton
+                    android:id="@+id/sb0"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    app:buttonText="全部歌单"
+                    app:isSelected="@{svm.firstSelect.equals(`全部歌单`)?true:false}"
+                    app:key="@{`全部歌单`}" />
+
+                <com.example.cloudmusic.views.PlayListSelectButton
+                    android:id="@+id/sb1"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    app:buttonText="华语"
+                    app:isSelected="@{svm.firstSelect.equals(`华语`)?true:false}"
+                    app:key="@{`华语`}" />
+
+                <com.example.cloudmusic.views.PlayListSelectButton
+                    android:id="@+id/sb2"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    app:buttonText="古风"
+                    app:isSelected="@{svm.firstSelect.equals(`古风`)?true:false}"
+                    app:key="@{`古风`}" />
+
+                <com.example.cloudmusic.views.PlayListSelectButton
+                    android:id="@+id/sb3"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    app:buttonText="欧美"
+                    app:isSelected="@{svm.firstSelect.equals(`欧美`)?true:false}"
+                    app:key="@{`欧美`}" />
+
+                <com.example.cloudmusic.views.PlayListSelectButton
+                    android:id="@+id/sb4"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    app:buttonText="流行"
+                    app:isSelected="@{svm.firstSelect.equals(`流行`)?true:false}"
+                    app:key="@{`流行`}" />
+            </LinearLayout>
+
+            <com.scwang.smart.refresh.layout.SmartRefreshLayout
+                android:paddingEnd="10dp"
+                android:id="@+id/smartRefreshLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout12" >
+                <com.scwang.smart.refresh.header.MaterialHeader
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/playlist_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <com.scwang.smart.refresh.footer.BallPulseFooter
+                    android:layout_marginBottom="75dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp" />
+            </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/playListLoading"
+                style="@style/AVLoadingIndicatorView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:visibility="visible"
+                app:indicatorColor="#B3FF0000"
+                app:indicatorName="BallGridBeatIndicator"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout12" />
+
+            <LinearLayout
+                android:id="@+id/playlist_load_false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/smartRefreshLayout">
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_data_false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="请下拉刷新重试"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+</layout>

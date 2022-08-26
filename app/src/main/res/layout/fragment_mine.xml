@@ -1,15 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:background="@color/bg_media5"
-    android:layout_height="match_parent"
-    tools:context=".fragment.main.MineFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data>
+
+        <variable
+            name="svm"
+            type="com.example.cloudmusic.state.fragment.main.mine.StateMineFragmentViewModel" />
+
+        <variable
+            name="click"
+            type="com.example.cloudmusic.fragment.main.MineFragment.ClickClass" />
+
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:background="#F4F4F4"
+        tools:context=".fragment.main.MineFragment">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.example.cloudmusic.views.StatusBarHightView
+                android:id="@+id/StatusBarHightView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/my_tablelayout"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:background="@null"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/StatusBarHightView"
+                app:tabBackground="@android:color/transparent"
+                app:tabGravity="center"
+                app:tabIndicator="@drawable/tab_indicator"
+                app:tabIndicatorColor="@color/main_color"
+                app:tabRippleColor="@android:color/transparent"
+                app:tabSelectedTextColor="@color/black"
+                app:tabTextAppearance="@style/TableLayoutStyle"
+                app:tabTextColor="#656565">
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/my"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="我的" />
+            </com.google.android.material.tabs.TabLayout>
+
+            <com.scwang.smart.refresh.layout.SmartRefreshLayout
+                android:id="@+id/smartRefreshLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/my_tablelayout">
+                <com.scwang.smart.refresh.header.MaterialHeader
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <androidx.core.widget.NestedScrollView
+                    android:overScrollMode="never"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="75dp">
+
+                        <include
+                            android:id="@+id/my_l1"
+                            layout="@layout/my_l1"
+                            bind:click="@{click}"
+                            bind:level="@{svm.userLevel}"
+                            bind:userName="@{svm.userName}" />
+
+                        <include
+                            android:id="@+id/my_l2"
+                            layout="@layout/my_l2"
+                            bind:click="@{click}" />
+
+                        <include
+                            android:id="@+id/my_l3"
+                            layout="@layout/my_l3"
+                            bind:click="@{click}" />
+
+                        <Button
+                            android:onClick="@{click::loginOut}"
+                            android:textSize="18sp"
+                            android:textColor="@color/white"
+                            android:background="@drawable/login_out_btn"
+                            android:text="退出/登出"
+                            android:layout_marginTop="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginHorizontal="20dp"/>
+                    </LinearLayout>
+                </androidx.core.widget.NestedScrollView>
+
+            </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+</layout>

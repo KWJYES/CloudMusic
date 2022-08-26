@@ -33,4 +33,11 @@ public interface ILoginService {
      */
     @POST("login/refresh")
     Call<ResponseBody> loginRefresh();
+
+    /**
+     * 登出
+     * @return
+     */
+    @POST("logout")
+    Call<ResponseBody> loginOut();
 }

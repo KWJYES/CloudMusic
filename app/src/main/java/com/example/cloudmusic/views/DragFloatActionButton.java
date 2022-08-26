@@ -34,7 +34,13 @@ public class DragFloatActionButton extends FloatingActionButton {
     private int lastY;
     private boolean isDrag;
 
-
+    /**
+     * getRowX：触摸点相对于屏幕的坐标
+     *
+     * getX： 触摸点相对于按钮的坐标
+     * @param ev
+     * @return
+     */
     @Override
     public boolean onTouchEvent(@NonNull MotionEvent ev) {
         int rawX = (int) ev.getRawX();

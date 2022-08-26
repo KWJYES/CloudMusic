@@ -7,16 +7,88 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:paddingBottom="15dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/songPic"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:gravity="center"
-            android:text="待完善..."
+            android:layout_marginEnd="10dp"
+            android:id="@+id/songName"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="10dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
             android:textColor="@color/black"
-            android:textSize="30sp"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/likeButton2"
+            app:layout_constraintStart_toEndOf="@+id/songPic"
+            app:layout_constraintTop_toTopOf="@+id/songPic" />
+
+        <com.example.cloudmusic.views.LikeButton
+            android:layout_marginEnd="15dp"
+            android:id="@+id/likeButton2"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/songPic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/songPic"
+            app:unLikeColor="black" />
+
+        <TextView
+            android:id="@+id/songAr"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:textColor="@color/artist_tv"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/songPic"
+            app:layout_constraintEnd_toEndOf="@+id/songName"
+            app:layout_constraintStart_toEndOf="@+id/songPic"
+            app:layout_constraintTop_toBottomOf="@+id/songName" />
+
+        <TextView
+            android:id="@+id/textView24"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#80BFBFBF"
+            app:layout_constraintBottom_toTopOf="@+id/nextPlay"
+            app:layout_constraintEnd_toEndOf="@+id/nextPlay"
+            app:layout_constraintStart_toStartOf="@+id/nextPlay" />
+
+        <LinearLayout
+            android:background="?attr/selectableItemBackground"
+            android:id="@+id/nextPlay"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="11dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toBottomOf="@+id/songPic"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_marginStart="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:text="添加到播放列表"/>
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

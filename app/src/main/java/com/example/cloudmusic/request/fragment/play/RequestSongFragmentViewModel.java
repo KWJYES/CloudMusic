@@ -1,5 +1,7 @@
 package com.example.cloudmusic.request.fragment.play;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -16,8 +18,12 @@ public class RequestSongFragmentViewModel extends ViewModel {
     public MutableLiveData<Integer> playMode =new MutableLiveData<>();
     public MutableLiveData<Song> song=new MutableLiveData<>();
     //public MutableLiveData<Song> songPlay=new MutableLiveData<>();
+    public MutableLiveData<String> likeState=new MutableLiveData<>();
 
 
+    public void like(boolean isLike,String songId){
+        HttpRequestManager.getInstance().likeSong(isLike,songId,likeState);
+    }
 
     public void saveDuration(int duration){
         MediaManager.getInstance().setDuration(duration);

@@ -14,4 +14,17 @@
             <enum name="bg7" value="7"/>
         </attr>
     </declare-styleable>
+    <declare-styleable name="LikeButton">
+        <attr name="songId" format="string"/>
+        <attr name="buttonKey" format="string"/>
+        <attr name="unLikeColor" format="string">
+            <enum name="white" value="0"/>
+            <enum name="black" value="1"/>
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="SelectButton">
+        <attr name="buttonText" format="string"/>
+        <attr name="key" format="string"/>
+        <attr name="isSelected" format="boolean"/>
+    </declare-styleable>
 </resources>

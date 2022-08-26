@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="svm"
+            type="com.example.cloudmusic.state.fragment.main.home.StateArtistAllFragmentViewModel" />
+        <variable
+            name="click"
+            type="com.example.cloudmusic.fragment.main.home.ArtistFragment.ClickClass" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.main.home.ArtistFragment">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:paddingVertical="3dp"
+                android:id="@+id/linearLayout13"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.example.cloudmusic.views.ArtistSelectButton
+                    android:id="@+id/sb00"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    app:buttonText="全部地区"
+                    app:isSelected="@{svm.firstSelect.equals(`全部地区`)?true:false}"
+                    app:key="@{`全部地区`}" />
+
+                <com.example.cloudmusic.views.ArtistSelectButton
+                    android:id="@+id/sb01"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    app:buttonText="华语"
+                    app:isSelected="@{svm.firstSelect.equals(`华语`)?true:false}"
+                    app:key="@{`华语`}" />
+
+                <com.example.cloudmusic.views.ArtistSelectButton
+                    android:id="@+id/sb02"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    app:buttonText="欧美"
+                    app:isSelected="@{svm.firstSelect.equals(`欧美`)?true:false}"
+                    app:key="@{`欧美`}" />
+
+                <com.example.cloudmusic.views.ArtistSelectButton
+                    android:id="@+id/sb03"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    app:buttonText="日本"
+                    app:isSelected="@{svm.firstSelect.equals(`日本`)?true:false}"
+                    app:key="@{`日本`}" />
+
+                <com.example.cloudmusic.views.ArtistSelectButton
+                    android:id="@+id/sb04"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    app:buttonText="韩国"
+                    app:isSelected="@{svm.firstSelect.equals(`韩国`)?true:false}"
+                    app:key="@{`韩国`}" />
+
+                <com.example.cloudmusic.views.ArtistSelectButton
+                    android:id="@+id/sb05"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    app:buttonText="其他"
+                    app:isSelected="@{svm.firstSelect.equals(`其他`)?true:false}"
+                    app:key="@{`其他`}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout14"
+                android:layout_width="match_parent"
+                android:layout_height="33dp"
+                android:orientation="horizontal"
+                android:paddingTop="3dp"
+                android:paddingBottom="6dp"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout13">
+
+                <com.example.cloudmusic.views.ArtistSelectButton
+                    android:id="@+id/sb10"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    app:buttonText="全部类型"
+                    app:isSelected="@{svm.secondSelect.equals(`全部类型`)?true:false}"
+                    app:key="@{`全部类型`}" />
+
+                <com.example.cloudmusic.views.ArtistSelectButton
+                    android:id="@+id/sb11"
+                    android:layout_width="55dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    app:buttonText="男歌手"
+                    app:isSelected="@{svm.secondSelect.equals(`男歌手`)?true:false}"
+                    app:key="@{`男歌手`}" />
+
+                <com.example.cloudmusic.views.ArtistSelectButton
+                    android:id="@+id/sb12"
+                    android:layout_width="55dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    app:buttonText="女歌手"
+                    app:isSelected="@{svm.secondSelect.equals(`女歌手`)?true:false}"
+                    app:key="@{`女歌手`}" />
+
+                <com.example.cloudmusic.views.ArtistSelectButton
+                    android:id="@+id/sb13"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    app:buttonText="乐队"
+                    app:isSelected="@{svm.secondSelect.equals(`乐队`)?true:false}"
+                    app:key="@{`乐队`}" />
+            </LinearLayout>
+
+            <com.scwang.smart.refresh.layout.SmartRefreshLayout
+                android:id="@+id/smartRefreshLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout14" >
+                <com.scwang.smart.refresh.header.MaterialHeader
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/artistAllRV"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+                <com.scwang.smart.refresh.footer.BallPulseFooter
+                    android:layout_marginBottom="75dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"/>
+            </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/artistListLoading"
+                style="@style/AVLoadingIndicatorView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:visibility="visible"
+                app:indicatorColor="#B3FF0000"
+                app:indicatorName="BallGridBeatIndicator"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout14" />
+
+            <LinearLayout
+                android:id="@+id/artistList_load_false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/smartRefreshLayout">
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_data_false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="请下拉刷新重试"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+</layout>

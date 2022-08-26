@@ -79,29 +79,30 @@ public class MediaPlayerView extends RelativeLayout {
      */
     @BindingAdapter("bgColor")
     public static void setBgColor(MediaPlayerView mediaPlayerView, int bgColor) {
-        switch (bgColor) {
-            case 1:
-                bg.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_media1));
-                break;
-            case 2:
-                bg.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_media2));
-                break;
-            case 3:
-                bg.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_media3));
-                break;
-            case 4:
-                bg.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_media4));
-                break;
-            case 5:
-                bg.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_media5));
-                break;
-            case 6:
-                bg.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_media6));
-                break;
-            case 7:
-                bg.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_media7));
-                break;
-        }
+        bg.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_media5));
+//        switch (bgColor) {
+//            case 1:
+//                bg.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_media1));
+//                break;
+//            case 2:
+//                bg.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_media2));
+//                break;
+//            case 3:
+//                bg.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_media3));
+//                break;
+//            case 4:
+//                bg.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_media4));
+//                break;
+//            case 5:
+//                bg.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_media5));
+//                break;
+//            case 6:
+//                bg.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_media6));
+//                break;
+//            case 7:
+//                bg.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_media7));
+//                break;
+//        }
     }
 
     /**
@@ -125,10 +126,13 @@ public class MediaPlayerView extends RelativeLayout {
      */
     @BindingAdapter("ic_songPng")
     public static void setIc_songPng(MediaPlayerView mediaPlayerView, String url) {
-        if (url == null)
+        if (url == null){
+            Glide.with(context).load(R.drawable.ic_cd_default).into(ic_songPng);
             return;
+        }
         if (!"".equals(url))
             Glide.with(context).load(url).centerCrop().into(ic_songPng);
+        else Glide.with(context).load(R.drawable.ic_cd_default).into(ic_songPng);
     }
 
     /**

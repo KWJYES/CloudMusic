@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="svm"
+            type="com.example.cloudmusic.entity.Song" />
+
+        <variable
+            name="click"
+            type="com.example.cloudmusic.adapter.recyclerview.NewSongRecommendAdapter.ClickClass" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:onClick="@{click::onItemClick}"
+        android:layout_width="330dp"
+        android:layout_height="60dp"
+        android:background="?attr/selectableItemBackground">
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/ll"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView6"
+            app:layout_constraintTop_toTopOf="@+id/imageView6">
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="@{svm.name}"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:text="@{` - `+svm.artist}"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:background="@drawable/bg_disc_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@{svm.alias.equals(`01`)?`新歌推荐`:svm.alias}"
+            android:textColor="#FF7C3A"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+            app:layout_constraintStart_toStartOf="@+id/ll"
+            app:layout_constraintTop_toBottomOf="@+id/ll" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

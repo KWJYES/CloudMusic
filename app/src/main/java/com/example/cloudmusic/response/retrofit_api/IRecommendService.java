@@ -24,4 +24,18 @@ public interface IRecommendService {
      */
     @GET("personalized")
     Call<ResponseBody> getRecommendMusic(@Query("limit") int limit);
+
+    /**
+     * 获取推荐新音乐
+     * @return
+     */
+    @GET("personalized/newsong")
+    Call<ResponseBody> getNewSong(@Query("limit") int limit);
+
+    /**
+     * 调用此接口 , 可获取推荐 mv
+     * @return
+     */
+    @GET("personalized/mv")
+    Call<ResponseBody> getRecommendMv();
 }

@@ -84,7 +84,11 @@ public class SearchingFragment extends BaseFragment {
     /**
      * 更新历史记录
      */
-    private void upDateHistorySearch(List<HistorySearch> historySearches) {
+    private void upDateHistorySearch(List<HistorySearch> list) {
+        List<HistorySearch> historySearches=new ArrayList<>();
+        for(int i= list.size()-1;i>=0;i--){
+            historySearches.add(list.get(i));
+        }
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.HORIZONTAL);
         binding.historySearchRV.setLayoutManager(layoutManager);
         HistorySearchAdapter adapter = new HistorySearchAdapter(historySearches);

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="svm"
+            type="com.example.cloudmusic.entity.Comment" />
+        <variable
+            name="click"
+            type="com.example.cloudmusic.adapter.recyclerview.CommentAdapter.ClickClass" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/pic_heard"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/nickname"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="center_vertical"
+            android:text="@{svm.nickname}"
+            android:textColor="@color/comment_nickname_color"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/pic_heard"
+            app:layout_constraintTop_toTopOf="@+id/pic_heard" />
+
+        <TextView
+            android:textColor="@color/black"
+            android:text="@{svm.content}"
+            android:id="@+id/textView19"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@+id/nickname"
+            app:layout_constraintStart_toStartOf="@+id/nickname"
+            app:layout_constraintTop_toBottomOf="@+id/nickname" />
+
+        <TextView
+            android:text="@{svm.timeStr}"
+            android:id="@+id/textView20"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/comment_nickname_color"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/textView19"
+            app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+        <LinearLayout
+            android:layout_marginEnd="10dp"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@+id/textView19"
+            app:layout_constraintTop_toBottomOf="@+id/textView19">
+
+            <TextView
+                android:text="@{svm.likedCount+``}"
+                android:gravity="center_vertical|end"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:textColor="@color/comment_nickname_color" />
+            <Button
+                android:onClick="@{click::like}"
+                android:id="@+id/likeBtn"
+                android:background="@drawable/ic_lick2"
+                android:gravity="center_vertical"
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
+
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

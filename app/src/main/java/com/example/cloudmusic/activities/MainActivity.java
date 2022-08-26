@@ -1,9 +1,9 @@
 package com.example.cloudmusic.activities;
 
+import androidx.annotation.Nullable;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -11,13 +11,14 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 import com.example.cloudmusic.R;
 import com.example.cloudmusic.adapter.viewpager2.MainViewPager2Adapter;
 import com.example.cloudmusic.base.BaseActivity;
+import com.example.cloudmusic.entity.Artist;
 import com.example.cloudmusic.entity.Song;
 import com.example.cloudmusic.utils.CloudMusic;
 import com.example.cloudmusic.utils.callback.MediaPlayerViewOnClickCallback;
@@ -35,7 +37,7 @@ import com.example.cloudmusic.utils.callback.SongListItemOnClickCallback;
 import com.example.cloudmusic.utils.callback.SongListItemRemoveCallback;
 import com.example.cloudmusic.databinding.ActivityMainBinding;
 import com.example.cloudmusic.entity.MyEvent;
-import com.example.cloudmusic.fragment.main.DiscussionFragment;
+import com.example.cloudmusic.fragment.main.MVFragment;
 import com.example.cloudmusic.fragment.main.HomeFragment;
 import com.example.cloudmusic.fragment.main.MineFragment;
 import com.example.cloudmusic.request.activity.RequestMainViewModel;
@@ -86,12 +88,16 @@ public class MainActivity extends BaseActivity {
         binding.setEvent(eventHandler);
         binding.setSvm(svm);
         binding.setLifecycleOwner(this);//数据绑定
+        if (!CloudMusic.userId.equals("0"))
+            rvm.getLikeIdList(CloudMusic.userId);
     }
 
     /**
      * 打开播放服务
      */
     private void bindPlayerService() {
+        Intent startIntent = new Intent(this, PlayerService.class);
+        startService(startIntent);
         Intent intent = new Intent(this, PlayerService.class);
         isBind = bindService(intent, connection, BIND_AUTO_CREATE);
     }
@@ -101,14 +107,45 @@ public class MainActivity extends BaseActivity {
     protected void observerDataStateUpdateAction() {
         rvm.isPlaying.observe(this, aBoolean -> {
             svm.playing.setValue(aBoolean);
-            Log.d("TAG", "isPlaying--->" + aBoolean);
         });
         rvm.song.observe(this, song -> {
             svm.songName.setValue(song.getName() + " - " + song.getArtist());
-            svm.mediaPlayerViewBg.setValue(new Random().nextInt(7)+1);
+            svm.mediaPlayerViewBg.setValue(new Random().nextInt(7) + 1);
             svm.songPic.setValue(song.getPicUrl());
         });
-        //rvm.songPlay.observe(this, song -> rvm.play(song));
+        rvm.likeIdList.observe(this, strings -> {
+            CloudMusic.likeSongIdSet.addAll(strings);
+        });
+        rvm.likeIdListRequestState.observe(this, s -> {
+            if (s.equals(CloudMusic.SUCCEED)) {
+                Toast toast = Toast.makeText(MainActivity.this, "\n正在同步\n", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+            } else {
+                Toast toast = Toast.makeText(MainActivity.this, "\n喜欢列表\n同步失败\n", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+            }
+            rvm.getLikeArtistList();
+        });
+        rvm.artistListRequestState.observe(this, s -> {
+            if (s.equals(CloudMusic.SUCCEED)) {
+                Toast toast = Toast.makeText(MainActivity.this, "\n同步完成\n", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+            } else {
+                Toast toast = Toast.makeText(MainActivity.this, "\n收藏歌手\n同步失败\n", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+            }
+            rvm.getLevel();
+        });
+        rvm.artistList.observe(this, artists -> {
+            CloudMusic.likeArtistSet.addAll(artists);
+            for (Artist artist : artists) {
+                CloudMusic.likeArtistIdSet.add(artist.getArId());
+            }
+        });
     }
 
     @Override
@@ -116,25 +153,37 @@ public class MainActivity extends BaseActivity {
         initViewPager2();
         initBottomNav();
         svm.songName.setValue("暂无播放-歌手未知");
-        svm.mediaPlayerViewBg.setValue(new Random().nextInt(7)+1);
+        svm.mediaPlayerViewBg.setValue(new Random().nextInt(7) + 1);
         svm.duration.setValue(100);
         svm.currentTime.setValue(0);
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d("TAG", "MainActivity onStart()...");
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         //注册监听
         EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("TAG", "----MainActivity onStart()----");
+        CloudMusic.isSongFragmentEventBusRegister = false;
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         rvm.updatePlayBtn();
         rvm.getCurrentSong();
     }
 
     @Override
-    protected void onPause() {
-        EventBus.getDefault().unregister(this);
-        super.onPause();
+    protected void onStop() {
+        Log.d("TAG", "----MainActivity onStop----");
+        super.onStop();
     }
 
     @Override
@@ -166,8 +215,7 @@ public class MainActivity extends BaseActivity {
                         intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
                         intent.putExtra("android.provider.extra.APP_PACKAGE", MainActivity.this.getPackageName());
                         startActivity(intent);
-                    })
-                    .create();
+                    }).create();
             alertDialog.show();
             alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
@@ -181,7 +229,7 @@ public class MainActivity extends BaseActivity {
     private void initViewPager2() {
         List<Fragment> fragmentLis = new ArrayList<>();
         fragmentLis.add(new HomeFragment());
-        fragmentLis.add(new DiscussionFragment());
+        fragmentLis.add(new MVFragment());
         fragmentLis.add(new MineFragment());
         MainViewPager2Adapter adapter = new MainViewPager2Adapter(this, fragmentLis);
         binding.mainViewPager2.setAdapter(adapter);
@@ -214,7 +262,7 @@ public class MainActivity extends BaseActivity {
                 case R.id.main_home:
                     binding.mainViewPager2.setCurrentItem(0);
                     return true;
-                case R.id.main_discussion:
+                case R.id.main_mv:
                     binding.mainViewPager2.setCurrentItem(1);
                     return true;
                 case R.id.main_my:
@@ -229,7 +277,7 @@ public class MainActivity extends BaseActivity {
                 binding.bottomNavigation.setSelectedItemId(v.getId());
             return false;
         });
-        binding.bottomNavigation.findViewById(R.id.main_discussion).setOnTouchListener((v, event) -> {
+        binding.bottomNavigation.findViewById(R.id.main_mv).setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_UP)
                 binding.bottomNavigation.setSelectedItemId(v.getId());
             return false;
@@ -241,7 +289,7 @@ public class MainActivity extends BaseActivity {
         });
         //拦截item长按事件，去掉文字吐司
         binding.bottomNavigation.findViewById(R.id.main_home).setOnLongClickListener(view -> true);
-        binding.bottomNavigation.findViewById(R.id.main_discussion).setOnLongClickListener(view -> true);
+        binding.bottomNavigation.findViewById(R.id.main_mv).setOnLongClickListener(view -> true);
         binding.bottomNavigation.findViewById(R.id.main_my).setOnLongClickListener(view -> true);
     }
 
@@ -290,7 +338,7 @@ public class MainActivity extends BaseActivity {
         public PlayerViewMusicListOnClickCallback playerViewMusicListOnClickCallback = new PlayerViewMusicListOnClickCallback() {
             @Override
             public void onClick() {
-                if (CloudMusic.isStartMusicListDialog)return;
+                if (CloudMusic.isStartMusicListDialog) return;
                 SongListItemOnClickCallback songListItemOnClickCallback = song -> rvm.play(song);
                 SongListItemRemoveCallback removeCallback = song -> rvm.remove(song);
                 MusicListDialog dialog = new MusicListDialog(MainActivity.this, R.style.Base_ThemeOverlay_AppCompat_Dialog, songListItemOnClickCallback, removeCallback);
@@ -316,24 +364,48 @@ public class MainActivity extends BaseActivity {
     public void onEvent(MyEvent myEvent) {
         int msg = myEvent.getMsg();
         switch (msg) {
-            case 0://准备播放
+            case 0://开始播放
+                if (CloudMusic.isSongFragmentEventBusRegister) break;
                 rvm.saveDuration(myEvent.getDuration());
                 break;
             case 1://当前播放进度
+                if (CloudMusic.isSongFragmentEventBusRegister) break;
                 rvm.saveCurrentTime(myEvent.getCurrentPosition());
                 break;
             case 2://播放完成
+                if (CloudMusic.isSongFragmentEventBusRegister) break;
                 rvm.updatePlayBtn();
                 rvm.nextSong();
                 break;
+            case 6://在Fragment中播放了音乐
+                Song song = myEvent.getSong();
+                rvm.song.setValue(song);
+                svm.playing.setValue(true);
+                break;
+            case 7:
+                Toast toast = Toast.makeText(MainActivity.this, "\n网络繁忙中\n", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                if (CloudMusic.requestUrlTime < 3) {
+                    CloudMusic.requestUrlTime++;
+                    Log.d("TAG", "音乐url重试请求:" + CloudMusic.requestUrlTime);
+                    rvm.play(myEvent.getSong());
+                }
+                break;
+            case 10://通知栏改变播放状态
+                if (CloudMusic.isSongFragmentEventBusRegister) break;
+                rvm.isPlaying.setValue(myEvent.isPlaying());
         }
     }
 
     @Override
     protected void onDestroy() {
+        Intent stopIntent = new Intent(this, PlayerService.class);
+        stopService(stopIntent);
         if (isBind) {
             unbindService(connection);
         }
+        EventBus.getDefault().unregister(this);
         Log.d("TAG", "MainActivity onDestroy...");
         super.onDestroy();
     }

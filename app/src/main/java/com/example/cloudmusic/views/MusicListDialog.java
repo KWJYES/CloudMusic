@@ -1,10 +1,12 @@
 package com.example.cloudmusic.views;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.cloudmusic.R;
 import com.example.cloudmusic.adapter.recyclerview.MusicAdapter;
+import com.example.cloudmusic.response.db.LitePalManager;
 import com.example.cloudmusic.utils.CloudMusic;
 import com.example.cloudmusic.utils.callback.SongListItemOnClickCallback;
 import com.example.cloudmusic.utils.callback.SongListItemRemoveCallback;
@@ -50,6 +53,10 @@ public class MusicListDialog extends Dialog {
         setContentView(binding.getRoot());
         initWindow();
         initList();
+        binding.button2.setOnClickListener(view -> {
+            LitePalManager.getInstance().removeAllPlayList();
+            initList();
+        });
 
     }
 
@@ -57,11 +64,13 @@ public class MusicListDialog extends Dialog {
      * 加载播放列表
      *
      */
+    @SuppressLint("SetTextI18n")
     private void initList() {
         //显示音乐列表 test
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         binding.recyclerView.setLayoutManager(layoutManager);
         List<Song> songList = new ArrayList<>(MediaManager.getInstance().getSongList());
+        binding.count.setText("共"+songList.size()+"首");
         MusicAdapter adapter = new MusicAdapter(songList,layoutManager);
         adapter.setClickCallback(clickCallback);
         adapter.setRemoveCallback(removeCallback);

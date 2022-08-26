@@ -13,5 +13,10 @@ public interface ISharedPreferencesRequest {
     String getAccount(Context context);
     void applyAccount(Context context,String account);
     Set<String> getCookieSet();
+
+    Set<String> getCookieNullSet();
+
+    void saveCookieNullSet(HashSet<String> cookies);
+
     void saveCookieSet(HashSet<String> cookies);
 }

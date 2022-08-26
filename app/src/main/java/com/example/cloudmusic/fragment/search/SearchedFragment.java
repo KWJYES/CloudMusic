@@ -17,12 +17,10 @@ import com.example.cloudmusic.adapter.viewpager2.ViewPager2Adapter;
 import com.example.cloudmusic.base.BaseFragment;
 import com.example.cloudmusic.databinding.FragmentSearchedBinding;
 import com.example.cloudmusic.entity.HistorySearch;
-import com.example.cloudmusic.fragment.search.searched.AlbumFragment;
 import com.example.cloudmusic.fragment.search.searched.ArtistFragment;
 import com.example.cloudmusic.fragment.search.searched.LrcFragment;
 import com.example.cloudmusic.fragment.search.searched.MusicListFragment;
 import com.example.cloudmusic.fragment.search.searched.OneSongFragment;
-import com.example.cloudmusic.fragment.search.searched.UserFragment;
 import com.example.cloudmusic.request.fragment.search.RequestSearchedFragmentViewModel;
 import com.example.cloudmusic.state.fragment.search.StateSearchedFragmentViewModel;
 import com.google.android.material.tabs.TabLayout;
@@ -84,16 +82,12 @@ public class SearchedFragment extends BaseFragment {
         List<String> titles = new ArrayList<>();
         titles.add("单曲");
         titles.add("歌单");
-        titles.add("专辑");
         titles.add("歌手");
         titles.add("歌词");
-        titles.add("用户");
         fragmentList.add(new OneSongFragment(svm.keywords.getValue()));
-        fragmentList.add(new MusicListFragment());
-        fragmentList.add(new AlbumFragment());
-        fragmentList.add(new ArtistFragment());
-        fragmentList.add(new LrcFragment());
-        fragmentList.add(new UserFragment());
+        fragmentList.add(new MusicListFragment(svm.keywords.getValue()));
+        fragmentList.add(new ArtistFragment(svm.keywords.getValue()));
+        fragmentList.add(new LrcFragment(svm.keywords.getValue()));
         ViewPager2Adapter adapter=new ViewPager2Adapter(Objects.requireNonNull(getActivity()), fragmentList);
         binding.searchedVP2.setAdapter(adapter);
         View childAt=binding.searchedVP2.getChildAt(0);
@@ -101,12 +95,7 @@ public class SearchedFragment extends BaseFragment {
             childAt.setOverScrollMode(View.OVER_SCROLL_NEVER);
         }
         //TableLayout对接
-        new TabLayoutMediator(binding.searchTablelayout, binding.searchedVP2, new TabLayoutMediator.TabConfigurationStrategy() {
-            @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                tab.setText(titles.get(position));
-            }
-        }).attach();
+        new TabLayoutMediator(binding.searchTablelayout, binding.searchedVP2, (tab, position) -> tab.setText(titles.get(position))).attach();
         binding.searchedVP2.setOffscreenPageLimit(5);
     }
 }

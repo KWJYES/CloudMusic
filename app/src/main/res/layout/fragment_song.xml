@@ -22,32 +22,8 @@
             android:id="@+id/songFragmentBg0"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_fragment_song">
+            android:background="@drawable/bg_lrc_cardview">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_margin="25dp"
-                android:background="#F3F3F3"
-                app:cardCornerRadius="20dp"
-                app:layout_constraintBottom_toTopOf="@+id/guideline6"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_cd_default"
-                    app:layout_constraintBottom_toTopOf="@+id/guideline6"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/statusBarHightView2" />
-
-            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/duration"
@@ -56,7 +32,7 @@
                 android:layout_marginEnd="7dp"
                 android:gravity="center"
                 android:text="@{svm.duration}"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@+id/seekBar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/seekBar" />
@@ -68,7 +44,7 @@
                 android:layout_marginStart="7dp"
                 android:gravity="center"
                 android:text="@{svm.currentPosition}"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@+id/seekBar"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/seekBar" />
@@ -82,7 +58,6 @@
                 android:maxHeight="2dp"
                 android:minHeight="2dp"
                 android:progressDrawable="@drawable/sb_progress_drawable"
-                android:secondaryProgress="30"
                 android:thumb="@drawable/sb_thumb"
                 app:layout_constraintBottom_toTopOf="@+id/play"
                 app:layout_constraintEnd_toStartOf="@+id/duration"
@@ -147,61 +122,73 @@
 
 
             <TextView
-
                 android:id="@+id/songTittle"
-                android:layout_width="328dp"
-                android:layout_height="40dp"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
                 android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
                 android:ellipsize="marquee"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
-                android:text="@{svm.songName}"
-                android:textColor="@color/black"
-                android:textSize="20sp"
+                android:text="@{`《`+svm.songName+`》`}"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/guideline6" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:layout_marginStart="5dp"
+                android:layout_marginTop="2dp"
                 android:id="@+id/songAr"
-                android:layout_width="328dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="3dp"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
                 android:ellipsize="marquee"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:text="@{svm.songAr}"
                 android:textColor="@color/artist_tv"
                 android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/songTittle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/songTittle" />
 
-            <TextView
-                android:layout_marginTop="3dp"
-                android:id="@+id/songLyr"
-                android:layout_width="328dp"
-                android:layout_height="60dp"
-                android:maxLines="2"
-                android:text="@{svm.songLyc}"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@+id/songAr"
-                app:layout_constraintTop_toBottomOf="@+id/songAr" />
+            <androidx.cardview.widget.CardView
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                app:cardCornerRadius="125dp"
+                app:layout_constraintBottom_toTopOf="@+id/seekBar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.5" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ic_cd"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="2dp"
+                    android:src="@drawable/pic_cd" />
+            </androidx.cardview.widget.CardView>
+
+            <com.example.cloudmusic.views.LikeButton
+                android:onClick="@{click::likeSong}"
+                app:unLikeColor="white"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/likeBtn"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                app:layout_constraintBottom_toTopOf="@+id/duration"
+                app:layout_constraintEnd_toEndOf="@+id/duration"
+                app:layout_constraintStart_toStartOf="@+id/duration" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

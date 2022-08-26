@@ -5,30 +5,34 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.cloudmusic.R;
 import com.example.cloudmusic.databinding.DialogOnesongMoreOperateBinding;
+import com.example.cloudmusic.entity.Song;
+import com.example.cloudmusic.utils.CloudMusic;
+import com.example.cloudmusic.utils.callback.OneSongMoreDialogClickCallback;
 
 public class OneSongMoreOperateDialog extends Dialog {
 
     DialogOnesongMoreOperateBinding binding;
+    private Song song;
+    private OneSongMoreDialogClickCallback clickCallback;
+    private OneSongMoreDialogClickCallback likeClickCallback;
 
-    public OneSongMoreOperateDialog(@NonNull Context context) {
+    public OneSongMoreOperateDialog(@NonNull Context context, Song song, OneSongMoreDialogClickCallback clickCallback,OneSongMoreDialogClickCallback likeClickCallback) {
         super(context);
-    }
-
-    public OneSongMoreOperateDialog(@NonNull Context context, int themeResId) {
-        super(context, themeResId);
-    }
-
-    protected OneSongMoreOperateDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
-        super(context, cancelable, cancelListener);
+        this.song=song;
+        this.clickCallback=clickCallback;
+        this.likeClickCallback=likeClickCallback;
     }
 
     @Override
@@ -36,6 +40,29 @@ public class OneSongMoreOperateDialog extends Dialog {
         binding= DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_onesong_more_operate, null, false);
         setContentView(binding.getRoot());
         init();
+        initView();
+    }
+
+    private void initView() {
+        Glide.with(getContext()).load(song.getPicUrl()).transform(new CenterCrop(),new RoundedCorners(20)).placeholder(R.drawable.pic_cd).into(binding.songPic);
+        binding.songName.setText(song.getName());
+        binding.songAr.setText(song.getArtist());
+        binding.nextPlay.setOnClickListener(view -> clickCallback.onClick(song));
+        upDateLikeButton();
+        binding.likeButton2.setOnClickListener(view -> {
+            binding.likeButton2.setLike(!binding.likeButton2.isLike());
+            likeClickCallback.onClick(song);
+        });
+    }
+
+    public void upDateLikeButton() {
+        for (String id : CloudMusic.likeSongIdSet) {
+            if (id.equals(song.getSongId())) {
+                binding.likeButton2.setLike(true);
+                return;
+            }
+        }
+        binding.likeButton2.setLike(false);
     }
 
     /**

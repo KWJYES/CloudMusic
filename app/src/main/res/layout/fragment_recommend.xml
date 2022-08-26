@@ -36,25 +36,26 @@
 
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="3dp"
+                        android:paddingTop="3dp"
+                        android:paddingBottom="6dp"
                         android:background="@drawable/bg_recommend2"
-                        app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
-                        app:layout_constraintTop_toTopOf="@+id/recommendBanner" />
-
-                    <com.example.cloudmusic.views.MyBanner
-                        android:id="@+id/recommendBanner"
+                        android:id="@+id/l1"
+                        android:orientation="vertical"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:clickable="true"
-                        app:banner_indicator_selected_color="#95F2EC"
-
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent" >
+                        <com.example.cloudmusic.views.MyBanner
+                            android:background="@null"
+                            android:clickable="true"
+                            app:banner_indicator_selected_color="#95F2EC"
+                            android:id="@+id/recommendBanner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+
 <!--                    app:banner_radius="20dp"-->
                     <com.wang.avi.AVLoadingIndicatorView
                         android:id="@+id/bannerLoading"
@@ -64,23 +65,29 @@
                         android:visibility="visible"
                         app:indicatorColor="#B3FF0000"
                         app:indicatorName="LineScalePulseOutRapidIndicator"
-                        app:layout_constraintBottom_toBottomOf="@+id/recommendBanner"
-                        app:layout_constraintEnd_toEndOf="@+id/recommendBanner"
-                        app:layout_constraintStart_toStartOf="@+id/recommendBanner"
-                        app:layout_constraintTop_toTopOf="@+id/recommendBanner" />
+                        app:layout_constraintBottom_toBottomOf="@+id/l1"
+                        app:layout_constraintEnd_toEndOf="@+id/l1"
+                        app:layout_constraintStart_toStartOf="@+id/l1"
+                        app:layout_constraintTop_toTopOf="@+id/l1" />
 
                     <LinearLayout
                         android:id="@+id/linearLayout5"
                         android:layout_width="match_parent"
-                        android:layout_height="800dp"
-                        android:layout_marginTop="13dp"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/recommendBanner">
+                        app:layout_constraintTop_toBottomOf="@+id/l1">
 
                         <include
                             android:id="@+id/musicListRecommend"
                             layout="@layout/music_list_recommend" />
+
+                        <include
+                            android:id="@+id/newMusicRecommend"
+                            layout="@layout/new_music_recommend"/>
+
+                        <include android:id="@+id/mv_recommend"
+                            layout="@layout/mv_recommend"/>
 
                     </LinearLayout>
 

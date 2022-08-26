@@ -1,14 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragment.play.LyricFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+        <variable
+            name="svm"
+            type="com.example.cloudmusic.state.fragment.play.StateLyricFragmentViewModel" />
+        <variable
+            name="click"
+            type="com.example.cloudmusic.fragment.play.LyricFragment.ClickClass" />
+
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="match_parent"
+        tools:context=".fragment.play.LyricFragment">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@drawable/bg_lrc_cardview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.example.cloudmusic.views.LrcView
+                android:id="@+id/myLrcView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="1dp"
+                android:overScrollMode="never"
+                app:layout_constraintBottom_toTopOf="@+id/cardView3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardView3"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/lrc_songPg"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintBottom_toTopOf="@+id/textView17"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/textView17"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:ellipsize="marquee"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center_vertical"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/play"
+                    app:layout_constraintStart_toStartOf="@+id/lrc_songPg"
+                    app:layout_constraintTop_toBottomOf="@+id/lrc_songPg" />
+
+                <Button
+                    android:id="@+id/play"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="20dp"
+                    android:onClick="@{click::play}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+</layout>
