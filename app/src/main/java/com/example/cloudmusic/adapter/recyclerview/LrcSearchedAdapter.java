@@ -53,6 +53,7 @@ public class LrcSearchedAdapter extends RecyclerView.Adapter<LrcSearchedAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Lyrics lyrics = lyricsList.get(position);
+        lyrics.setLyrics(lyrics.getLyrics().replace("<b>","《").replace("</b>","》"));
         holder.binding.setSvm(lyrics);
         Glide.with(parent.getContext()).load(lyrics.getPicUrl())
                 .transform(new RoundedCorners(18), new CenterCrop())

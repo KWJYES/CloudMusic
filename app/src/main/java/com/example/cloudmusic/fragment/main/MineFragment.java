@@ -47,6 +47,7 @@ public class MineFragment extends BaseFragment {
     FragmentMineBinding binding;
     StateMineFragmentViewModel svm;
     RequestMineFragmentViewModel rvm;
+    private LoginOutDialog dialog;
 
     @Override
     protected View initFragment(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -121,6 +122,8 @@ public class MineFragment extends BaseFragment {
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 intent.putExtra(CloudMusic.LOGIN_TYPE, CloudMusic.LOGIN_START);
                 startActivity(intent);
+                if (dialog.isShowing())
+                    dialog.cancel();
                 ActivityCollector.loginOutFinish();
             }
         });
@@ -191,7 +194,7 @@ public class MineFragment extends BaseFragment {
         }
 
         public void loginOut(View view) {
-            LoginOutDialog dialog = new LoginOutDialog(Objects.requireNonNull(getContext()), ActivityCollector::finishAll, () -> rvm.loginOut());
+            dialog = new LoginOutDialog(Objects.requireNonNull(getContext()), ActivityCollector::finishAll, () -> rvm.loginOut());
             dialog.show();
         }
     }

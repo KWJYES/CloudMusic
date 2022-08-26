@@ -23,6 +23,7 @@ public class ReadCookiesInterceptor implements Interceptor {
         HttpUrl httpUrl = chain.request().url();
         String urlString = httpUrl.toString();
         Log.d("TAG", "request to url:" + urlString);
+        Log.d("Cookie", "request to url:" + urlString);
 //        if(urlString.equals(CloudMusic.baseUrl+"login/status")||
 //                urlString.startsWith(CloudMusic.baseUrl + "login/cellphone")||
 //                urlString.equals(CloudMusic.baseUrl+"login/refresh")||
@@ -31,14 +32,14 @@ public class ReadCookiesInterceptor implements Interceptor {
             HashSet<String> preferences = (HashSet<String>) SharedPreferencesManager.getInstance().getCookieSet();
             for (String cookie : preferences) {
                 builder.addHeader("Cookie", cookie);
-                Log.d("Cookie", "OkHttp And Cookie: " + cookie);
+                Log.d("Cookie", "login OkHttp And Cookie: " + cookie);
             }
         }else {
             if(urlString.startsWith(CloudMusic.baseUrl + "login/cellphone")){
                 HashSet<String> preferences = (HashSet<String>) SharedPreferencesManager.getInstance().getCookieNullSet();
                 for (String cookie : preferences) {
                     builder.addHeader("Cookie", cookie);
-                    Log.d("Cookie", "OkHttp And Cookie: " + cookie);
+                    Log.d("Cookie", "No login OkHttp And Cookie: " + cookie);
                 }
             }
         }

@@ -187,10 +187,8 @@ public class HttpRequestManager implements INetworkRequest {
                         } else {
                             isLogin.setValue(false);
                         }
-                    } catch (JSONException e) {
+                    } catch (JSONException | IOException e) {
                         isLogin.setValue(false);
-                        e.printStackTrace();
-                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 } else {
@@ -243,23 +241,28 @@ public class HttpRequestManager implements INetworkRequest {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
-                    if (response.body() != null) {
-                        JSONObject jsonObject = new JSONObject(response.body().string());
-                        Log.d("TAG", "Login json body--->" + jsonObject.toString());
-                        JSONObject account = jsonObject.getJSONObject("account");
-                        CloudMusic.userId = account.getString("id");
-                        Log.d("TAG", "CloudMusic.userId=" + CloudMusic.userId);
+                    if (response.code() == 200) {
+                        CloudMusic.isLogin=true;
+                        if (response.body() != null) {
+                            JSONObject jsonObject = new JSONObject(response.body().string());
+                            Log.d("TAG", "Login json body--->" + jsonObject.toString());
+                            JSONObject account = jsonObject.getJSONObject("account");
+                            CloudMusic.userId = account.getString("id");
+                            JSONObject profile = jsonObject.getJSONObject("profile");
+                            CloudMusic.nickname = profile.getString("nickname");
+                            CloudMusic.avatarUrl = profile.getString("avatarUrl");
+                            Log.d("TAG", "CloudMusic.userId=" + CloudMusic.userId);
+                        } else {
+                            Log.d("TAG", "Login body is null,Headers--->" + response.headers().toString());
+                        }
+                        loginState.setValue(CloudMusic.SUCCEED);
                     } else {
-                        Log.d("TAG", "Login body is null,Headers--->" + response.headers().toString());
+                        loginState.setValue(CloudMusic.FAILURE);
                     }
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
                 }
-                if (response.code() == 200) {
-                    loginState.setValue(CloudMusic.SUCCEED);
-                } else {
-                    loginState.setValue(CloudMusic.FAILURE);
-                }
+
             }
 
             @Override
