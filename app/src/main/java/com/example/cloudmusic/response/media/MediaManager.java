@@ -91,6 +91,7 @@ public class MediaManager implements IMediaRequest {
             if(song1==null)return;
             playerBinder.play(song1);
             LitePalManager.getInstance().addSongToPlayList(song1);
+            LitePalManager.getInstance().addSongToHistoryList(song1);
             this.song = song1;
             if (isPlaying != null)
                 isPlaying.setValue(true);
@@ -129,6 +130,7 @@ public class MediaManager implements IMediaRequest {
             playerBinder.play(song1);
             this.song = song1;
             LitePalManager.getInstance().addSongToPlayList(song1);
+            LitePalManager.getInstance().addSongToHistoryList(song1);
             if (isPlaying != null)
                 isPlaying.setValue(true);
             if (songLD != null)
