@@ -151,6 +151,7 @@ public class PlayerService extends Service {
                 mediaPlayer.start();
                 createNotification();//创建前台通知
                 MyEvent myEvent = new MyEvent();
+                myEvent.setSong(currentSong);
                 myEvent.setMsg(3);//开始播放
                 EventBus.getDefault().post(myEvent);
             }

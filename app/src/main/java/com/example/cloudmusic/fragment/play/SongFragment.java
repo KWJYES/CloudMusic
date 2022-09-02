@@ -207,9 +207,6 @@ public class SongFragment extends BaseFragment {
                 break;
             case 1://当前播放进度
                 int currentPosition = myEvent.getCurrentPosition();
-//                Log.d("currentPosition", "" + currentPosition);
-//                Log.d("seekBar","Progress-->"+binding.seekBar.getProgress());
-//                Log.d("seekBar","Max-->"+binding.seekBar.getMax());
                 if (Objects.requireNonNull(svm.songName.getValue()).startsWith("暂无播放")) break;
                 rvm.formatDuration(myEvent.getDuration());
                 binding.seekBar.setProgress(currentPosition);
@@ -222,8 +219,9 @@ public class SongFragment extends BaseFragment {
                 break;
             case 3://开始播放
                 rvm.updatePlayBtn();
-//                if (svm.song.getValue() != null)
-//                    rvm.song.setValue(svm.song.getValue());
+                if (myEvent.getSong() != null)
+                    rvm.song.setValue(myEvent.getSong());
+                Log.d("TAG","开始播放SongFragment");
                 break;
             case 10://通知栏改变播放状态
                 rvm.isPlaying.setValue(myEvent.isPlaying());

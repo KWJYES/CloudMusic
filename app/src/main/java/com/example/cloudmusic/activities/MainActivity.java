@@ -377,6 +377,13 @@ public class MainActivity extends BaseActivity {
                 rvm.updatePlayBtn();
                 rvm.nextSong();
                 break;
+            case 3://开始播放
+                if (CloudMusic.isSongFragmentEventBusRegister) break;
+               // rvm.updatePlayBtn();
+                if (myEvent.getSong() != null)
+                    rvm.song.setValue(myEvent.getSong());
+                Log.d("TAG","开始播放MainActivity");
+                break;
             case 6://在Fragment中播放了音乐
                 Song song = myEvent.getSong();
                 rvm.song.setValue(song);
