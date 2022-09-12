@@ -1,5 +1,8 @@
 package com.example.cloudmusic.sevices;
 
+import static android.app.PendingIntent.FLAG_IMMUTABLE;
+import static android.app.PendingIntent.FLAG_MUTABLE;
+
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -261,23 +264,23 @@ public class PlayerService extends Service {
         }
         //跳转MainActivity
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);//暂时没搞懂
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, FLAG_IMMUTABLE);//暂时没搞懂
         contentView.setOnClickPendingIntent(R.id.bgmmMusicImageView, pendingIntent);
         // 实现停止/播放
         Intent intentStop = new Intent("stop");
-        PendingIntent pIntentStop = PendingIntent.getBroadcast(getApplicationContext(), 0, intentStop, 0);
+        PendingIntent pIntentStop = PendingIntent.getBroadcast(getApplicationContext(), 0, intentStop, FLAG_IMMUTABLE);
         contentView.setOnClickPendingIntent(R.id.stopImageView, pIntentStop);
         //下一首事件
         Intent intentNext = new Intent("next");//发送播放下一曲的通知
-        PendingIntent pIntentNext = PendingIntent.getBroadcast(getApplicationContext(), 0, intentNext, 0);
+        PendingIntent pIntentNext = PendingIntent.getBroadcast(getApplicationContext(), 0, intentNext, FLAG_IMMUTABLE);
         contentView.setOnClickPendingIntent(R.id.nextImageView, pIntentNext);
         //上一首事件
         Intent intentLast = new Intent("last");//发送播放上一曲的通知
-        PendingIntent pIntentLast = PendingIntent.getBroadcast(getApplicationContext(), 0, intentLast, 0);
+        PendingIntent pIntentLast = PendingIntent.getBroadcast(getApplicationContext(), 0, intentLast, FLAG_IMMUTABLE);
         contentView.setOnClickPendingIntent(R.id.lastImageView, pIntentLast);
         // 关闭通知栏
         Intent intentCancelled = new Intent("notification_cancelled");
-        PendingIntent pIntentCancelled = PendingIntent.getBroadcast(getApplicationContext(), 0, intentCancelled, 0);
+        PendingIntent pIntentCancelled = PendingIntent.getBroadcast(getApplicationContext(), 0, intentCancelled, FLAG_IMMUTABLE);
         contentView.setOnClickPendingIntent(R.id.audio_close_btn, pIntentCancelled);
     }
 

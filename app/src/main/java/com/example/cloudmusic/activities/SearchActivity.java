@@ -153,10 +153,10 @@ public class SearchActivity extends BaseActivity {
         transaction.commit();//调用commit()方法来提交事务
     }
 
-    private void getSearch(){
+    private void getSearch() {
         Fragment fragment;
         if (Objects.equals(svm.searchWord.getValue(), "")) {
-            String keywords=Objects.requireNonNull(svm.defaultSearchWord.getValue()).split(" ")[0];
+            String keywords = Objects.requireNonNull(svm.defaultSearchWord.getValue()).split(" ")[0];
             fragment = new SearchedFragment(keywords);//默认搜索
             svm.searchWord.setValue(keywords);
         } else {
