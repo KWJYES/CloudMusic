@@ -1,19 +1,17 @@
 package com.example.cloudmusic.utils;
 
-import android.annotation.SuppressLint;
+import android.app.Application;
 import android.content.Context;
-
+import androidx.annotation.NonNull;
 import com.example.cloudmusic.entity.Artist;
-
-import java.util.ArrayList;
+import org.litepal.LitePal;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
  * 一些配置信息
  */
-public class CloudMusic {
+public class CloudMusic extends Application {
     //public static final String baseUrl="https://netease-cloud-music-api-beta-inky-62.vercel.app/";
     public static final String baseUrl="http://cloud-music.pl-fe.cn/";
     public static final String SUCCEED="succeed";
@@ -33,15 +31,6 @@ public class CloudMusic {
     public static boolean isLogin = true;//是否已登陆
     public static boolean isSongFragmentEventBusRegister = false;//是否打开PlayerActivity
 
-    @SuppressLint("StaticFieldLeak")
-    public static Context mainActivityContext;
-    @SuppressLint("StaticFieldLeak")
-    public static Context loginActivityContext;
-    @SuppressLint("StaticFieldLeak")
-    public static Context signupActivityContext;
-    @SuppressLint("StaticFieldLeak")
-    public static Context startActivityContext;
-
     public static Set<String> likeSongIdSet =new HashSet<>();
     public static Set<String> likeArtistIdSet =new HashSet<>();
     public static Set<Artist> likeArtistSet =new HashSet<>();
@@ -54,12 +43,18 @@ public class CloudMusic {
     public static int requestUrlTime=0;//网络重试次数
     public static String avatarUrl;
 
-    public static Context getContext(){
-        if(mainActivityContext!=null) return mainActivityContext;
-        else if(loginActivityContext!=null) return loginActivityContext;
-        else if(signupActivityContext!=null) return signupActivityContext;
-        else if(startActivityContext!=null) return startActivityContext;
-        else return null;
+    private static Application context;
+
+    @NonNull
+    public static Context getContext() {
+        return context;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        context = this;
+        LitePal.initialize(this);
     }
 
 }

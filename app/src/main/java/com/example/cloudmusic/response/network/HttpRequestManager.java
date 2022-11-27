@@ -63,15 +63,11 @@ public class HttpRequestManager implements INetworkRequest {
      * 使用单例模式
      */
     private HttpRequestManager() {
-        if (CloudMusic.getContext() != null) {
-            OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                    .addInterceptor(new SaveCookiesInterceptor())
-                    .addInterceptor(new ReadCookiesInterceptor())
-                    .build();
-            retrofit = new Retrofit.Builder().client(okHttpClient).baseUrl(CloudMusic.baseUrl).build();
-        } else {
-            Log.d("TAG", "CloudMusic.getContext() is null!!");
-        }
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new SaveCookiesInterceptor())
+                .addInterceptor(new ReadCookiesInterceptor())
+                .build();
+        retrofit = new Retrofit.Builder().client(okHttpClient).baseUrl(CloudMusic.baseUrl).build();
     }
 
     private static HttpRequestManager httpRequestManager;

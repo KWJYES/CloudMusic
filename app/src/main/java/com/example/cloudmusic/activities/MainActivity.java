@@ -79,7 +79,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initActivity() {
         LitePal.getDatabase();//初始化数据库
-        CloudMusic.mainActivityContext = this;
         setTransparentStatusBar(true);
         svm = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(StateMainViewModel.class);
         rvm = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(RequestMainViewModel.class);
