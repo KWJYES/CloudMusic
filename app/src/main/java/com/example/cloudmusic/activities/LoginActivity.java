@@ -29,7 +29,6 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void initActivity() {
         setTransparentStatusBar(false);
-        CloudMusic.loginActivityContext = this;
         svm = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(StateLoginViewModel.class);
         rvm = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(RequestLoginViewModel.class);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);

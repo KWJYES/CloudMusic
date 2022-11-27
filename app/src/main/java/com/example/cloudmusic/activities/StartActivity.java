@@ -22,7 +22,6 @@ public class StartActivity extends BaseActivity {
 
     @Override
     protected void initActivity() {
-        CloudMusic.startActivityContext = this;
         setTransparentStatusBar(false);
         rvm = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(RequestStartViewModel.class);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_start);

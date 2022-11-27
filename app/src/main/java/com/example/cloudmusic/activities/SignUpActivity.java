@@ -31,7 +31,6 @@ public class SignUpActivity extends BaseActivity {
     @Override
     protected void initActivity() {
         setTransparentStatusBar(true);
-        CloudMusic.signupActivityContext=this;
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up);
         svm = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(StateSignUpViewModel.class);
         rvm = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(RequestSignUpViewModel.class);
