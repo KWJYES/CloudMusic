@@ -5,9 +5,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
       - name: set up JDK 11
@@ -17,10 +15,8 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
       - name: Build with Gradle
-        run: ./gradlew build
+        run:  chmod +x gradlew && ./gradlew app:assemble
 
       - name: Key base64 to file
         uses: timheuer/base64-to-file@v1.2
@@ -36,14 +32,15 @@ jobs:
         env:
           ANDROID_KS_PASS: ${{ secrets.ANDROID_KS_PASS }}
         run: |
-          for file in build/app/outputs/flutter-apk/*.apk; do
+          for file in app/build/outputs/apk/release/*.apk; do
                 filename="${file##*/}"
                 echo "Signing ${filename}"
                 apksigner sign --v4-signing-enabled false --ks /tmp/.android_key/android_key.jks --ks-pass env:ANDROID_KS_PASS --ks-key-alias ${{ secrets.ANDROID_KEY_ALIAS }} ${file}
               done
-      - name: Upload x86_64 to artifact
+
+      - name: Upload apk to artifact
         uses: actions/upload-artifact@v3
         with:
-          name: app-x86_64-release.apk
-          path: build/app/outputs/flutter-apk/app-x86_64-release.apk
+          name: cloud-music-release.apk
+          path: app/build/outputs/apk/release/app-release-unsigned.apk
 
