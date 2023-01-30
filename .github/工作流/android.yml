@@ -1,7 +1,7 @@
 name: Android Release
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
 
 jobs:
   build:
