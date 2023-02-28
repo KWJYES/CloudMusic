@@ -1785,6 +1785,7 @@ public class HttpRequestManager implements INetworkRequest {
     public void loginOut(MutableLiveData<String> requestState) {
         ILoginService loginService = retrofit.create(ILoginService.class);
         loginService.loginOut().enqueue(new Callback<ResponseBody>() {
+            @SuppressLint("SuspiciousIndentation")
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.code() == 200) {
