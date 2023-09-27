@@ -1,14 +1,10 @@
 package com.example.cloudmusic.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
@@ -18,15 +14,10 @@ import com.example.cloudmusic.adapter.recyclerview.searched.OneSongAdapter;
 import com.example.cloudmusic.base.BaseActivity;
 import com.example.cloudmusic.databinding.ActivityLikeSongBinding;
 import com.example.cloudmusic.entity.Song;
-import com.example.cloudmusic.request.activity.RequestArtisViewModel;
 import com.example.cloudmusic.request.activity.RequestLikeSongViewModel;
-import com.example.cloudmusic.state.activity.StateArtisViewModel;
 import com.example.cloudmusic.state.activity.StateLikeSongViewModel;
-import com.example.cloudmusic.utils.CloudMusic;
-import com.example.cloudmusic.utils.callback.SongListItemOnClickCallback;
+import com.example.cloudmusic.CloudMusic;
 import com.example.cloudmusic.views.OneSongMoreOperateDialog;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;

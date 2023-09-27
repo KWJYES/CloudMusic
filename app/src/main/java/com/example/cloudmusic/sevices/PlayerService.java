@@ -1,9 +1,7 @@
 package com.example.cloudmusic.sevices;
 
 import static android.app.PendingIntent.FLAG_IMMUTABLE;
-import static android.app.PendingIntent.FLAG_MUTABLE;
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -28,7 +26,7 @@ import com.example.cloudmusic.activities.MainActivity;
 import com.example.cloudmusic.entity.MyEvent;
 import com.example.cloudmusic.entity.Song;
 import com.example.cloudmusic.response.media.MediaManager;
-import com.example.cloudmusic.utils.CloudMusic;
+import com.example.cloudmusic.CloudMusic;
 
 import org.greenrobot.eventbus.EventBus;
 

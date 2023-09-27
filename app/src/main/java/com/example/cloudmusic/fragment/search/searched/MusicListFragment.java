@@ -13,16 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.cloudmusic.R;
-import com.example.cloudmusic.activities.ArtistActivity;
 import com.example.cloudmusic.activities.MusicListActivity;
-import com.example.cloudmusic.adapter.recyclerview.ArtistAllAdapter;
 import com.example.cloudmusic.adapter.recyclerview.PlayListAdapter;
 import com.example.cloudmusic.base.BaseFragment;
 import com.example.cloudmusic.databinding.FragmentMusicListBinding;
-import com.example.cloudmusic.entity.Artist;
 import com.example.cloudmusic.entity.PlayList;
 import com.example.cloudmusic.request.fragment.search.searched.RequestMusicListViewModel;
-import com.example.cloudmusic.utils.CloudMusic;
+import com.example.cloudmusic.CloudMusic;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,8 +3,6 @@ package com.example.cloudmusic.fragment.signup;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
@@ -16,9 +14,8 @@ import com.example.cloudmusic.R;
 import com.example.cloudmusic.base.BaseFragment;
 import com.example.cloudmusic.databinding.FragmentPhoneBinding;
 import com.example.cloudmusic.request.fragment.signup.RequestPhoneFragmentViewModel;
-import com.example.cloudmusic.state.activity.StateMainViewModel;
 import com.example.cloudmusic.state.signup.StatePhoneFragmentViewModel;
-import com.example.cloudmusic.utils.CloudMusic;
+import com.example.cloudmusic.CloudMusic;
 import com.example.cloudmusic.utils.callback.SignUpNextBtnCallback;
 
 

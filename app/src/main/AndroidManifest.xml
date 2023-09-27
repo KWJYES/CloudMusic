@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.cloudmusic">
+    xmlns:tools="http://schemas.android.com/tools">
     <!-- 网络 -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 通知 -->
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" /> <!-- SD卡读写 -->
@@ -12,7 +11,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
-        android:name=".utils.CloudMusic"
+        android:name=".CloudMusic"
         android:allowBackup="true"
         android:icon="@drawable/ic_cloudmusic_logo"
         android:label="@string/app_name"

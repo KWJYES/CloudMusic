@@ -17,7 +17,7 @@ import com.example.cloudmusic.base.BaseFragment;
 import com.example.cloudmusic.databinding.FragmentLrcBinding;
 import com.example.cloudmusic.entity.Lyrics;
 import com.example.cloudmusic.request.fragment.search.searched.RequestLrcFragmentViewModel;
-import com.example.cloudmusic.utils.CloudMusic;
+import com.example.cloudmusic.CloudMusic;
 
 import java.util.ArrayList;
 import java.util.List;

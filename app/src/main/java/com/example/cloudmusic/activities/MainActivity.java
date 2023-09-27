@@ -29,7 +29,7 @@ import com.example.cloudmusic.adapter.viewpager2.MainViewPager2Adapter;
 import com.example.cloudmusic.base.BaseActivity;
 import com.example.cloudmusic.entity.Artist;
 import com.example.cloudmusic.entity.Song;
-import com.example.cloudmusic.utils.CloudMusic;
+import com.example.cloudmusic.CloudMusic;
 import com.example.cloudmusic.utils.callback.MediaPlayerViewOnClickCallback;
 import com.example.cloudmusic.utils.callback.PlayerViewMusicListOnClickCallback;
 import com.example.cloudmusic.utils.callback.PlayOnClickCallback;
