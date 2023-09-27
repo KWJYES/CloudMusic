@@ -11,8 +11,7 @@ import com.example.cloudmusic.entity.Song;
 import com.example.cloudmusic.response.db.LitePalManager;
 import com.example.cloudmusic.response.network.HttpRequestManager;
 import com.example.cloudmusic.sevices.PlayerService;
-import com.example.cloudmusic.utils.CloudMusic;
-import com.example.cloudmusic.utils.callback.GetSongUrlCallback;
+import com.example.cloudmusic.CloudMusic;
 
 import java.util.ArrayList;
 import java.util.List;

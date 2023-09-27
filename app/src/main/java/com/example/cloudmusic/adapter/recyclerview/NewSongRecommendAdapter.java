@@ -15,7 +15,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.cloudmusic.R;
 import com.example.cloudmusic.databinding.ItemNewsongRecommendRvBinding;
 import com.example.cloudmusic.entity.Song;
-import com.example.cloudmusic.utils.CloudMusic;
+import com.example.cloudmusic.CloudMusic;
 import com.example.cloudmusic.utils.callback.OneSongMoreOperateClickCallback;
 
 import java.util.ArrayList;

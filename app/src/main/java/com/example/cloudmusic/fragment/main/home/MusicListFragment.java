@@ -20,7 +20,7 @@ import com.example.cloudmusic.databinding.FragmentMusicList2Binding;
 import com.example.cloudmusic.entity.PlayList;
 import com.example.cloudmusic.request.fragment.main.home.RequestMusicListFragmentViewModel;
 import com.example.cloudmusic.state.fragment.main.home.StateMusicListFragmentViewModel;
-import com.example.cloudmusic.utils.CloudMusic;
+import com.example.cloudmusic.CloudMusic;
 
 import java.util.ArrayList;
 import java.util.List;

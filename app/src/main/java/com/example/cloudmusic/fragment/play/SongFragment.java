@@ -25,7 +25,7 @@ import com.example.cloudmusic.databinding.FragmentSongBinding;
 import com.example.cloudmusic.entity.MyEvent;
 import com.example.cloudmusic.request.fragment.play.RequestSongFragmentViewModel;
 import com.example.cloudmusic.state.fragment.play.StateSongFragmentViewModel;
-import com.example.cloudmusic.utils.CloudMusic;
+import com.example.cloudmusic.CloudMusic;
 import com.example.cloudmusic.views.MusicListDialog;
 
 import org.greenrobot.eventbus.EventBus;

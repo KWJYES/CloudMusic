@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -18,7 +17,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.cloudmusic.R;
 import com.example.cloudmusic.databinding.DialogOnesongMoreOperateBinding;
 import com.example.cloudmusic.entity.Song;
-import com.example.cloudmusic.utils.CloudMusic;
+import com.example.cloudmusic.CloudMusic;
 import com.example.cloudmusic.utils.callback.OneSongMoreDialogClickCallback;
 
 public class OneSongMoreOperateDialog extends Dialog {

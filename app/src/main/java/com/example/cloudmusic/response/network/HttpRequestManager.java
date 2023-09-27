@@ -10,7 +10,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.cloudmusic.entity.Artist;
 import com.example.cloudmusic.entity.Banner;
 import com.example.cloudmusic.entity.Comment;
-import com.example.cloudmusic.entity.Lyric;
 import com.example.cloudmusic.entity.Lyrics;
 import com.example.cloudmusic.entity.MV;
 import com.example.cloudmusic.entity.MusicList;
@@ -29,7 +28,7 @@ import com.example.cloudmusic.response.retrofit_api.IRecommendService;
 import com.example.cloudmusic.response.retrofit_api.ISearchService;
 import com.example.cloudmusic.response.retrofit_api.ISignUpService;
 import com.example.cloudmusic.response.retrofit_api.IUserDataService;
-import com.example.cloudmusic.utils.CloudMusic;
+import com.example.cloudmusic.CloudMusic;
 import com.example.cloudmusic.utils.callback.GetSongUrlCallback;
 
 import com.example.cloudmusic.utils.cookies.ReadCookiesInterceptor;

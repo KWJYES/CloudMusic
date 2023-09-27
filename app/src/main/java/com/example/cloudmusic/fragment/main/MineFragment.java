@@ -3,9 +3,7 @@ package com.example.cloudmusic.fragment.main;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -31,8 +29,7 @@ import com.example.cloudmusic.entity.Song;
 import com.example.cloudmusic.request.fragment.main.mine.RequestMineFragmentViewModel;
 import com.example.cloudmusic.state.fragment.main.mine.StateMineFragmentViewModel;
 import com.example.cloudmusic.utils.ActivityCollector;
-import com.example.cloudmusic.utils.CloudMusic;
-import com.example.cloudmusic.utils.callback.LoginOutDialogClickCallback;
+import com.example.cloudmusic.CloudMusic;
 import com.example.cloudmusic.views.LoginOutDialog;
 
 import org.greenrobot.eventbus.EventBus;

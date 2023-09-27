@@ -4,12 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.util.Log;
@@ -23,15 +19,9 @@ import com.example.cloudmusic.adapter.recyclerview.ArtistAllAdapter;
 import com.example.cloudmusic.base.BaseFragment;
 import com.example.cloudmusic.databinding.FragmentArtistListBinding;
 import com.example.cloudmusic.entity.Artist;
-import com.example.cloudmusic.request.activity.RequestArtisViewModel;
 import com.example.cloudmusic.request.fragment.main.home.RequestArtistAllFragmentViewModel;
-import com.example.cloudmusic.state.activity.StateArtisViewModel;
 import com.example.cloudmusic.state.fragment.main.home.StateArtistAllFragmentViewModel;
-import com.example.cloudmusic.utils.CloudMusic;
-import com.example.cloudmusic.utils.callback.ArtistItemClickCallback;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
+import com.example.cloudmusic.CloudMusic;
 
 import java.util.ArrayList;
 import java.util.List;

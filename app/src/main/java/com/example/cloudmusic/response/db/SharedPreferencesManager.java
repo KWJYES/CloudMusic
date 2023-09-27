@@ -7,13 +7,9 @@ import android.content.SharedPreferences;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.cloudmusic.activities.MainActivity;
-import com.example.cloudmusic.entity.Song;
-import com.example.cloudmusic.utils.CloudMusic;
+import com.example.cloudmusic.CloudMusic;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class SharedPreferencesManager implements ISharedPreferencesRequest {
