@@ -106,26 +106,26 @@ public class LoginActivity extends BaseActivity {
          * @param view
          */
         public void login(View view) {
-            if (svm.account.getValue() != null && svm.account.getValue().length() == 11) {
-                if (svm.password.getValue() != null) {
-                    binding.loginButton.setEnabled(false);
-                    binding.loginButton.setText("登陆中...");
-                    rvm.login(svm.account.getValue(),svm.password.getValue());
-                }
-            } else {
-                Toast.makeText(LoginActivity.this, "请正确填写手机号", Toast.LENGTH_SHORT).show();
-            }
 //            if (svm.account.getValue() != null && svm.account.getValue().length() == 11) {
-//                if (svm.captcha.getValue() != null && svm.captcha.getValue().length() >= 4) {
+//                if (svm.password.getValue() != null) {
 //                    binding.loginButton.setEnabled(false);
 //                    binding.loginButton.setText("登陆中...");
-//                    rvm.checkCaptcha(svm.account.getValue(),svm.captcha.getValue());
-//                } else {
-//                    Toast.makeText(LoginActivity.this, "请正确验证码", Toast.LENGTH_SHORT).show();
+//                    rvm.login(svm.account.getValue(),svm.password.getValue());
 //                }
 //            } else {
 //                Toast.makeText(LoginActivity.this, "请正确填写手机号", Toast.LENGTH_SHORT).show();
 //            }
+            if (svm.account.getValue() != null && svm.account.getValue().length() == 11) {
+                if (svm.captcha.getValue() != null && svm.captcha.getValue().length() >= 4) {
+                    binding.loginButton.setEnabled(false);
+                    binding.loginButton.setText("登陆中...");
+                    rvm.checkCaptcha(svm.account.getValue(),svm.captcha.getValue());
+                } else {
+                    Toast.makeText(LoginActivity.this, "请正确验证码", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(LoginActivity.this, "请正确填写手机号", Toast.LENGTH_SHORT).show();
+            }
         }
 
         /**

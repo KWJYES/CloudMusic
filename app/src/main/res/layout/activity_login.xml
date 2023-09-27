@@ -146,49 +146,49 @@
                         android:textSize="16sp" />
                 </LinearLayout>
 
-<!--                <LinearLayout-->
-<!--                    android:layout_marginTop="15dp"-->
-<!--                    android:id="@+id/linearLayout3"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginHorizontal="5dp"-->
-<!--                    android:layout_marginBottom="15dp"-->
-<!--                    android:background="@drawable/linelayout_1"-->
-<!--                    android:gravity="center_vertical"-->
-<!--                    android:orientation="horizontal"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/linearLayout2"-->
-<!--                    tools:layout_editor_absoluteX="4dp">-->
+                <LinearLayout
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/linearLayout3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/linelayout_1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                    tools:layout_editor_absoluteX="4dp">
 
-<!--                    <ImageView-->
-<!--                        android:layout_width="45dp"-->
-<!--                        android:layout_height="45dp"-->
-<!--                        android:layout_marginStart="5dp"-->
-<!--                        android:padding="10dp"-->
-<!--                        android:src="@drawable/ic_verification_code" />-->
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_marginStart="5dp"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_verification_code" />
 
-<!--                    <EditText-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:backgroundTint="@color/login_input"-->
-<!--                        android:hint="验证码"-->
-<!--                        android:inputType="number"-->
-<!--                        android:text="@={svm.captcha}"-->
-<!--                        android:textCursorDrawable="@drawable/login_et_cursor"-->
-<!--                        android:textSize="16sp" />-->
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/login_input"
+                        android:hint="验证码"
+                        android:inputType="number"
+                        android:text="@={svm.captcha}"
+                        android:textCursorDrawable="@drawable/login_et_cursor"
+                        android:textSize="16sp" />
 
-<!--                    <TextView-->
-<!--                        android:clickable="@{!svm.wait}"-->
-<!--                        android:layout_width="100dp"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:layout_marginEnd="20dp"-->
-<!--                        android:gravity="center"-->
-<!--                        android:onClick="@{click::getCaptcha}"-->
-<!--                        android:text="@{svm.captchaTimeText}"-->
-<!--                        android:textColor="@drawable/get_logincode_tv"-->
-<!--                        android:textSize="11sp" />-->
-<!--                </LinearLayout>-->
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="20dp"
+                        android:clickable="@{!svm.wait}"
+                        android:gravity="center"
+                        android:onClick="@{click::getCaptcha}"
+                        android:text="@{svm.captchaTimeText}"
+                        android:textColor="@drawable/get_logincode_tv"
+                        android:textSize="11sp" />
+                </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
