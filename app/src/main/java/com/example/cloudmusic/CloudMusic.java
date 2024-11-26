@@ -1,4 +1,4 @@
-package com.example.cloudmusic.utils;
+package com.example.cloudmusic;
 
 import android.app.Application;
 import android.content.Context;
@@ -14,7 +14,7 @@ import java.util.Set;
 public class CloudMusic extends Application {
     //public static final String baseUrl="https://netease-cloud-music-api-beta-inky-62.vercel.app/";
     //public static final String baseUrl="http://cloud-music.pl-fe.cn/";
-    public static final String baseUrl="https://home.wilinz.com:9999/";
+    public static final String baseUrl="https://cloudmusic.wilinz.com/";
     public static final String SUCCEED="succeed";
     public static final String FAILURE="failure";
     public static final String LOGIN_TYPE="nickname_repeat";//从哪启动的登陆面

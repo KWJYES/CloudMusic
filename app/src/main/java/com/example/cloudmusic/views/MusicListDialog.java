@@ -6,7 +6,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -17,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.cloudmusic.R;
 import com.example.cloudmusic.adapter.recyclerview.MusicAdapter;
 import com.example.cloudmusic.response.db.LitePalManager;
-import com.example.cloudmusic.utils.CloudMusic;
+import com.example.cloudmusic.CloudMusic;
 import com.example.cloudmusic.utils.callback.SongListItemOnClickCallback;
 import com.example.cloudmusic.utils.callback.SongListItemRemoveCallback;
 import com.example.cloudmusic.databinding.DialogMusiclistBinding;

@@ -4,10 +4,8 @@ import android.os.Bundle;
 
 
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +16,10 @@ import com.example.cloudmusic.base.BaseFragment;
 import com.example.cloudmusic.databinding.FragmentLyricBinding;
 import com.example.cloudmusic.entity.MyEvent;
 import com.example.cloudmusic.entity.Song;
-import com.example.cloudmusic.entity.SongLrc;
 import com.example.cloudmusic.request.fragment.play.RequestLyricFragmentViewModel;
-import com.example.cloudmusic.request.fragment.play.RequestSongFragmentViewModel;
 import com.example.cloudmusic.state.fragment.play.StateLyricFragmentViewModel;
-import com.example.cloudmusic.state.fragment.play.StateSongFragmentViewModel;
-import com.example.cloudmusic.utils.CloudMusic;
+import com.example.cloudmusic.CloudMusic;
 import com.example.cloudmusic.utils.callback.FragmentMsgCallback;
-import com.example.cloudmusic.utils.callback.LrcClickCallback;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

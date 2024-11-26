@@ -1,13 +1,10 @@
 package com.example.cloudmusic.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.View;
@@ -25,11 +22,8 @@ import com.example.cloudmusic.entity.MusicList;
 import com.example.cloudmusic.entity.PlayList;
 import com.example.cloudmusic.entity.Song;
 import com.example.cloudmusic.request.activity.RequestMusicListViewModel;
-import com.example.cloudmusic.request.activity.RequestPlayViewModel;
 import com.example.cloudmusic.state.activity.StateMusicListViewModel;
-import com.example.cloudmusic.state.activity.StatePlayerViewModel;
-import com.example.cloudmusic.utils.CloudMusic;
-import com.example.cloudmusic.utils.callback.SongListItemOnClickCallback;
+import com.example.cloudmusic.CloudMusic;
 import com.example.cloudmusic.views.OneSongMoreOperateDialog;
 
 import java.util.ArrayList;

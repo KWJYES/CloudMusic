@@ -4,7 +4,7 @@ package com.example.cloudmusic.utils.cookies;
 import android.util.Log;
 
 import com.example.cloudmusic.response.db.SharedPreferencesManager;
-import com.example.cloudmusic.utils.CloudMusic;
+import com.example.cloudmusic.CloudMusic;
 
 import java.io.IOException;
 import java.util.HashSet;

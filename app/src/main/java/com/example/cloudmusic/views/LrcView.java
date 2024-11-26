@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cloudmusic.R;
 import com.example.cloudmusic.adapter.recyclerview.LrcAdapter;
 import com.example.cloudmusic.entity.Lyric;
-import com.example.cloudmusic.utils.CloudMusic;
+import com.example.cloudmusic.CloudMusic;
 import com.example.cloudmusic.utils.callback.LrcClickCallback;
 
 import java.lang.reflect.Field;

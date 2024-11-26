@@ -19,8 +19,7 @@ import com.example.cloudmusic.fragment.signup.PasswordFragment;
 import com.example.cloudmusic.request.activity.RequestSignUpViewModel;
 import com.example.cloudmusic.fragment.signup.PhoneFragment;
 import com.example.cloudmusic.state.activity.StateSignUpViewModel;
-import com.example.cloudmusic.utils.CloudMusic;
-import com.example.cloudmusic.utils.callback.SignUpNextBtnCallback;
+import com.example.cloudmusic.CloudMusic;
 
 public class SignUpActivity extends BaseActivity {
 

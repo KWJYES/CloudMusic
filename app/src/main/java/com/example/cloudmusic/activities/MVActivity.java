@@ -1,15 +1,12 @@
 package com.example.cloudmusic.activities;
 
-import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.annotation.SuppressLint;
 import android.graphics.Rect;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.Log;
 import android.view.Gravity;
@@ -25,12 +22,7 @@ import com.example.cloudmusic.databinding.ActivityMvactivityBinding;
 import com.example.cloudmusic.entity.Comment;
 import com.example.cloudmusic.request.activity.RequestMVViewModel;
 import com.example.cloudmusic.state.activity.StateMVViewModel;
-import com.example.cloudmusic.state.activity.StateSearchViewModel;
-import com.example.cloudmusic.utils.CloudMusic;
-import com.example.cloudmusic.utils.callback.CommentClickCallback;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
+import com.example.cloudmusic.CloudMusic;
 
 import java.util.ArrayList;
 import java.util.List;

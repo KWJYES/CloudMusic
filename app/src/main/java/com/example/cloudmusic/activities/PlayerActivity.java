@@ -20,7 +20,7 @@ import com.example.cloudmusic.fragment.play.LyricFragment;
 import com.example.cloudmusic.fragment.play.SongFragment;
 import com.example.cloudmusic.request.activity.RequestPlayViewModel;
 import com.example.cloudmusic.state.activity.StatePlayerViewModel;
-import com.example.cloudmusic.utils.CloudMusic;
+import com.example.cloudmusic.CloudMusic;
 import com.example.cloudmusic.utils.callback.FragmentMsgCallback;
 import com.google.android.material.tabs.TabLayoutMediator;
 

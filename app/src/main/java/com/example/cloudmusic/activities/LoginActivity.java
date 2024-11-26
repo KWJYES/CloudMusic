@@ -1,7 +1,6 @@
 package com.example.cloudmusic.activities;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -16,7 +15,7 @@ import com.example.cloudmusic.databinding.ActivityLoginBinding;
 import com.example.cloudmusic.request.activity.RequestLoginViewModel;
 import com.example.cloudmusic.state.activity.StateLoginViewModel;
 import com.example.cloudmusic.utils.ActivityCollector;
-import com.example.cloudmusic.utils.CloudMusic;
+import com.example.cloudmusic.CloudMusic;
 
 
 public class LoginActivity extends BaseActivity {

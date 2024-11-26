@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -30,11 +29,9 @@ import com.example.cloudmusic.databinding.FragmentRecommendBinding;
 import com.example.cloudmusic.entity.Banner;
 import com.example.cloudmusic.entity.MV;
 import com.example.cloudmusic.entity.MyEvent;
-import com.example.cloudmusic.entity.Song;
 import com.example.cloudmusic.request.fragment.main.home.RequestRecommendFragmentViewModel;
 import com.example.cloudmusic.state.fragment.main.home.StateRecommendFragmentViewModel;
-import com.example.cloudmusic.utils.CloudMusic;
-import com.example.cloudmusic.utils.callback.MVItemClickCallback;
+import com.example.cloudmusic.CloudMusic;
 import com.youth.banner.indicator.CircleIndicator;
 
 import org.greenrobot.eventbus.EventBus;

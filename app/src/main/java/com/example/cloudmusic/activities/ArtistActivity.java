@@ -22,13 +22,11 @@ import com.example.cloudmusic.entity.Artist;
 import com.example.cloudmusic.entity.Song;
 import com.example.cloudmusic.request.activity.RequestArtisViewModel;
 import com.example.cloudmusic.state.activity.StateArtisViewModel;
-import com.example.cloudmusic.utils.CloudMusic;
-import com.example.cloudmusic.utils.callback.OneSongMoreOperateClickCallback;
+import com.example.cloudmusic.CloudMusic;
 import com.example.cloudmusic.views.OneSongMoreOperateDialog;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 

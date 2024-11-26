@@ -2,33 +2,26 @@ package com.example.cloudmusic.activities;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 
 import com.example.cloudmusic.R;
 import com.example.cloudmusic.base.BaseActivity;
 import com.example.cloudmusic.databinding.ActivitySearchBinding;
-import com.example.cloudmusic.entity.HistorySearch;
-import com.example.cloudmusic.entity.Song;
 import com.example.cloudmusic.fragment.search.SearchedFragment;
 import com.example.cloudmusic.fragment.search.SearchingFragment;
 import com.example.cloudmusic.request.activity.RequestSearchViewModel;
 import com.example.cloudmusic.state.activity.StateSearchViewModel;
-import com.example.cloudmusic.utils.CloudMusic;
-import com.example.cloudmusic.utils.callback.HistorySearchItemClickCallback;
+import com.example.cloudmusic.CloudMusic;
 import com.example.cloudmusic.utils.callback.SongListItemOnClickCallback;
 import com.example.cloudmusic.utils.callback.SongListItemRemoveCallback;
-import com.example.cloudmusic.views.DragFloatActionButton;
 import com.example.cloudmusic.views.MusicListDialog;
 
 import java.util.Objects;

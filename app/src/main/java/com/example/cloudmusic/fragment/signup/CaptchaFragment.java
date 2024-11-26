@@ -6,7 +6,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,7 @@ import com.example.cloudmusic.base.BaseFragment;
 import com.example.cloudmusic.databinding.FragmentCaptchaBinding;
 import com.example.cloudmusic.request.fragment.signup.RequestCaptchaFragmentViewModel;
 import com.example.cloudmusic.state.signup.StateCaptchaFragmentViewModel;
-import com.example.cloudmusic.utils.CloudMusic;
+import com.example.cloudmusic.CloudMusic;
 import com.example.cloudmusic.utils.callback.SignUpNextBtnCallback;
 
 public class CaptchaFragment extends BaseFragment {

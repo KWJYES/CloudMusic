@@ -1,7 +1,6 @@
 package com.example.cloudmusic.activities;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -13,7 +12,7 @@ import com.example.cloudmusic.R;
 import com.example.cloudmusic.base.BaseActivity;
 import com.example.cloudmusic.databinding.ActivityStartBinding;
 import com.example.cloudmusic.request.activity.RequestStartViewModel;
-import com.example.cloudmusic.utils.CloudMusic;
+import com.example.cloudmusic.CloudMusic;
 
 public class StartActivity extends BaseActivity {
 

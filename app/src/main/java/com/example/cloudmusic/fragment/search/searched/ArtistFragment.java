@@ -4,10 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -22,12 +19,7 @@ import com.example.cloudmusic.base.BaseFragment;
 import com.example.cloudmusic.databinding.FragmentArtistBinding;
 import com.example.cloudmusic.entity.Artist;
 import com.example.cloudmusic.request.fragment.search.searched.RequestArtistFragmentViewModel;
-import com.example.cloudmusic.request.fragment.search.searched.RequestOneSongViewModel;
-import com.example.cloudmusic.utils.CloudMusic;
-import com.example.cloudmusic.utils.callback.ArtistItemClickCallback;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
+import com.example.cloudmusic.CloudMusic;
 
 import java.util.ArrayList;
 import java.util.List;
